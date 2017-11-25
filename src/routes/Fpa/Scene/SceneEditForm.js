@@ -32,7 +32,7 @@ export default class BasicForms extends PureComponent {
     const { dispatch } = this.props;
     if(this.props.match.params.id){
       dispatch({
-        type: 'charactercolor/fetchBasic',
+        type: 'scene/fetchBasic',
         payload:{id:this.props.match.params.id}
       });
     }

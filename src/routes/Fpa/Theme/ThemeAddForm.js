@@ -40,7 +40,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { theme: { regularFormSubmitting:submitting } } = this.props;
+    const { theme: { regularFormSubmitting:submitting, states } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -77,11 +77,11 @@ export default class BasicForms extends PureComponent {
                     )}
                 <FormItem
                         {...formItemLayout}
-                        label="编号"
+                        label="主题编号"
                 >
                     {getFieldDecorator('numb', {
                     rules: [{
-                      required: true, message: '请输入编号',
+                      required: true, message: '请输入主题编号',
                     }],
                     })(
                     <Input placeholder="" />
@@ -89,11 +89,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="名称"
+                        label="主题名称"
                 >
                     {getFieldDecorator('name', {
                     rules: [{
-                      required: true, message: '请输入名称',
+                      required: true, message: '请输入主题名称',
                     }],
                     })(
                     <Input placeholder="" />
@@ -108,7 +108,9 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select>
+                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
             

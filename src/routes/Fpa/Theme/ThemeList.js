@@ -147,19 +147,20 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
+    const { theme: { states } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="编号">
+              <FormItem label="主题编号">
                   {getFieldDecorator('numb')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="名称">
+              <FormItem label="主题名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
@@ -168,7 +169,10 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="状态">
                   {getFieldDecorator('state')(
-                  <Input placeholder="" />
+                    <Select>
+                      <Select.Option value='' >所有状态</Select.Option>
+                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               </Col>

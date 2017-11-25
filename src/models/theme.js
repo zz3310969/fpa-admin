@@ -10,6 +10,7 @@ export default {
       list: [],
       pagination: {},
     },
+    states:[{'code':0,'display':'不可用'},{'code':1,'display':'可用'},],
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
@@ -71,7 +72,6 @@ export default {
       }
     },
     *update({ payload }, { call, put }) {
-      debugger;
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: true,

@@ -32,7 +32,7 @@ export default class BasicForms extends PureComponent {
     const { dispatch } = this.props;
     if(this.props.match.params.id){
       dispatch({
-        type: 'charactercolor/fetchBasic',
+        type: 'theme/fetchBasic',
         payload:{id:this.props.match.params.id}
       });
     }
@@ -52,7 +52,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { theme: { regularFormSubmitting:submitting, formdate } } = this.props;
+    const { theme: { regularFormSubmitting:submitting, formdate, states } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -92,12 +92,12 @@ export default class BasicForms extends PureComponent {
                   )}
               <FormItem
                   {...formItemLayout}
-                  label="编号"
+                  label="主题编号"
               >
                   {getFieldDecorator('numb', {
                     initialValue:formdate.numb,
                     rules: [{
-                      required: true, message: '请输入编号',
+                      required: true, message: '请输入主题编号',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -105,12 +105,12 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="名称"
+                  label="主题名称"
               >
                   {getFieldDecorator('name', {
                     initialValue:formdate.name,
                     rules: [{
-                      required: true, message: '请输入名称',
+                      required: true, message: '请输入主题名称',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -121,12 +121,14 @@ export default class BasicForms extends PureComponent {
                   label="状态"
               >
                   {getFieldDecorator('state', {
-                    initialValue:formdate.state,
+                    initialValue:formdate.state!== undefined ?formdate.state+'':'',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread}>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
             

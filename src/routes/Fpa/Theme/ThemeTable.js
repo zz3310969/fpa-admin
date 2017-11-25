@@ -74,12 +74,12 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '编号',
+          title: '主题编号',
           dataIndex: 'numb',
           key: 'numb',
       },
       {
-          title: '名称',
+          title: '主题名称',
           dataIndex: 'name',
           key: 'name',
       },
@@ -87,6 +87,9 @@ class StandardTable extends PureComponent {
           title: '状态',
           dataIndex: 'state',
           key: 'state',
+          render(val) {
+            return <Badge status={statusMap[val]} text={status[val]} />;
+          }
       },
        {
         title: '操作',

@@ -15,7 +15,7 @@ export async function addTheme(params) {
 }
 
 export async function updateTheme(params) {
-  return request('/api/fpa/theme', {
+  return request('/api/fpa/theme/'+params['id'], {
     method: 'PUT',
     body: {
       ...params
@@ -26,12 +26,12 @@ export async function updateTheme(params) {
 
 
 
-export async function removeCharacterColor(params) {
+export async function removeTheme(params) {
   return request(`/api/fpa/theme?${stringify(params)}`, {
     method: 'DELETE'
   });
 }
 
-export async function loadCharacterColor(params) {
+export async function loadTheme(params) {
   return request(`/api/fpa/theme/`+params['id']);
 }

@@ -19,6 +19,7 @@ const { TextArea } = Input;
 export default class BasicForms extends PureComponent {
 
   state = {
+    states:[{'code':0,'display':'不可用'},{'code':1,'display':'可用'},]
   };
 
   componentDidMount() {
@@ -156,7 +157,9 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select>
+                      {this.state.states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
             

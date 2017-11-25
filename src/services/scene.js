@@ -15,7 +15,7 @@ export async function addScene(params) {
 }
 
 export async function updateScene(params) {
-  return request('/api/fpa/scene', {
+  return request('/api/fpa/scene/'+params['id'], {
     method: 'PUT',
     body: {
       ...params
@@ -26,12 +26,12 @@ export async function updateScene(params) {
 
 
 
-export async function removeCharacterColor(params) {
+export async function removeTheme(params) {
   return request(`/api/fpa/scene?${stringify(params)}`, {
     method: 'DELETE'
   });
 }
 
-export async function loadCharacterColor(params) {
+export async function loadTheme(params) {
   return request(`/api/fpa/scene/`+params['id']);
 }
