@@ -12,9 +12,6 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-
-
-
 @connect(state => ({
   charactercolor: state.charactercolor,
 }))
@@ -30,7 +27,7 @@ export default class BasicForms extends PureComponent {
     const params = new URLSearchParams(search);
     const optype = params.get('read'); // bar
     this.setState({
-        onlyread:optype?true:false,
+      onlyread:optype?true:false,
     })
     const { dispatch } = this.props;
     if(this.props.match.params.id){
@@ -98,12 +95,12 @@ export default class BasicForms extends PureComponent {
                   label="编号"
               >
                   {getFieldDecorator('numb', {
-                  initialValue:formdate.numb,
-                  rules: [{
-                  required: true, message: '请输入编号',
-                  }],
+                    initialValue:formdate.numb,
+                    rules: [{
+                      required: true, message: '请输入编号',
+                    }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread}/>
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -111,12 +108,12 @@ export default class BasicForms extends PureComponent {
                   label="名称"
               >
                   {getFieldDecorator('name', {
-                  initialValue:formdate.name,
-                  rules: [{
-                  required: true, message: '请输入名称',
-                  }],
+                    initialValue:formdate.name,
+                    rules: [{
+                      required: true, message: '请输入名称',
+                    }],
                   })(
-                    <Input placeholder="" />
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -124,12 +121,12 @@ export default class BasicForms extends PureComponent {
                   label="代表颜色"
               >
                   {getFieldDecorator('colorId', {
-                  initialValue:formdate.colorId,
-                  rules: [{
-                  required: true, message: '请输入代表颜色',
-                  }],
+                    initialValue:formdate.colorId,
+                    rules: [{
+                      required: true, message: '请输入代表颜色',
+                    }],
                   })(
-                    <Input placeholder="" />
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -137,12 +134,12 @@ export default class BasicForms extends PureComponent {
                   label="代表颜色编码"
               >
                   {getFieldDecorator('colorCode', {
-                  initialValue:formdate.colorCode,
-                  rules: [{
-                  required: true, message: '请输入代表颜色编码',
-                  }],
+                    initialValue:formdate.colorCode,
+                    rules: [{
+                      required: true, message: '请输入代表颜色编码',
+                    }],
                   })(
-                    <Input placeholder="" />
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -150,12 +147,12 @@ export default class BasicForms extends PureComponent {
                   label="描述"
               >
                   {getFieldDecorator('description', {
-                  initialValue:formdate.description,
-                  rules: [{
-                  required: true, message: '请输入描述',
-                  }],
+                    initialValue:formdate.description,
+                    rules: [{
+                      required: true, message: '请输入描述',
+                    }],
                   })(
-                    <Input placeholder="" />
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -163,12 +160,12 @@ export default class BasicForms extends PureComponent {
                   label="性格色彩2"
               >
                   {getFieldDecorator('color2Id', {
-                  initialValue:formdate.color2Id,
-                  rules: [{
-                  required: true, message: '请输入性格色彩2',
-                  }],
+                    initialValue:formdate.color2Id,
+                    rules: [{
+                      required: true, message: '请输入性格色彩2',
+                    }],
                   })(
-                    <Input placeholder="" />
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -176,12 +173,12 @@ export default class BasicForms extends PureComponent {
                   label="性格色彩2编码"
               >
                   {getFieldDecorator('color2Code', {
-                  initialValue:formdate.color2Code,
-                  rules: [{
-                  required: true, message: '请输入性格色彩2编码',
-                  }],
+                    initialValue:formdate.color2Code,
+                    rules: [{
+                      required: true, message: '请输入性格色彩2编码',
+                    }],
                   })(
-                    <Input placeholder="" />
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -189,24 +186,24 @@ export default class BasicForms extends PureComponent {
                   label="状态"
               >
                   {getFieldDecorator('state', {
-                  initialValue:formdate.state,
-                  rules: [{
-                  required: true, message: '请输入状态',
-                  }],
+                    initialValue:formdate.state,
+                    rules: [{
+                      required: true, message: '请输入状态',
+                    }],
                   })(
-                    <Input placeholder="" />
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-              {
+                {
                 this.state.onlyread ?'':(
                 <Button type="primary" htmlType="submit" loading={submitting}>
                     提交
-                    </Button>
+                </Button>
                 )
-              }
-              <Button style={{ marginLeft: 8 }}>保存</Button>
+                }
+                <Link to={'/character/color'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

@@ -140,7 +140,7 @@ const data = [{
     icon: 'table',
     children: [{
       name: '列表',
-      path: 'charactercolor',
+      path: 'color',
       component: CharacterColorList,
       children: [{
         breadname: '新增',

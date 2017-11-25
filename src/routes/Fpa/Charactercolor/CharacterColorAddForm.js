@@ -176,7 +176,7 @@ export default class BasicForms extends PureComponent {
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-              <Link to={'/character/charactercolor'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+              <Link to={'/character/color'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
