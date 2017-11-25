@@ -8,9 +8,9 @@ import Monitor from '../routes/Dashboard/Monitor';
 import Workplace from '../routes/Dashboard/Workplace';
 
 
-import CharacterColorList from '../routes/Fpa/Charactercolor/CharacterColorList';
-import CharacterColorAddForm from '../routes/Fpa/Charactercolor/CharacterColorAddForm';
-import CharacterColorEditForm from '../routes/Fpa/Charactercolor/CharacterColorEditForm';
+import CharacterColorList from '../routes/Fpa/CharacterColor/CharacterColorList';
+import CharacterColorAddForm from '../routes/Fpa/CharacterColor/CharacterColorAddForm';
+import CharacterColorEditForm from '../routes/Fpa/CharacterColor/CharacterColorEditForm';
 
 import ThemeList from '../routes/Fpa/Theme/ThemeList';
 import ThemeAddForm from '../routes/Fpa/Theme/ThemeAddForm';
@@ -19,6 +19,14 @@ import ThemeEditForm from '../routes/Fpa/Theme/ThemeEditForm';
 import SceneList from '../routes/Fpa/Scene/SceneList';
 import SceneAddForm from '../routes/Fpa/Scene/SceneAddForm';
 import SceneEditForm from '../routes/Fpa/Scene/SceneEditForm';
+
+import CharacterList from '../routes/Fpa/Character/CharacterList';
+import CharacterAddForm from '../routes/Fpa/Character/CharacterAddForm';
+import CharacterEditForm from '../routes/Fpa/Character/CharacterEditForm';
+
+import CardUnitList from '../routes/Fpa/CardUnit/CardUnitList';
+import CardUnitAddForm from '../routes/Fpa/CardUnit/CardUnitAddForm';
+import CardUnitEditForm from '../routes/Fpa/CardUnit/CardUnitEditForm';
 
 import CacheList from '../routes/List/CacheList';
 import TableList from '../routes/List/TableList';
@@ -168,17 +176,17 @@ const data = [{
         component: ThemeEditForm,
       },],
     },{
-      name: '场景列表',
-      path: 'scene',
-      component: SceneList,
+      name: '性格主题配置',
+      path: 'charactertheme',
+      component: CharacterList,
       children: [{
         breadname: '新增',
         path: 'add',
-        component: SceneAddForm,
+        component: CharacterAddForm,
       }, {
         breadname: '编辑',
         path: 'edit/:id',
-        component: SceneEditForm,
+        component: CharacterEditForm,
       },],
     },],
   }, {
