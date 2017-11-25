@@ -7,11 +7,14 @@ import Analysis from '../routes/Dashboard/Analysis';
 import Monitor from '../routes/Dashboard/Monitor';
 import Workplace from '../routes/Dashboard/Workplace';
 
-import ActivityList from '../routes/List/ActivityList';
 
 import CharacterColorList from '../routes/Fpa/Charactercolor/CharacterColorList';
 import CharacterColorAddForm from '../routes/Fpa/Charactercolor/CharacterColorAddForm';
 import CharacterColorEditForm from '../routes/Fpa/Charactercolor/CharacterColorEditForm';
+
+import ThemeList from '../routes/Fpa/Theme/ThemeList';
+import ThemeAddForm from '../routes/Fpa/Theme/ThemeAddForm';
+import ThemeEditForm from '../routes/Fpa/Theme/ThemeEditForm';
 
 import CacheList from '../routes/List/CacheList';
 import TableList from '../routes/List/TableList';
@@ -106,10 +109,6 @@ const data = [{
       path: 'cache-list',
       component: CacheList,
     },{
-      name: '活动列表',
-      path: 'activity-list',
-      component: ActivityList,
-    },{
       name: '查询表格',
       path: 'table-list',
       component: TableList,
@@ -139,7 +138,7 @@ const data = [{
     path: 'character',
     icon: 'table',
     children: [{
-      name: '列表',
+      name: '性格色彩列表',
       path: 'color',
       component: CharacterColorList,
       children: [{
@@ -150,6 +149,19 @@ const data = [{
         breadname: '编辑',
         path: 'edit/:id',
         component: CharacterColorEditForm,
+      },],
+    },{
+      name: '主题列表',
+      path: 'theme',
+      component: ThemeList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: ThemeAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: ThemeEditForm,
       },],
     },],
   }, {
