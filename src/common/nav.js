@@ -16,6 +16,10 @@ import ThemeList from '../routes/Fpa/Theme/ThemeList';
 import ThemeAddForm from '../routes/Fpa/Theme/ThemeAddForm';
 import ThemeEditForm from '../routes/Fpa/Theme/ThemeEditForm';
 
+import SceneList from '../routes/Fpa/Scene/SceneList';
+import SceneAddForm from '../routes/Fpa/Scene/SceneAddForm';
+import SceneEditForm from '../routes/Fpa/Scene/SceneEditForm';
+
 import CacheList from '../routes/List/CacheList';
 import TableList from '../routes/List/TableList';
 import CoverCardList from '../routes/List/CoverCardList';
@@ -162,6 +166,19 @@ const data = [{
         breadname: '编辑',
         path: 'edit/:id',
         component: ThemeEditForm,
+      },],
+    },{
+      name: '场景列表',
+      path: 'scene',
+      component: SceneList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: SceneAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: SceneEditForm,
       },],
     },],
   }, {
