@@ -138,7 +138,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/theme'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/character/theme'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
