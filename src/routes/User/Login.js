@@ -98,7 +98,7 @@ export default class Login extends Component {
                   <Input
                     size="large"
                     prefix={<Icon type="user" className={styles.prefixIcon} />}
-                    placeholder="admin"
+                    
                   />
                 )}
               </FormItem>
@@ -112,7 +112,7 @@ export default class Login extends Component {
                     size="large"
                     prefix={<Icon type="lock" className={styles.prefixIcon} />}
                     type="password"
-                    placeholder="888888"
+                    
                   />
                 )}
               </FormItem>

@@ -27,6 +27,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 
 function RouterConfig({ history }) {
+
+
   return (
     <LocaleProvider locale={zhCN}>
       <Router history={history} >
@@ -38,6 +40,9 @@ function RouterConfig({ history }) {
       </Router>
     </LocaleProvider>
   );
+
 }
+
+
 
 export default RouterConfig;

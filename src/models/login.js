@@ -1,5 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { fakeAccountLogin, fakeMobileLogin } from '../services/api';
+import { getLocalStorage } from '../utils/helper';
 
 export default {
   namespace: 'login',
@@ -74,5 +75,13 @@ export default {
         submitting: payload,
       };
     },
+  },
+  subscriptions: {
+    set({ dispatch }) {
+      const data = getLocalStorage('token');
+      if (!data){
+          dispatch({ type: 'logout', payload: {}, });
+      }
+    }
   },
 };

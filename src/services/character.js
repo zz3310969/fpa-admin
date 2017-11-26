@@ -33,3 +33,7 @@ export async function removeCharacter(params) {
 export async function loadCharacter(params) {
   return request(`/api/fpa/character/`+params['id']);
 }
+
+export async function queryCharacterBase(params) {
+  return request(`/api/fpa/character/base`);
+}

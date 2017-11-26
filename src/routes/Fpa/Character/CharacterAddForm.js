@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,Row,Col,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
@@ -23,7 +23,9 @@ export default class BasicForms extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-
+    dispatch({
+      type: 'character/base',
+    });
   }
 
 
@@ -40,7 +42,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { character: { regularFormSubmitting:submitting } } = this.props;
+    const { character: { regularFormSubmitting:submitting, states, themes, genders, colors } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -75,42 +77,56 @@ export default class BasicForms extends PureComponent {
                     })(
                     <Input type="hidden"/>
                     )}
+                <Row >
+                <Col span={12}>
                 <FormItem
                         {...formItemLayout}
-                        label="名称"
+                        label="性格主题名称"
                 >
                     {getFieldDecorator('name', {
                     rules: [{
-                      required: true, message: '请输入名称',
+                      required: true, message: '请输入性格主题名称',
                     }],
                     })(
                     <Input placeholder="" />
                     )}
                 </FormItem>
+                </Col>
+                <Col span={12}>
                 <FormItem
                         {...formItemLayout}
                         label="主题ID"
                 >
                     {getFieldDecorator('themeId', {
                     rules: [{
-                      required: true, message: '请输入主题ID',
+                      required: true, message: '请输入主题',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select>
+                      {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
+                </Col>
+                </Row>
+                <Row >
+                <Col span={12}>
                 <FormItem
                         {...formItemLayout}
-                        label="性格色彩ID"
+                        label="性格色彩"
                 >
                     {getFieldDecorator('characterColorId', {
                     rules: [{
                       required: true, message: '请输入性格色彩ID',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select>
+                      {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
+                </Col>
+                <Col span={12}>
                 <FormItem
                         {...formItemLayout}
                         label="性别"
@@ -120,9 +136,15 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入性别',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select>
+                      {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
+                </Col>
+                </Row>
+                <Row >
+                <Col span={12}>
                 <FormItem
                         {...formItemLayout}
                         label="状态"
@@ -132,9 +154,13 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select>
+                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
+                </Col>
+                <Col span={12}>
                 <FormItem
                         {...formItemLayout}
                         label="描述"
@@ -144,21 +170,12 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入描述',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <TextArea placeholder="" />
                     )}
                 </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="所属卡牌"
-                >
-                    {getFieldDecorator('cardUnitId', {
-                    rules: [{
-                      required: true, message: '请输入所属卡牌',
-                    }],
-                    })(
-                    <Input placeholder="" />
-                    )}
-                </FormItem>
+                </Col>
+                </Row>
+
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>

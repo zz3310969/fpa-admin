@@ -74,29 +74,35 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '名称',
+          title: '性格主题名称',
           dataIndex: 'name',
           key: 'name',
       },
       {
-          title: '主题ID',
-          dataIndex: 'themeId',
-          key: 'themeId',
+          title: '主题',
+          dataIndex: 'themeName',
+          key: 'themeName',
       },
       {
-          title: '性格色彩ID',
-          dataIndex: 'characterColorId',
-          key: 'characterColorId',
+          title: '性格色彩',
+          dataIndex: 'characterColorName',
+          key: 'characterColorName',
       },
       {
           title: '性别',
-          dataIndex: 'gender',
-          key: 'gender',
+          dataIndex: 'genderEnum',
+          key: 'genderEnum',
+          render(val) {
+            return val !== undefined ?val.display:'';
+          },
       },
       {
           title: '状态',
           dataIndex: 'state',
           key: 'state',
+          render(val) {
+            return <Badge status={statusMap[val]} text={status[val]} />;
+          },
       },
       {
           title: '描述',
@@ -105,8 +111,8 @@ class StandardTable extends PureComponent {
       },
       {
           title: '所属卡牌',
-          dataIndex: 'cardUnitId',
-          key: 'cardUnitId',
+          dataIndex: 'cardUnitName',
+          key: 'cardUnitName',
       },
        {
         title: '操作',

@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import {queryCharacter,addCharacter,loadCharacter,updateCharacter,removeCharacter } from '../services/character';
+import {queryCharacter,addCharacter,loadCharacter,updateCharacter,removeCharacter,queryCharacterBase } from '../services/character';
 
 export default {
   namespace: 'character',
@@ -13,6 +13,11 @@ export default {
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
+    themes:[],
+    cardUnits:[],
+    states:[],
+    genders:[],
+    colors:[],
   },
 
   effects: {
@@ -105,11 +110,21 @@ export default {
       }else{
         message.error('提交失败');
       }
-      
       yield put({
         type: 'changeLoading',
         payload: {},
       });
+    },
+    *base({ payload }, { call, put }) {
+      const response = yield call(queryCharacterBase, payload);
+      if(response.state == 'success'){
+        yield put({
+          type: 'load',
+          payload: response.data,
+        });
+      }else{
+        throw response;
+      }
     },
   },
 
@@ -118,6 +133,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    load(state, action) {
+      return {
+        ...state,
+        ...action.payload,
       };
     },
     show(state, { payload }) {

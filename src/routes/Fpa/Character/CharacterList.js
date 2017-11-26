@@ -32,6 +32,9 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'character/fetch',
     });
+    dispatch({
+      type: 'character/base',
+    });
   }
   componentWillReceiveProps(nextProps) {
 
@@ -147,28 +150,33 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
+    const { character: {states, themes,cardUnits, genders, colors } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="名称">
+              <FormItem label="性格主题名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="主题ID">
+              <FormItem label="主题">
                   {getFieldDecorator('themeId')(
-                  <Input placeholder="" />
+                  <Select>
+                    {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="性格色彩ID">
+              <FormItem label="性格色彩">
                   {getFieldDecorator('characterColorId')(
-                  <Input placeholder="" />
+                  <Select>
+                    {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
@@ -177,14 +185,18 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="性别">
                   {getFieldDecorator('gender')(
-                  <Input placeholder="" />
+                  <Select>
+                    {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
               <FormItem label="状态">
                   {getFieldDecorator('state')(
-                  <Input placeholder="" />
+                  <Select>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
@@ -200,7 +212,9 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="所属卡牌">
                   {getFieldDecorator('cardUnitId')(
-                  <Input placeholder="" />
+                  <Select>
+                    {cardUnits.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>

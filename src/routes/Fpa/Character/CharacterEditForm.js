@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,Row,Col,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
@@ -35,7 +35,10 @@ export default class BasicForms extends PureComponent {
         type: 'character/fetchBasic',
         payload:{id:this.props.match.params.id}
       });
-    }
+    };
+    dispatch({
+      type: 'character/base',
+    });
   }
 
 
@@ -52,7 +55,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { character: { regularFormSubmitting:submitting, formdate } } = this.props;
+    const { character: { regularFormSubmitting:submitting, formdate, states, themes, genders, colors } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -90,71 +93,95 @@ export default class BasicForms extends PureComponent {
                 })(
                     <Input type="hidden"/>
                   )}
+              <Row >
+              <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="名称"
+                  label="性格主题名称"
               >
                   {getFieldDecorator('name', {
                     initialValue:formdate.name,
                     rules: [{
-                      required: true, message: '请输入名称',
+                      required: true, message: '请输入性格主题名称',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
+              </Col>
+              <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="主题ID"
               >
                   {getFieldDecorator('themeId', {
-                    initialValue:formdate.themeId,
+                    initialValue:formdate.themeId !== undefined ?formdate.themeId+'':'',
                     rules: [{
                       required: true, message: '请输入主题ID',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread} >
+                    {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
+              </Col>
+              </Row>
+              <Row >
+              <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="性格色彩ID"
               >
                   {getFieldDecorator('characterColorId', {
-                    initialValue:formdate.characterColorId,
+                    initialValue:formdate.characterColorId !== undefined ?formdate.characterColorId+'':'',
                     rules: [{
                       required: true, message: '请输入性格色彩ID',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread} >
+                    {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
+              </Col>
+              <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="性别"
               >
                   {getFieldDecorator('gender', {
-                    initialValue:formdate.gender,
+                    initialValue:formdate.gender !== undefined ?formdate.gender+'':'',
                     rules: [{
                       required: true, message: '请输入性别',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread} >
+                    {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
+              </Col>
+              </Row>
+              <Row >
+              <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="状态"
               >
                   {getFieldDecorator('state', {
-                    initialValue:formdate.state,
+                    initialValue:formdate.state !== undefined ?formdate.state+'':'',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread} >
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
+              </Col>
+              <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="描述"
@@ -165,22 +192,11 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入描述',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <TextArea placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="所属卡牌"
-              >
-                  {getFieldDecorator('cardUnitId', {
-                    initialValue:formdate.cardUnitId,
-                    rules: [{
-                      required: true, message: '请输入所属卡牌',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
+              </Col>
+              </Row>
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
