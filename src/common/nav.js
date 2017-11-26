@@ -28,6 +28,10 @@ import CardUnitList from '../routes/Fpa/CardUnit/CardUnitList';
 import CardUnitAddForm from '../routes/Fpa/CardUnit/CardUnitAddForm';
 import CardUnitEditForm from '../routes/Fpa/CardUnit/CardUnitEditForm';
 
+import CustomerList from '../routes/Fpa/Customer/CustomerList';
+import CustomerAddForm from '../routes/Fpa/Customer/CustomerAddForm';
+import CustomerEditForm from '../routes/Fpa/Customer/CustomerEditForm';
+
 import CacheList from '../routes/List/CacheList';
 import TableList from '../routes/List/TableList';
 import CoverCardList from '../routes/List/CoverCardList';
@@ -188,6 +192,15 @@ const data = [{
         path: 'edit/:id',
         component: CharacterEditForm,
       },],
+    },],
+  }, {
+    name: '顾客管理',
+    path: 'customer',
+    icon: 'table',
+    children: [{
+      name: '顾客资料',
+      path: 'info',
+      component: CustomerList,
     },],
   }, {
     name: '详情页',
