@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
-import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,Table } from 'antd';
+import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message, Table } from 'antd';
 import CharacterColorTable from './CharacterColorTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
@@ -10,8 +11,6 @@ import styles from '../defaultTableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-
-
 
 
 @connect(state => ({
@@ -23,8 +22,8 @@ export default class TableList extends PureComponent {
     addInputValue: '',
     selectedRows: [],
     formValues: {},
-    limit:10,
-    currentPage:1,
+    limit: 10,
+    currentPage: 1,
   };
 
   componentDidMount() {
@@ -78,10 +77,10 @@ export default class TableList extends PureComponent {
 
   reLoadList = () => {
     const { form, dispatch } = this.props;
-    const { formValues,currentPage,limit } = this.state;
+    const { formValues, currentPage, limit } = this.state;
     const params = {
-      currentPage: currentPage,
-      limit: limit,
+      currentPage,
+      limit,
       ...formValues,
     };
     dispatch({
@@ -147,83 +146,39 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
+    const { charactercolor: { states } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="编号">
-                  {getFieldDecorator('numb')(
-                  <Input placeholder="请输入" />
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="名称">
+              {getFieldDecorator('name')(
+                <Input placeholder="请输入" />
                   )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="名称">
-                  {getFieldDecorator('name')(
-                  <Input placeholder="请输入" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="代表颜色">
-                  {getFieldDecorator('colorId')(
-                  <Input placeholder="请输入" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="代表颜色编码">
-                  {getFieldDecorator('colorCode')(
-                  <Input placeholder="请输入" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="描述">
-                  {getFieldDecorator('description')(
-                  <Input placeholder="请输入" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="性格色彩2">
-                  {getFieldDecorator('color2Id')(
-                  <Input placeholder="请输入" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="性格色彩2编码">
-                  {getFieldDecorator('color2Code')(
-                  <Input placeholder="请输入" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="状态">
-                  {getFieldDecorator('state')(
-                  <Input placeholder="请输入" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <span className={styles.submitButtons}>
-                    <Button type="primary" htmlType="submit">查询</Button>
-                    <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-                  </span>
-              </Col>
-            </Row >
-
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="状态">
+              {getFieldDecorator('state')(
+                <Select>
+                  <Select.Option value="" >所有状态</Select.Option>
+                  {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">查询</Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+            </span>
+          </Col>
+        </Row >
       </Form>
     );
   }
 
-  
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -240,7 +195,6 @@ export default class TableList extends PureComponent {
     );
 
 
-
     return (
       <PageHeaderLayout title="性格色彩列表">
         <Card bordered={false}>
@@ -249,7 +203,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/character/color/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => { this.props.dispatch(routerRedux.push('/character/color/add')); console.log('新建'); }}>新建</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -264,7 +218,6 @@ export default class TableList extends PureComponent {
             </div>
 
 
-
             <CharacterColorTable
               selectedRows={selectedRows}
               loading={charactercolorLoading}
@@ -276,7 +229,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

@@ -8,9 +8,9 @@ import Monitor from '../routes/Dashboard/Monitor';
 import Workplace from '../routes/Dashboard/Workplace';
 
 
-import CharacterColorList from '../routes/Fpa/CharacterColor/CharacterColorList';
-import CharacterColorAddForm from '../routes/Fpa/CharacterColor/CharacterColorAddForm';
-import CharacterColorEditForm from '../routes/Fpa/CharacterColor/CharacterColorEditForm';
+import CharacterColorList from '../routes/Fpa/Charactercolor/CharacterColorList';
+import CharacterColorAddForm from '../routes/Fpa/Charactercolor/CharacterColorAddForm';
+import CharacterColorEditForm from '../routes/Fpa/Charactercolor/CharacterColorEditForm';
 
 import ThemeList from '../routes/Fpa/Theme/ThemeList';
 import ThemeAddForm from '../routes/Fpa/Theme/ThemeAddForm';

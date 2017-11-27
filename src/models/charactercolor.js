@@ -1,6 +1,7 @@
+/* eslint-disable eqeqeq */
 import { message } from 'antd';
 
-import {queryCharacterColor,addCharacterColor,loadCharacterColor,updateCharacterColor,removeCharacterColor } from '../services/charactercolor';
+import { queryCharacterColor, addCharacterColor, loadCharacterColor, updateCharacterColor, removeCharacterColor } from '../services/charactercolor';
 
 export default {
   namespace: 'charactercolor',
@@ -10,7 +11,8 @@ export default {
       list: [],
       pagination: {},
     },
-    formdate:{},
+    states: [{ code: 0, display: '不可用' }, { code: 1, display: '可用' }],
+    formdate: {},
     loading: true,
     regularFormSubmitting: false,
   },
@@ -22,12 +24,12 @@ export default {
         payload: true,
       });
       const response = yield call(queryCharacterColor, payload);
-      if(response.state == 'success'){
+      if (response.state == 'success') {
         yield put({
           type: 'save',
           payload: response.data,
         });
-      }else{
+      } else {
         throw response;
       }
       yield put({
@@ -62,16 +64,15 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: false,
       });
-      if(response.state == 'success'){
+      if (response.state == 'success') {
         message.success(response.message);
-      }else if(response.message){
+      } else if (response.message) {
         message.error(response.message);
-      }else{
+      } else {
         message.error('提交失败');
       }
     },
     *update({ payload }, { call, put }) {
-      debugger;
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: true,
@@ -81,31 +82,31 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: false,
       });
-      if(response.state == 'success'){
+      if (response.state == 'success') {
         message.success(response.message);
-      }else if(response.message){
+      } else if (response.message) {
         message.error(response.message);
-      }else{
+      } else {
         message.error('提交失败');
       }
     },
-    *fetchBasic({payload}, { call, put }) {
+    *fetchBasic({ payload }, { call, put }) {
       yield put({
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadCharacterColor,payload);
-      if(response.state == 'success'){
+      const response = yield call(loadCharacterColor, payload);
+      if (response.state == 'success') {
         yield put({
           type: 'show',
           payload: response.data,
         });
-      }else if(response.message){
+      } else if (response.message) {
         message.error(response.message);
-      }else{
+      } else {
         message.error('提交失败');
       }
-      
+
       yield put({
         type: 'changeLoading',
         payload: {},
@@ -123,7 +124,7 @@ export default {
     show(state, { payload }) {
       return {
         ...state,
-        formdate:payload,
+        formdate: payload,
       };
     },
     changeLoading(state, action) {

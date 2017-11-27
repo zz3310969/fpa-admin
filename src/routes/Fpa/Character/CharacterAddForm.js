@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,Row,Col,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip, Row, Col,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
@@ -17,7 +17,6 @@ const { TextArea } = Input;
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
-
   state = {
   };
 
@@ -27,7 +26,6 @@ export default class BasicForms extends PureComponent {
       type: 'character/base',
     });
   }
-
 
 
   handleSubmit = (e) => {
@@ -42,7 +40,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { character: { regularFormSubmitting:submitting, states, themes, genders, colors } } = this.props;
+    const { character: { regularFormSubmitting: submitting, states, themes, genders, colors } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -72,116 +70,116 @@ export default class BasicForms extends PureComponent {
             hideRequiredMark
             style={{ marginTop: 8 }}
           >
-                    {getFieldDecorator('id', {
+            {getFieldDecorator('id', {
 
                     })(
-                    <Input type="hidden"/>
+                      <Input type="hidden" />
                     )}
-                <Row >
-                <Col span={12}>
+            <Row >
+              <Col span={12}>
                 <FormItem
-                        {...formItemLayout}
-                        label="性格主题名称"
+                  {...formItemLayout}
+                  label="性格主题名称"
                 >
-                    {getFieldDecorator('name', {
+                  {getFieldDecorator('name', {
                     rules: [{
                       required: true, message: '请输入性格主题名称',
                     }],
                     })(
-                    <Input placeholder="" />
+                      <Input placeholder="" />
                     )}
                 </FormItem>
-                </Col>
-                <Col span={12}>
+              </Col>
+              <Col span={12}>
                 <FormItem
-                        {...formItemLayout}
-                        label="主题ID"
+                  {...formItemLayout}
+                  label="主题ID"
                 >
-                    {getFieldDecorator('themeId', {
+                  {getFieldDecorator('themeId', {
                     rules: [{
                       required: true, message: '请输入主题',
                     }],
                     })(
-                    <Select>
-                      {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                    </Select>
+                      <Select>
+                        {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                      </Select>
                     )}
                 </FormItem>
-                </Col>
-                </Row>
-                <Row >
-                <Col span={12}>
+              </Col>
+            </Row>
+            <Row >
+              <Col span={12}>
                 <FormItem
-                        {...formItemLayout}
-                        label="性格色彩"
+                  {...formItemLayout}
+                  label="性格色彩"
                 >
-                    {getFieldDecorator('characterColorId', {
+                  {getFieldDecorator('characterColorId', {
                     rules: [{
                       required: true, message: '请输入性格色彩ID',
                     }],
                     })(
-                    <Select>
-                      {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                    </Select>
+                      <Select>
+                        {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                      </Select>
                     )}
                 </FormItem>
-                </Col>
-                <Col span={12}>
+              </Col>
+              <Col span={12}>
                 <FormItem
-                        {...formItemLayout}
-                        label="性别"
+                  {...formItemLayout}
+                  label="性别"
                 >
-                    {getFieldDecorator('gender', {
+                  {getFieldDecorator('gender', {
                     rules: [{
                       required: true, message: '请输入性别',
                     }],
                     })(
-                    <Select>
-                      {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                    </Select>
+                      <Select>
+                        {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                      </Select>
                     )}
                 </FormItem>
-                </Col>
-                </Row>
-                <Row >
-                <Col span={12}>
+              </Col>
+            </Row>
+            <Row >
+              <Col span={12}>
                 <FormItem
-                        {...formItemLayout}
-                        label="状态"
+                  {...formItemLayout}
+                  label="状态"
                 >
-                    {getFieldDecorator('state', {
+                  {getFieldDecorator('state', {
                     rules: [{
                       required: true, message: '请输入状态',
                     }],
                     })(
-                    <Select>
-                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                    </Select>
+                      <Select>
+                        {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                      </Select>
                     )}
                 </FormItem>
-                </Col>
-                <Col span={12}>
+              </Col>
+              <Col span={12}>
                 <FormItem
-                        {...formItemLayout}
-                        label="描述"
+                  {...formItemLayout}
+                  label="描述"
                 >
-                    {getFieldDecorator('description', {
+                  {getFieldDecorator('description', {
                     rules: [{
                       required: true, message: '请输入描述',
                     }],
                     })(
-                    <TextArea placeholder="" />
+                      <TextArea placeholder="" />
                     )}
                 </FormItem>
-                </Col>
-                </Row>
+              </Col>
+            </Row>
 
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-                <Link to={'/character/charactertheme'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+              <Link to="/character/charactertheme"><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

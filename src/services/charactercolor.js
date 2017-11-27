@@ -9,7 +9,7 @@ export async function addCharacterColor(params) {
   return request('/api/fpa/charactercolor', {
     method: 'POST',
     body: {
-      ...params
+      ...params,
     },
   });
 }
@@ -18,20 +18,18 @@ export async function updateCharacterColor(params) {
   return request('/api/fpa/charactercolor', {
     method: 'PUT',
     body: {
-      ...params
+      ...params,
     },
   });
 }
 
 
-
-
 export async function removeCharacterColor(params) {
   return request(`/api/fpa/charactercolor?${stringify(params)}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }
 
 export async function loadCharacterColor(params) {
-  return request(`/api/fpa/charactercolor/`+params['id']);
+  return request(`/api/fpa/charactercolor/${params.id}`);
 }
