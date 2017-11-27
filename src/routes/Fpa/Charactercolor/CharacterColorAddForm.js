@@ -18,8 +18,7 @@ const { TextArea } = Input;
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
-  state = {
-  };
+  state = {};
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -40,17 +39,31 @@ export default class BasicForms extends PureComponent {
       }
     });
   }
+
   render() {
-    const { charactercolor: { regularFormSubmitting: submitting, states } } = this.props;
+    const { charactercolor: { regularFormSubmitting: submitting, states, colors } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
-    const children = [];
-    for (let i = 10; i < 36; i++) {
-      children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-    }
-
     function handleChange(value) {
-      console.log(`selected ${value}`);
+      const disvals = [];
+      if (value.length == 2) {
+        colors.map((n, i) => {
+          n.disabled = true;
+        });
+        colors.map((n, i) => {
+          value.map((v) => {
+            if (n.id == v) {
+              n.disabled = false;
+            }
+          });
+        });
+      } else if (value.length < 2) {
+        colors.map((n, i) => {
+          n.disabled = false;
+        });
+      } else {
+        console.log('不能了，进来就死定了');
+      }
     }
 
     const formItemLayout = {
@@ -80,80 +93,79 @@ export default class BasicForms extends PureComponent {
             hideRequiredMark
             style={{ marginTop: 8 }}
           >
-            {getFieldDecorator('id', {
-
-                    })(
-                      <Input type="hidden" />
-                    )}
+            {getFieldDecorator('id', {})(
+              <Input type="hidden" />
+            )}
             <FormItem
               {...formItemLayout}
               label="编号"
             >
               {getFieldDecorator('numb', {
-                    rules: [{
-                    required: true, message: '请输入编号',
-                    }],
-                    })(
-                      <Input placeholder="" />
-                    )}
+                rules: [{
+                  required: true, message: '请输入编号',
+                }],
+              })(
+                <Input placeholder="" />
+              )}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="名称"
             >
               {getFieldDecorator('name', {
-                    rules: [{
-                    required: true, message: '请输入名称',
-                    }],
-                    })(
-                      <Input placeholder="" />
-                    )}
+                rules: [{
+                  required: true, message: '请输入名称',
+                }],
+              })(
+                <Input placeholder="" />
+              )}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="代表颜色"
             >
-              {getFieldDecorator('colorId', {
-                    rules: [{
-                    required: true, message: '请输入代表颜色',
-                    }],
-                    })(
-                      <Select
-                        multiple
-                        style={{ width: '100%' }}
-                        placeholder="请选择代表颜色，最多选两个"
-                        defaultValue={['a10', 'c12']}
-                        onChange={handleChange}
-                      >
-                        {children}
-                      </Select>
-                    )}
+              {getFieldDecorator('colorIds', {
+                rules: [{
+                  required: true, message: '请输入代表颜色',
+                }],
+              })(
+                <Select
+                  mode="multiple"
+                  style={{ width: '100%' }}
+                  placeholder="请选择代表颜色，最多选两个"
+                  onChange={handleChange}
+                >
+                  {colors.map(d => (<Select.Option key={d.id} disabled={d.disabled}>
+                    <div style={{ background: d.code }}>{d.display}</div>
+                  </Select.Option>))}
+                </Select>
+              )}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="描述"
             >
               {getFieldDecorator('description', {
-                    rules: [{
-                    required: true, message: '请输入描述',
-                    }],
-                    })(
-                      <Input placeholder="" />
-                    )}
+                rules: [{
+                  required: true, message: '请输入描述',
+                }],
+              })(
+                <TextArea style={{ minHeight: 32 }} placeholder="请输入描述" rows={4} />
+              )}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="状态"
             >
               {getFieldDecorator('state', {
-                    rules: [{
-                    required: true, message: '请输入状态',
-                    }],
-                    })(
-                      <Select>
-                        {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                      </Select>
-                    )}
+                rules: [{
+                  required: true, message: '请选择状态',
+                }],
+              })(
+                <Select>
+                  {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                </Select>
+              )}
             </FormItem>
 
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

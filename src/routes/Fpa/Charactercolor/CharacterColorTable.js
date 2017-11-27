@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars,react/no-unused-state */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import moment from 'moment';
-import { routerRedux, Link } from 'dva/router';
-import { connect } from 'dva';
-import { Table, Alert, Badge, Divider, Modal } from 'antd';
+import {routerRedux, Link} from 'dva/router';
+import {connect} from 'dva';
+import {Table, Alert, Badge, Divider, Modal} from 'antd';
 import styles from '../defaultTable.less';
 
 const confirm = Modal.confirm;
@@ -33,7 +33,7 @@ class StandardTable extends PureComponent {
       this.props.onSelectRow(selectedRows);
     }
 
-    this.setState({ selectedRowKeys });
+    this.setState({selectedRowKeys});
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -45,7 +45,7 @@ class StandardTable extends PureComponent {
   }
 
   deleteHandle(record) {
-    const { dispatch, reLoadList } = this.props;
+    const {dispatch, reLoadList} = this.props;
     return function () {
       confirm({
         title: '提示',
@@ -61,14 +61,15 @@ class StandardTable extends PureComponent {
             },
           });
         },
-        onCancel() {},
+        onCancel() {
+        },
       });
     };
   }
 
   render() {
-    const { selectedRowKeys } = this.state;
-    const { data: { dataList, total }, loading } = this.props;
+    const {selectedRowKeys} = this.state;
+    const {data: {dataList, total}, loading} = this.props;
     const status = ['不可用', '可用'];
 
 
@@ -87,11 +88,21 @@ class StandardTable extends PureComponent {
         title: '代表颜色',
         dataIndex: 'colorId',
         key: 'colorId',
-      },
-      {
-        title: '代表颜色编码',
-        dataIndex: 'colorCode',
-        key: 'colorCode',
+        render: (text, record, index) => {
+          if(record.color2Id != null){
+              return (
+                <div>
+                <div style={{background: record.colorCode,width:'10px',height:'10px'}}>
+                    </div>
+                  <Divider type="vertical"/>
+                    <div style={{background: record.color2Code,width:'10px',height:'10px'}}>
+                      </div></div>
+              )
+                   }else {
+                  return (<div style={{background: record.colorCode,width:'10px',height:'10px'}}>
+                                  </div>)
+            }
+        },
       },
       {
         title: '描述',
@@ -103,7 +114,7 @@ class StandardTable extends PureComponent {
         dataIndex: 'state',
         key: 'state',
         render(val) {
-          return <Badge status={statusMap[val]} text={status[val]} />;
+          return <Badge status={statusMap[val]} text={status[val]}/>;
         },
       },
       {
@@ -111,9 +122,9 @@ class StandardTable extends PureComponent {
         render: (text, record, index) => (
           <div>
             <Link to={`/character/color/edit/${record.id}?read=true`}>查看</Link>
-            <Divider type="vertical" />
+            <Divider type="vertical"/>
             <Link to={`/character/color/edit/${record.id}`}>编辑</Link>
-            <Divider type="vertical" />
+            <Divider type="vertical"/>
             <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>
         ),
@@ -139,9 +150,9 @@ class StandardTable extends PureComponent {
           <Alert
             message={(
               <div>
-                已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
+                已选择 <a style={{fontWeight: 600}}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
 
-                <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
+                <a onClick={this.cleanSelectedKeys} style={{marginLeft: 24}}>清空</a>
               </div>
             )}
             type="info"

@@ -31,6 +31,9 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'charactercolor/fetch',
     });
+    dispatch({
+      type: 'charactercolor/base',
+    });
   }
   componentWillReceiveProps(nextProps) {
 

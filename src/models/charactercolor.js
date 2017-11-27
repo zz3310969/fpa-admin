@@ -1,7 +1,7 @@
-/* eslint-disable eqeqeq */
+/* eslint-disable eqeqeq,key-spacing */
 import { message } from 'antd';
 
-import { queryCharacterColor, addCharacterColor, loadCharacterColor, updateCharacterColor, removeCharacterColor } from '../services/charactercolor';
+import { queryCharacterColor, addCharacterColor, loadCharacterColor, updateCharacterColor, removeCharacterColor, queryCharacterColorBase } from '../services/charactercolor';
 
 export default {
   namespace: 'charactercolor',
@@ -11,7 +11,8 @@ export default {
       list: [],
       pagination: {},
     },
-    states: [{ code: 0, display: '不可用' }, { code: 1, display: '可用' }],
+    states: [],
+    colors: [],
     formdate: {},
     loading: true,
     regularFormSubmitting: false,
@@ -112,6 +113,17 @@ export default {
         payload: {},
       });
     },
+    *base({ payload }, { call, put }) {
+      const response = yield call(queryCharacterColorBase, payload);
+      if (response.state == 'success') {
+        yield put({
+          type: 'load',
+          payload: response.data,
+        });
+      } else {
+        throw response;
+      }
+    },
   },
 
   reducers: {
@@ -119,6 +131,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    load(state, action) {
+      return {
+        ...state,
+        ...action.payload,
       };
     },
     show(state, { payload }) {

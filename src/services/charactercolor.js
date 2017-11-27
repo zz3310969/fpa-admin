@@ -33,3 +33,8 @@ export async function removeCharacterColor(params) {
 export async function loadCharacterColor(params) {
   return request(`/api/fpa/charactercolor/${params.id}`);
 }
+
+
+export async function queryCharacterColorBase(params) {
+  return request(`/api/fpa/charactercolor/base`);
+}
