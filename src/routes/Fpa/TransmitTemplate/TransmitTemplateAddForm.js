@@ -40,7 +40,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { transmittemplate: { regularFormSubmitting:submitting } } = this.props;
+    const { transmittemplate: { regularFormSubmitting:submitting, states } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -144,7 +144,9 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select>
+                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
             

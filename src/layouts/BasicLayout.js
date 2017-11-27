@@ -168,10 +168,11 @@ class BasicLayout extends React.PureComponent {
   getPageTitle() {
     const { location } = this.props;
     const { pathname } = location;
-    let title = 'Ant Design Pro';
+    let title = 'FPA性格色彩卡牌测试系统';
     getRouteData('BasicLayout').forEach((item) => {
       if (item.path === pathname) {
-        title = `${item.name} - Ant Design Pro`;
+        let t = item.name || item.breadname;
+        title = `${t} - FPA性格色彩卡牌测试系统`;
       }
     });
     return title;
@@ -269,8 +270,8 @@ class BasicLayout extends React.PureComponent {
         >
           <div className={styles.logo}>
             <Link to="/">
-              <img src="https://gw.alipayobjects.com/zos/rmsportal/iwWyPinUoseUxIAeElSx.svg" alt="logo" />
-              <h1>Ant Design Pro</h1>
+              <img src={require('../assets/logobig.jpg')} alt="logo" />
+              <h1>FPA性格色彩</h1>
             </Link>
           </div>
           <Menu
@@ -366,22 +367,10 @@ class BasicLayout extends React.PureComponent {
               <Route component={NotFound} />
             </Switch>
             <GlobalFooter
-              links={[{
-                title: 'Pro 首页',
-                href: 'http://pro.ant.design',
-                blankTarget: true,
-              }, {
-                title: 'GitHub',
-                href: 'https://github.com/ant-design/ant-design-pro',
-                blankTarget: true,
-              }, {
-                title: 'Ant Design',
-                href: 'http://ant.design',
-                blankTarget: true,
-              }]}
+              links={[]}
               copyright={
                 <div>
-                  Copyright <Icon type="copyright" /> 2017 蚂蚁金服体验技术部出品
+                  Copyright <Icon type="copyright" /> 2017 上海乐嘉性格色彩管理咨询有限公司出品
                 </div>
               }
             />

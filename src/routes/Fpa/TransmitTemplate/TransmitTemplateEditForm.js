@@ -52,7 +52,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { transmittemplate: { regularFormSubmitting:submitting, formdate } } = this.props;
+    const { transmittemplate: { regularFormSubmitting:submitting, formdate, states } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -160,12 +160,14 @@ export default class BasicForms extends PureComponent {
                   label="状态"
               >
                   {getFieldDecorator('state', {
-                    initialValue:formdate.state,
+                    initialValue:formdate.state!== undefined ?formdate.state+'':'',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread}>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
             
