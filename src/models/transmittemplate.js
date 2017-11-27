@@ -1,6 +1,7 @@
 import { message } from 'antd';
 
 import {queryTransmitTemplate,addTransmitTemplate,loadTransmitTemplate,updateTransmitTemplate,removeTransmitTemplate } from '../services/transmittemplate';
+import {getLocalState } from '../utils/helper';
 
 export default {
   namespace: 'transmittemplate',
@@ -13,6 +14,7 @@ export default {
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
+    states:getLocalState(),
   },
 
   effects: {

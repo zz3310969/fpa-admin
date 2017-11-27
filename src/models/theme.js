@@ -1,6 +1,8 @@
 import { message } from 'antd';
 
 import {queryTheme,addTheme,loadTheme,updateTheme,removeTheme } from '../services/theme';
+import {getLocalState } from '../utils/helper';
+
 
 export default {
   namespace: 'theme',
@@ -10,7 +12,7 @@ export default {
       list: [],
       pagination: {},
     },
-    states:[{'code':0,'display':'不可用'},{'code':1,'display':'可用'},],
+    states:getLocalState(),
     formdate:{},
     loading: true,
     regularFormSubmitting: false,

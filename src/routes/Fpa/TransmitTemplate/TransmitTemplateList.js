@@ -147,6 +147,7 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
+    const { transmittemplate: { states } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
@@ -191,7 +192,9 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="状态">
                   {getFieldDecorator('state')(
-                  <Input placeholder="" />
+                  <Select disabled={this.state.onlyread}>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
