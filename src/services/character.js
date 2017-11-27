@@ -25,7 +25,7 @@ export async function updateCharacter(params) {
 
 
 export async function removeCharacter(params) {
-  return request(`/api/fpa/character?${stringify(params)}`, {
+  return request(`/api/fpa/character/`+params['id'], {
     method: 'DELETE'
   });
 }

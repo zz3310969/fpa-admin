@@ -7,6 +7,9 @@ import Analysis from '../routes/Dashboard/Analysis';
 import Monitor from '../routes/Dashboard/Monitor';
 import Workplace from '../routes/Dashboard/Workplace';
 
+import TransmitTemplateList from '../routes/Fpa/TransmitTemplate/TransmitTemplateList';
+import TransmitTemplateAddForm from '../routes/Fpa/TransmitTemplate/TransmitTemplateAddForm';
+import TransmitTemplateEditForm from '../routes/Fpa/TransmitTemplate/TransmitTemplateEditForm';
 
 import CharacterColorList from '../routes/Fpa/Charactercolor/CharacterColorList';
 import CharacterColorAddForm from '../routes/Fpa/Charactercolor/CharacterColorAddForm';
@@ -201,6 +204,24 @@ const data = [{
       name: '顾客资料',
       path: 'info',
       component: CustomerList,
+    },],
+  },{
+    name: '营销管理',
+    path: 'scheme',
+    icon: 'table',
+    children: [{
+      name: '分享模板管理',
+      path: 'transmittemplate',
+      component: TransmitTemplateList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: TransmitTemplateAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: TransmitTemplateEditForm,
+      },],
     },],
   }, {
     name: '详情页',

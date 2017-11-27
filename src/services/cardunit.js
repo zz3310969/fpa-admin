@@ -25,7 +25,7 @@ export async function updateCardUnit(params) {
 
 
 export async function removeCardUnit(params) {
-  return request(`/api/fpa/cardunit?${stringify(params)}`, {
+  return request(`/api/fpa/cardunit/`+params['id'], {
     method: 'DELETE'
   });
 }

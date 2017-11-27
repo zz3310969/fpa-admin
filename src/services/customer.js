@@ -25,7 +25,7 @@ export async function updateCustomer(params) {
 
 
 export async function removeCustomer(params) {
-  return request(`/api/fpa/customer?${stringify(params)}`, {
+  return request(`/api/fpa/customer/`+params['id'], {
     method: 'DELETE'
   });
 }

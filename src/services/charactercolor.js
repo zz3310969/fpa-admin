@@ -25,7 +25,7 @@ export async function updateCharacterColor(params) {
 
 
 export async function removeCharacterColor(params) {
-  return request(`/api/fpa/charactercolor?${stringify(params)}`, {
+  return request(`/api/fpa/charactercolor/`+params['id'], {
     method: 'DELETE',
   });
 }

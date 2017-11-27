@@ -27,7 +27,7 @@ export async function updateTheme(params) {
 
 
 export async function removeTheme(params) {
-  return request(`/api/fpa/theme?${stringify(params)}`, {
+  return request(`/api/fpa/theme/`+params['id'], {
     method: 'DELETE'
   });
 }

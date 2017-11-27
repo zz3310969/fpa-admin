@@ -27,7 +27,7 @@ export async function updateScene(params) {
 
 
 export async function removeTheme(params) {
-  return request(`/api/fpa/scene?${stringify(params)}`, {
+  return request(`/api/fpa/scene/`+params['id'], {
     method: 'DELETE'
   });
 }
