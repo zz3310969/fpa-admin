@@ -26,12 +26,17 @@ export async function updateScene(params) {
 
 
 
-export async function removeTheme(params) {
+export async function removeScene(params) {
   return request(`/api/fpa/scene/`+params['id'], {
     method: 'DELETE'
   });
 }
 
-export async function loadTheme(params) {
+export async function loadScene(params) {
   return request(`/api/fpa/scene/`+params['id']);
+}
+
+
+export async function querySceneBase(params) {
+  return request(`/api/fpa/scene/base`);
 }

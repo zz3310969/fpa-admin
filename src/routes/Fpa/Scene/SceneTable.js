@@ -69,7 +69,7 @@ class StandardTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { dataList, total }, loading } = this.props;
-    const status = ['不可用', '可用'];
+    const status = ['未上线', '已上线'];
 
 
     const columns = [
@@ -84,9 +84,9 @@ class StandardTable extends PureComponent {
           key: 'numb',
       },
       {
-          title: '套牌id',
-          dataIndex: 'cardGroupId',
-          key: 'cardGroupId',
+          title: '套牌',
+          dataIndex: 'cardGroupName',
+          key: 'cardGroupName',
       },
       {
           title: '可重复次数',
@@ -99,14 +99,17 @@ class StandardTable extends PureComponent {
           key: 'version',
       },
       {
-          title: '主题ID',
-          dataIndex: 'themeId',
-          key: 'themeId',
+          title: '主题',
+          dataIndex: 'themeName',
+          key: 'themeName',
       },
       {
           title: '状态',
           dataIndex: 'state',
           key: 'state',
+          render(val) {
+            return <Badge status={statusMap[val]} text={status[val]} />;
+          },
       },
        {
         title: '操作',

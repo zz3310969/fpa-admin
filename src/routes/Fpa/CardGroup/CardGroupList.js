@@ -147,6 +147,7 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
+    const { cardgroup: { states } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
@@ -168,7 +169,10 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="是否可用">
                   {getFieldDecorator('usable')(
-                  <Input placeholder="" />
+                  <Select>
+                    <Select.Option value='' >所有状态</Select.Option>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
