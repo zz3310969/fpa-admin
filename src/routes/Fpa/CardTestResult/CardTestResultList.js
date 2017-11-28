@@ -4,6 +4,7 @@ import { routerRedux, Link } from 'dva/router';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,Table } from 'antd';
 import CardTestResultTable from './CardTestResultTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+const { MonthPicker, RangePicker } = DatePicker;
 
 import styles from '../defaultTableList.less';
 
@@ -31,6 +32,9 @@ export default class TableList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'cardtestresult/fetch',
+    });
+    dispatch({
+      type: 'cardtestresult/base',
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -132,6 +136,9 @@ export default class TableList extends PureComponent {
       const values = {
         ...fieldsValue,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        testDateStart:fieldsValue.testDate && fieldsValue.testDate[0].format('YYYY-MM-DD'),
+        testDateEnd:fieldsValue.testDate && fieldsValue.testDate[1].format('YYYY-MM-DD'),
+        testDate:'',
       };
 
       this.setState({
@@ -147,14 +154,17 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
+    const { cardtestresult: {scenes} } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="测试场景id">
+              <FormItem label="测试场景">
                   {getFieldDecorator('sceneId')(
-                  <Input placeholder="" />
+                  <Select>
+                    {scenes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
@@ -177,7 +187,7 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="测试时间">
                   {getFieldDecorator('testDate')(
-                  <Input placeholder="" />
+                  <RangePicker style={{ width: '100%' }}/>
                   )}
               </FormItem>
               </Col>
@@ -233,7 +243,6 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/cardtestresult/add')); console.log('新建')}}>新建</Button>
               {
                 selectedRows.length > 0 && (
                   <span>

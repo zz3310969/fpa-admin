@@ -7,6 +7,12 @@ import Analysis from '../routes/Dashboard/Analysis';
 import Monitor from '../routes/Dashboard/Monitor';
 import Workplace from '../routes/Dashboard/Workplace';
 
+import CardTestResultList from '../routes/Fpa/CardTestResult/CardTestResultList';
+
+
+import CardGroupList from '../routes/Fpa/CardGroup/CardGroupList';
+
+
 import TransmitTemplateList from '../routes/Fpa/TransmitTemplate/TransmitTemplateList';
 import TransmitTemplateAddForm from '../routes/Fpa/TransmitTemplate/TransmitTemplateAddForm';
 import TransmitTemplateEditForm from '../routes/Fpa/TransmitTemplate/TransmitTemplateEditForm';
@@ -152,6 +158,23 @@ const data = [{
       path: 'search',
       component: SearchList,
     }],
+  },{
+    name: '卡牌测试管理',
+    path: 'test',
+    icon: 'table',
+    children: [{
+      name: '测试场景',
+      path: 'scene',
+      component: SceneList,
+    },{
+      name: '卡牌',
+      path: 'card',
+      component: CardGroupList,
+    },{
+      name: '测试结果',
+      path: 'result',
+      component: CardTestResultList,
+    },],
   },{
     name: '性格管理',
     path: 'character',

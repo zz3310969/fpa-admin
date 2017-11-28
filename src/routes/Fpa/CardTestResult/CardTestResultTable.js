@@ -74,19 +74,19 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '测试场景id',
-          dataIndex: 'sceneId',
-          key: 'sceneId',
+          title: '测试场景',
+          dataIndex: 'sceneName',
+          key: 'sceneName',
       },
       {
-          title: '分享人ID',
-          dataIndex: 'shareCustomerId',
-          key: 'shareCustomerId',
+          title: '分享人',
+          dataIndex: 'shareCustomerName',
+          key: 'shareCustomerName',
       },
       {
-          title: '测试人ID',
-          dataIndex: 'customerId',
-          key: 'customerId',
+          title: '测试人',
+          dataIndex: 'customerName',
+          key: 'customerName',
       },
       {
           title: '测试时间',
@@ -107,11 +107,11 @@ class StandardTable extends PureComponent {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/cardtestresult/edit/'+record.id+'?read=true'}>查看</Link>
-              <Divider type="vertical" />
+              <Link to={'/cardtestresult/edit/'+record.id+'?read=true'}>查看详情</Link>
+              {/*<Divider type="vertical" />
               <Link to={'/cardtestresult/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
-              <a onClick={this.deleteHandle(record, index)}>删除</a>
+              <a onClick={this.deleteHandle(record, index)}>删除</a>*/}
           </div>
         ),
       },];

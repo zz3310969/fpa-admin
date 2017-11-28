@@ -33,3 +33,7 @@ export async function removeCardTestResult(params) {
 export async function loadCardTestResult(params) {
   return request(`/api/fpa/cardtestresult/`+params['id']);
 }
+
+export async function queryCardTestResultBase(params) {
+  return request(`/api/fpa/cardtestresult/base`);
+}

@@ -166,7 +166,7 @@ export default class TableList extends PureComponent {
               <FormItem label="主题">
                   {getFieldDecorator('themeId')(
                   <Select>
-                    {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                   </Select>
                   )}
               </FormItem>

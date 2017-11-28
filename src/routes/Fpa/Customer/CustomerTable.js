@@ -105,8 +105,11 @@ class StandardTable extends PureComponent {
       },
       {
           title: '性别',
-          dataIndex: 'gender',
-          key: 'gender',
+          dataIndex: 'genderEnum',
+          key: 'genderEnum',
+          render(val) {
+            return val !== undefined ?val.display:'';
+          },
       },
       {
           title: '地区',

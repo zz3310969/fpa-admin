@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import {queryCardTestResult,addCardTestResult,loadCardTestResult,updateCardTestResult,removeCardTestResult } from '../services/cardtestresult';
+import {queryCardTestResult,addCardTestResult,loadCardTestResult,updateCardTestResult,removeCardTestResult,queryCardTestResultBase } from '../services/cardtestresult';
 
 export default {
   namespace: 'cardtestresult',
@@ -12,6 +12,7 @@ export default {
     },
     formdate:{},
     loading: true,
+    scenes:[],
     regularFormSubmitting: false,
   },
 
@@ -110,6 +111,17 @@ export default {
         payload: {},
       });
     },
+    *base({ payload }, { call, put }) {
+      const response = yield call(queryCardTestResultBase, payload);
+      if(response.state == 'success'){
+        yield put({
+          type: 'load',
+          payload: response.data,
+        });
+      }else{
+        throw response;
+      }
+    },
   },
 
   reducers: {
@@ -117,6 +129,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    load(state, action) {
+      return {
+        ...state,
+        ...action.payload,
       };
     },
     show(state, { payload }) {

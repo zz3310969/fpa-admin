@@ -51,7 +51,6 @@ export default class Login extends Component {
     const { type } = this.state;
     this.props.form.validateFields({ force: true },
       (err, values) => {
-        debugger;
         values['password'] = md5Util.to_hex_md5(values['password']).toUpperCase()
         if (!err) {
           this.props.dispatch({
