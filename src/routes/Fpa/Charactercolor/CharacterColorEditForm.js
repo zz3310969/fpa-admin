@@ -39,6 +39,7 @@ export default class BasicForms extends PureComponent {
         payload: {id: this.props.match.params.id}
       });
     }
+
   }
 
 
@@ -79,7 +80,7 @@ export default class BasicForms extends PureComponent {
 
     function handleChange(value) {
       const disvals = [];
-      if (value.length == 2) {
+      if (value.length >= 2) {
         colors.map((n, i) => {
           n.disabled = true;
         });
@@ -146,7 +147,7 @@ export default class BasicForms extends PureComponent {
               label="代表颜色"
             >
               {getFieldDecorator('colorIds', {
-                initialValue:formdate.colorId,
+                initialValue:formdate.color2Id!=undefined?[formdate.colorId+'',formdate.color2Id+'']:[formdate.colorId+''],
                 rules: [{
                   required: true, message: '请输入代表颜色',
                 }],
