@@ -94,7 +94,6 @@ class StandardTable extends PureComponent {
                 <div>
                 <div style={{background: record.colorCode,width:'10px',height:'10px'}}>
                     </div>
-                  <Divider type="vertical"/>
                     <div style={{background: record.color2Code,width:'10px',height:'10px'}}>
                       </div></div>
               )
