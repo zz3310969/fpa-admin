@@ -98,9 +98,20 @@ export default {
       });
       const response = yield call(loadCharacterColor, payload);
       if (response.state == 'success') {
+        let resdata = Object.assign({}, response.data);
+
+        let colorIds = [];
+        if(resdata.colorId != null && resdata.color2Id!=null){
+          colorIds[0] = resdata.colorId+'';
+          colorIds[1] = resdata.color2Id+'';
+        }else if(resdata.colorId != null && resdata.color2Id ==null){
+          colorIds[0] = resdata.colorId+'';
+        }
+        resdata.colorIds = colorIds;
+        console.log(resdata);
         yield put({
           type: 'show',
-          payload: response.data,
+          payload: resdata,
         });
       } else if (response.message) {
         message.error(response.message);
