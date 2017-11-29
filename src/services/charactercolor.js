@@ -15,7 +15,7 @@ export async function addCharacterColor(params) {
 }
 
 export async function updateCharacterColor(params) {
-  return request('/api/fpa/charactercolor', {
+  return request('/api/fpa/charactercolor/'+params['id'], {
     method: 'PUT',
     body: {
       ...params,

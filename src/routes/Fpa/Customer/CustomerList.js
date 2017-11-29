@@ -277,6 +277,7 @@ export default class TableList extends PureComponent {
               data={data}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
+              reLoadList={this.reLoadList}
             />
 
 

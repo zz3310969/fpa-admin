@@ -32,6 +32,9 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'scene/fetch',
     });
+    dispatch({
+      type: 'scene/base',
+    });
   }
   componentWillReceiveProps(nextProps) {
 
@@ -147,6 +150,7 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
+    const { scene: {themes, cardGroups, states} } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
@@ -166,9 +170,11 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="套牌id">
-                  {getFieldDecorator('cardGroupId')(
-                  <Input placeholder="" />
+              <FormItem label="套牌">
+                  {getFieldDecorator('cardGroup')(
+                  <Select>
+                    {cardGroups.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
@@ -189,9 +195,11 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="主题ID">
+              <FormItem label="主题">
                   {getFieldDecorator('themeId')(
-                  <Input placeholder="" />
+                  <Select>
+                    {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
@@ -200,7 +208,10 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="状态">
                   {getFieldDecorator('state')(
-                  <Input placeholder="" />
+                  <Select>
+                    <Select.Option value='' >所有状态</Select.Option>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
@@ -264,6 +275,7 @@ export default class TableList extends PureComponent {
               data={data}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
+              reLoadList={this.reLoadList}
             />
 
 

@@ -87,6 +87,9 @@ class StandardTable extends PureComponent {
           title: '是否可用',
           dataIndex: 'usable',
           key: 'usable',
+          render(val) {
+            return <Badge status={statusMap[val]} text={status[val]} />;
+          }
       },
        {
         title: '操作',

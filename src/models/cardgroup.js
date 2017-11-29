@@ -1,5 +1,5 @@
 import { message } from 'antd';
-
+import {getLocalState } from '../utils/helper';
 import {queryCardGroup,addCardGroup,loadCardGroup,updateCardGroup,removeCardGroup } from '../services/cardgroup';
 
 export default {
@@ -10,6 +10,7 @@ export default {
       list: [],
       pagination: {},
     },
+    states:getLocalState(),
     formdate:{},
     loading: true,
     regularFormSubmitting: false,

@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import {queryScene,addScene,loadScene,updateScene,removeScene } from '../services/scene';
+import {queryScene,addScene,loadScene,updateScene,removeScene,querySceneBase } from '../services/scene';
 
 export default {
   namespace: 'scene',
@@ -12,6 +12,9 @@ export default {
     },
     formdate:{},
     loading: true,
+    cardGroups:[],
+    themes:[],
+    states:[],
     regularFormSubmitting: false,
   },
 
@@ -111,6 +114,17 @@ export default {
         payload: {},
       });
     },
+    *base({ payload }, { call, put }) {
+      const response = yield call(querySceneBase, payload);
+      if(response.state == 'success'){
+        yield put({
+          type: 'load',
+          payload: response.data,
+        });
+      }else{
+        throw response;
+      }
+    },
   },
 
   reducers: {
@@ -118,6 +132,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    load(state, action) {
+      return {
+        ...state,
+        ...action.payload,
       };
     },
     show(state, { payload }) {

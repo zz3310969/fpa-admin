@@ -20,6 +20,7 @@ export default class BasicForms extends PureComponent {
 
   state = {
     onlyread: false,
+    zltshuod :0
   };
 
   componentDidMount() {
@@ -39,8 +40,28 @@ export default class BasicForms extends PureComponent {
         payload: {id: this.props.match.params.id}
       });
     }
+
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {charactercolor: {formdate, colors}} = nextProps;
+    if (formdate.colorId != undefined && formdate.color2Id != undefined && colors.length != 0 && this.state.zltshuod == 0) {
+      colors.map((n, i) => {
+        n.disabled = true;
+      });
+      colors.map((n, i) => {
+        if (n.id == formdate.colorId) {
+          n.disabled = false;
+        }
+        if (n.id == formdate.color2Id) {
+          n.disabled = false;
+        }
+      });
+      this.setState({
+        zltshuod: 1
+      });
+    }
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -146,7 +167,7 @@ export default class BasicForms extends PureComponent {
               label="代表颜色"
             >
               {getFieldDecorator('colorIds', {
-                initialValue:formdate.colorId,
+                initialValue: formdate.colorIds,
                 rules: [{
                   required: true, message: '请输入代表颜色',
                 }],
@@ -173,7 +194,7 @@ export default class BasicForms extends PureComponent {
                   required: true, message: '请输入描述',
                 }],
               })(
-                <TextArea style={{ minHeight: 32 }} placeholder="请输入描述" rows={4} disabled={this.state.onlyread} />
+                <TextArea style={{minHeight: 32}} placeholder="请输入描述" rows={4} disabled={this.state.onlyread}/>
               )}
             </FormItem>
             <FormItem
@@ -181,7 +202,7 @@ export default class BasicForms extends PureComponent {
               label="状态"
             >
               {getFieldDecorator('state', {
-                initialValue:formdate.state!== undefined ?formdate.state+'':'',
+                initialValue: formdate.state !== undefined ? formdate.state + '' : '',
                 rules: [{
                   required: true, message: '请输入状态',
                 }],
