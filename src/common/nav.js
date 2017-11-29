@@ -11,6 +11,7 @@ import CardTestResultList from '../routes/Fpa/CardTestResult/CardTestResultList'
 
 
 import CardGroupList from '../routes/Fpa/CardGroup/CardGroupList';
+import CardGroupAddForm from '../routes/Fpa/CardGroup/CardGroupAddForm';
 
 
 import TransmitTemplateList from '../routes/Fpa/TransmitTemplate/TransmitTemplateList';
@@ -168,8 +169,13 @@ const data = [{
       component: SceneList,
     },{
       name: '卡牌',
-      path: 'card',
+      path: 'cardgroup',
       component: CardGroupList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CardGroupAddForm,
+      }]
     },{
       name: '测试结果',
       path: 'result',

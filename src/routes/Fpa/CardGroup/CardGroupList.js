@@ -203,14 +203,14 @@ export default class TableList extends PureComponent {
 
 
     return (
-      <PageHeaderLayout title="套牌列表">
+      <PageHeaderLayout title="卡牌列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/cardgroup/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/test/cardgroup/add')); console.log('新建')}}>新建</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
