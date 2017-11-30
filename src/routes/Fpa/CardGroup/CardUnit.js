@@ -31,7 +31,7 @@ export default class BasicForms extends PureComponent {
   }
 
   render(){
-
+    const { colors, themes } = this.props;
     const { getFieldDecorator } = this.props.form;
 
     const dataSource = [{
@@ -70,10 +70,11 @@ export default class BasicForms extends PureComponent {
               let imageUrl = text;
               return (
                 <Upload
+                  name="upfile"
                   className={style.avatarUploader}
-                  name="avatar"
                   showUploadList={false}
-                  action="//jsonplaceholder.typicode.com/posts/"
+                  accept="image/*"
+                  action="/api/fpa/pic/upload"
                 >
                   {
                     imageUrl ?
@@ -100,10 +101,7 @@ export default class BasicForms extends PureComponent {
                       rules: [{ required: true, message: '请选择颜色' }],
                     })(
                       <Select >
-                        <Option value="red">红色</Option>
-                        <Option value="yellow">黄色</Option>
-                        <Option value="blue">蓝色</Option>
-                        <Option value="green">绿色</Option>
+                        {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                       </Select>
                     )}
                   </FormItem>
@@ -145,6 +143,7 @@ export default class BasicForms extends PureComponent {
                   className={style.avatarUploader}
                   name="avatar"
                   showUploadList={false}
+                  accept="image/*"
                   action="//jsonplaceholder.typicode.com/posts/"
                 >
                   {
@@ -172,10 +171,7 @@ export default class BasicForms extends PureComponent {
                       rules: [{ required: true, message: '请选择颜色' }],
                     })(
                       <Select >
-                        <Option value="red">红色</Option>
-                        <Option value="yellow">黄色</Option>
-                        <Option value="blue">蓝色</Option>
-                        <Option value="green">绿色</Option>
+                        {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                       </Select>
                     )}
                   </FormItem>
@@ -215,6 +211,7 @@ export default class BasicForms extends PureComponent {
         expandedRowRender={CardThemeHandle}
         className="components-table-demo-nested"
         columns={columns}
+        pagination={false}
       />
     )
   }

@@ -33,3 +33,7 @@ export async function removeCardGroup(params) {
 export async function loadCardGroup(params) {
   return request(`/api/fpa/cardgroup/`+params['id']);
 }
+
+export async function queryCardGroupBase(params) {
+  return request(`/api/fpa/cardgroup/base/`);
+}

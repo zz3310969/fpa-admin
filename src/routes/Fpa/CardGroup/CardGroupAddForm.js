@@ -25,7 +25,9 @@ export default class BasicForms extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-
+    dispatch({
+      type: 'cardgroup/base',
+    });
   }
 
 
@@ -42,7 +44,8 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { cardgroup: { regularFormSubmitting:submitting } } = this.props;
+
+    const { cardgroup: { regularFormSubmitting:submitting, states, colors, themes } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -116,12 +119,19 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入是否可用',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select>
+                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
                 </Col>
             
-              <Col md={24} sm={24}><CardUnit/></Col>
+              <Col md={24} sm={24}>
+              <CardUnit
+                 colors={colors}
+                 themes={themes}
+               />
+              </Col>
               <Col md={25} sm={24}>
               <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 <Button type="primary" htmlType="submit" loading={submitting}>提交</Button>

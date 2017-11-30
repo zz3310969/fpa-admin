@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import {getLocalState } from '../utils/helper';
-import {queryCardGroup,addCardGroup,loadCardGroup,updateCardGroup,removeCardGroup } from '../services/cardgroup';
+import {queryCardGroup,addCardGroup,loadCardGroup,updateCardGroup,removeCardGroup,queryCardGroupBase } from '../services/cardgroup';
 
 export default {
   namespace: 'cardgroup',
@@ -10,7 +10,9 @@ export default {
       list: [],
       pagination: {},
     },
-    states:getLocalState(),
+    states:[],
+    colors:[],
+    themes:[],
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
@@ -111,6 +113,17 @@ export default {
         payload: {},
       });
     },
+    *base({ payload }, { call, put }) {
+      const response = yield call(queryCardGroupBase, payload);
+      if(response.state == 'success'){
+        yield put({
+          type: 'load',
+          payload: response.data,
+        });
+      }else{
+        throw response;
+      }
+    },
   },
 
   reducers: {
@@ -118,6 +131,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    load(state, action) {
+      return {
+        ...state,
+        ...action.payload,
       };
     },
     show(state, { payload }) {
