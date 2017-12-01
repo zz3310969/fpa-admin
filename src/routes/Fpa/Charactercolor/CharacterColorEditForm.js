@@ -43,6 +43,13 @@ export default class BasicForms extends PureComponent {
 
   }
 
+  componentWillUnmount(){
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'charactercolor/clean',
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     const {charactercolor: {formdate, colors}} = nextProps;
     if (formdate.colorId != undefined && formdate.color2Id != undefined && colors.length != 0 && this.state.zltshuod == 0) {

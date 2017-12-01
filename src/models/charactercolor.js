@@ -137,6 +137,12 @@ export default {
         throw response;
       }
     },
+    *clean({ payload }, { call, put }){
+      yield put({
+          type: 'show',
+          payload: {formdate: {},},
+        });
+    },
   },
 
   reducers: {
