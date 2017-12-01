@@ -70,6 +70,9 @@ export default class BasicForms extends PureComponent {
         this.props.dispatch({
           type: 'charactercolor/update',
           payload: values,
+          callback: () => {
+            this.props.dispatch(routerRedux.push('/character/color'));
+          },
         });
       }
     });
@@ -177,6 +180,7 @@ export default class BasicForms extends PureComponent {
                   style={{width: '100%'}}
                   placeholder="请选择代表颜色，最多选两个"
                   onChange={handleChange}
+                  disabled={this.state.onlyread}
                 >
                   {colors.map(d => (<Select.Option key={d.id} disabled={d.disabled}>
                     <div style={{background: d.code}}>{d.display}</div>
@@ -207,7 +211,7 @@ export default class BasicForms extends PureComponent {
                   required: true, message: '请输入状态',
                 }],
               })(
-                <Select>
+                <Select disabled={this.state.onlyread} >
                   {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
                 </Select>
               )}

@@ -55,7 +55,7 @@ export default {
 
       if (callback) callback();
     },
-    *add({ payload }, { call, put }) {
+    *add({ payload, callback }, { call, put }) {
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: true,
@@ -67,6 +67,7 @@ export default {
       });
       if (response.state == 'success') {
         message.success(response.message);
+        if (callback) callback();
       } else if (response.message) {
         message.error(response.message);
       } else {
@@ -85,6 +86,7 @@ export default {
       });
       if (response.state == 'success') {
         message.success(response.message);
+        if (callback) callback();
       } else if (response.message) {
         message.error(response.message);
       } else {

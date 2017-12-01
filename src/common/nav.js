@@ -13,6 +13,8 @@ import CardTestResultList from '../routes/Fpa/CardTestResult/CardTestResultList'
 import CardGroupList from '../routes/Fpa/CardGroup/CardGroupList';
 import CardGroupAddForm from '../routes/Fpa/CardGroup/CardGroupAddForm';
 
+import ShareList from '../routes/Fpa/Share/ShareList';
+
 
 import TransmitTemplateList from '../routes/Fpa/TransmitTemplate/TransmitTemplateList';
 import TransmitTemplateAddForm from '../routes/Fpa/TransmitTemplate/TransmitTemplateAddForm';
@@ -239,6 +241,10 @@ const data = [{
     path: 'scheme',
     icon: 'table',
     children: [{
+      name: '分享记录',
+      path: 'share',
+      component: ShareList,
+    },{
       name: '分享模板管理',
       path: 'transmittemplate',
       component: TransmitTemplateList,

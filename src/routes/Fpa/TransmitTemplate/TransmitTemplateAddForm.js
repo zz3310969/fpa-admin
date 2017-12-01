@@ -35,6 +35,9 @@ export default class BasicForms extends PureComponent {
         this.props.dispatch({
           type: 'transmittemplate/add',
           payload: values,
+          callback: () => {
+            this.props.dispatch(routerRedux.push('/scheme/transmittemplate'));
+          },
         });
       }
     });
@@ -140,6 +143,7 @@ export default class BasicForms extends PureComponent {
                         label="状态"
                 >
                     {getFieldDecorator('state', {
+                    initialValue:states.length >0 ?states[0].code+'':'',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],

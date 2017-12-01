@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,Row,Col,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
@@ -13,7 +13,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 @connect(state => ({
-  character: state.character,
+  share: state.share,
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -32,13 +32,10 @@ export default class BasicForms extends PureComponent {
     const { dispatch } = this.props;
     if(this.props.match.params.id){
       dispatch({
-        type: 'character/fetchBasic',
+        type: 'share/fetchBasic',
         payload:{id:this.props.match.params.id}
       });
-    };
-    dispatch({
-      type: 'character/base',
-    });
+    }
   }
 
 
@@ -48,17 +45,14 @@ export default class BasicForms extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'character/update',
+          type: 'share/update',
           payload: values,
-          callback: () => {
-            this.props.dispatch(routerRedux.push('/character/charactertheme'));
-          },
         });
       }
     });
   }
   render() {
-    const { character: { regularFormSubmitting:submitting, formdate, states, themes, genders, colors } } = this.props;
+    const { share: { regularFormSubmitting:submitting, formdate } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -91,115 +85,89 @@ export default class BasicForms extends PureComponent {
                 {getFieldDecorator('id', {
                   initialValue:formdate.id,
                   rules: [{
-                    required: true, message: '请输入主键',
+                    required: true, message: '请输入id',
                   }],
                 })(
                     <Input type="hidden"/>
                   )}
-              <Row >
-              <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="性格主题名称"
+                  label="分享人"
               >
-                  {getFieldDecorator('name', {
-                    initialValue:formdate.name,
+                  {getFieldDecorator('customerId', {
+                    initialValue:formdate.customerId,
                     rules: [{
-                      required: true, message: '请输入性格主题名称',
+                      required: true, message: '请输入分享人',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              </Col>
-              <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="主题"
+                  label="场景ID"
               >
-                  {getFieldDecorator('themeId', {
-                    initialValue:formdate.themeId !== undefined ?formdate.themeId+'':'',
+                  {getFieldDecorator('sceneId', {
+                    initialValue:formdate.sceneId,
                     rules: [{
-                      required: true, message: '请输入主题',
+                      required: true, message: '请输入场景ID',
                     }],
                   })(
-                  <Select disabled={this.state.onlyread} >
-                    {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              </Col>
-              </Row>
-              <Row >
-              <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="性格色彩"
+                  label="分享路径"
               >
-                  {getFieldDecorator('characterColorId', {
-                    initialValue:formdate.characterColorId !== undefined ?formdate.characterColorId+'':'',
+                  {getFieldDecorator('path', {
+                    initialValue:formdate.path,
                     rules: [{
-                      required: true, message: '请输入性格色彩',
+                      required: true, message: '请输入分享路径',
                     }],
                   })(
-                  <Select disabled={this.state.onlyread} >
-                    {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              </Col>
-              <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="性别"
+                  label="模板id"
               >
-                  {getFieldDecorator('gender', {
-                    initialValue:formdate.gender !== undefined ?formdate.gender+'':'',
+                  {getFieldDecorator('templateId', {
+                    initialValue:formdate.templateId,
                     rules: [{
-                      required: true, message: '请输入性别',
+                      required: true, message: '请输入模板id',
                     }],
                   })(
-                  <Select disabled={this.state.onlyread} >
-                    {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              </Col>
-              </Row>
-              <Row >
-              <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="状态"
+                  label="结果id"
               >
-                  {getFieldDecorator('state', {
-                    initialValue:formdate.state !== undefined ?formdate.state+'':'',
+                  {getFieldDecorator('resultId', {
+                    initialValue:formdate.resultId,
                     rules: [{
-                      required: true, message: '请输入状态',
+                      required: true, message: '请输入结果id',
                     }],
                   })(
-                  <Select disabled={this.state.onlyread} >
-                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              </Col>
-              <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="描述"
+                  label="分享时间"
               >
-                  {getFieldDecorator('description', {
-                    initialValue:formdate.description,
+                  {getFieldDecorator('shareTime', {
+                    initialValue:formdate.shareTime,
                     rules: [{
-                      required: true, message: '请输入描述',
+                      required: true, message: '请输入分享时间',
                     }],
                   })(
-                    <TextArea placeholder="" disabled={this.state.onlyread} autosize={{ minRows: 4, maxRows: 8 }}/>
+                    <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              </Col>
-              </Row>
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
@@ -209,7 +177,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/character/charactertheme'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/share'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

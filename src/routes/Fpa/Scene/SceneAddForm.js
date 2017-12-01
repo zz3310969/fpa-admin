@@ -138,7 +138,7 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="主题ID"
+                        label="主题"
                 >
                     {getFieldDecorator('themeId', {
                     rules: [{
@@ -153,6 +153,7 @@ export default class BasicForms extends PureComponent {
                         label="状态"
                 >
                     {getFieldDecorator('state', {
+                    initialValue:states.length >0 ?states[0].code+'':'',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],

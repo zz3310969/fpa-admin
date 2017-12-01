@@ -13,7 +13,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 @connect(state => ({
-  theme: state.theme,
+  share: state.share,
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -33,17 +33,14 @@ export default class BasicForms extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'theme/add',
+          type: 'share/add',
           payload: values,
-          callback: () => {
-            this.props.dispatch(routerRedux.push('/character/theme'));
-          },
         });
       }
     });
   }
   render() {
-    const { theme: { regularFormSubmitting:submitting, states } } = this.props;
+    const { share: { regularFormSubmitting:submitting } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -80,11 +77,11 @@ export default class BasicForms extends PureComponent {
                     )}
                 <FormItem
                         {...formItemLayout}
-                        label="主题编号"
+                        label="分享人"
                 >
-                    {getFieldDecorator('numb', {
+                    {getFieldDecorator('customerId', {
                     rules: [{
-                      required: true, message: '请输入主题编号',
+                      required: true, message: '请输入分享人',
                     }],
                     })(
                     <Input placeholder="" />
@@ -92,11 +89,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="主题名称"
+                        label="场景ID"
                 >
-                    {getFieldDecorator('name', {
+                    {getFieldDecorator('sceneId', {
                     rules: [{
-                      required: true, message: '请输入主题名称',
+                      required: true, message: '请输入场景ID',
                     }],
                     })(
                     <Input placeholder="" />
@@ -104,17 +101,50 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="状态"
+                        label="分享路径"
                 >
-                    {getFieldDecorator('state', {
-                    initialValue:states.length >0 ?states[0].code+'':'',
+                    {getFieldDecorator('path', {
                     rules: [{
-                      required: true, message: '请输入状态',
+                      required: true, message: '请输入分享路径',
                     }],
                     })(
-                    <Select>
-                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                    </Select>
+                    <Input placeholder="" />
+                    )}
+                </FormItem>
+                <FormItem
+                        {...formItemLayout}
+                        label="模板id"
+                >
+                    {getFieldDecorator('templateId', {
+                    rules: [{
+                      required: true, message: '请输入模板id',
+                    }],
+                    })(
+                    <Input placeholder="" />
+                    )}
+                </FormItem>
+                <FormItem
+                        {...formItemLayout}
+                        label="结果id"
+                >
+                    {getFieldDecorator('resultId', {
+                    rules: [{
+                      required: true, message: '请输入结果id',
+                    }],
+                    })(
+                    <Input placeholder="" />
+                    )}
+                </FormItem>
+                <FormItem
+                        {...formItemLayout}
+                        label="分享时间"
+                >
+                    {getFieldDecorator('shareTime', {
+                    rules: [{
+                      required: true, message: '请输入分享时间',
+                    }],
+                    })(
+                    <Input placeholder="" />
                     )}
                 </FormItem>
             
@@ -122,7 +152,7 @@ export default class BasicForms extends PureComponent {
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-                <Link to={'/character/theme'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/share'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

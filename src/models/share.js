@@ -1,10 +1,9 @@
 import { message } from 'antd';
 
-import {queryTransmitTemplate,addTransmitTemplate,loadTransmitTemplate,updateTransmitTemplate,removeTransmitTemplate } from '../services/transmittemplate';
-import {getLocalState } from '../utils/helper';
+import {queryShare,addShare,loadShare,updateShare,removeShare,queryShareBase } from '../services/share';
 
 export default {
-  namespace: 'transmittemplate',
+  namespace: 'share',
 
   state: {
     data: {
@@ -14,7 +13,8 @@ export default {
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
-    states:getLocalState(),
+    scenes:[],
+    templates:[],
   },
 
   effects: {
@@ -23,7 +23,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryTransmitTemplate, payload);
+      const response = yield call(queryShare, payload);
       if(response.state == 'success'){
         yield put({
           type: 'save',
@@ -42,7 +42,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(removeTransmitTemplate, payload);
+      const response = yield call(removeShare, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -54,38 +54,36 @@ export default {
 
       if (callback) callback();
     },
-    *add({ payload, callback }, { call, put }) {
+    *add({ payload }, { call, put }) {
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(addTransmitTemplate, payload);
+      const response = yield call(addShare, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
       });
       if(response.state == 'success'){
         message.success(response.message);
-        if (callback) callback();
       }else if(response.message){
         message.error(response.message);
       }else{
         message.error('提交失败');
       }
     },
-    *update({ payload, callback }, { call, put }) {
+    *update({ payload }, { call, put }) {
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(updateTransmitTemplate, payload);
+      const response = yield call(updateShare, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
       });
       if(response.state == 'success'){
         message.success(response.message);
-        if (callback) callback();
       }else if(response.message){
         message.error(response.message);
       }else{
@@ -97,7 +95,7 @@ export default {
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadTransmitTemplate,payload);
+      const response = yield call(loadShare,payload);
       if(response.state == 'success'){
         yield put({
           type: 'show',
@@ -108,11 +106,21 @@ export default {
       }else{
         message.error('提交失败');
       }
-      
       yield put({
         type: 'changeLoading',
         payload: {},
       });
+    },
+    *base({ payload }, { call, put }) {
+      const response = yield call(queryShareBase, payload);
+      if(response.state == 'success'){
+        yield put({
+          type: 'load',
+          payload: response.data,
+        });
+      }else{
+        throw response;
+      }
     },
   },
 
@@ -121,6 +129,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    load(state, action) {
+      return {
+        ...state,
+        ...action.payload,
       };
     },
     show(state, { payload }) {

@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,Table } from 'antd';
-import CharacterTable from './CharacterTable';
+import ShareTable from './ShareTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
 import styles from '../defaultTableList.less';
-
+const { MonthPicker, RangePicker } = DatePicker;
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
@@ -15,7 +15,7 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 
 @connect(state => ({
-  character: state.character,
+  share: state.share,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -30,10 +30,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'character/fetch',
-    });
-    dispatch({
-      type: 'character/base',
+      type: 'share/fetch',
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -64,7 +61,7 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'character/fetch',
+      type: 'share/fetch',
       payload: params,
     });
   }
@@ -73,7 +70,7 @@ export default class TableList extends PureComponent {
     const { form, dispatch } = this.props;
     form.resetFields();
     dispatch({
-      type: 'character/fetch',
+      type: 'share/fetch',
       payload: {},
     });
   }
@@ -88,7 +85,7 @@ export default class TableList extends PureComponent {
       ...formValues,
     };
     dispatch({
-      type: 'character/fetch',
+      type: 'share/fetch',
       payload: params,
     });
   }
@@ -102,7 +99,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'character/remove',
+          type: 'share/remove',
           payload: {
             ids: selectedRows.map(row => row.id).join(','),
           },
@@ -135,6 +132,9 @@ export default class TableList extends PureComponent {
       const values = {
         ...fieldsValue,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        shareTimeStart:fieldsValue.shareTime && fieldsValue.shareTime[0].format('YYYY-MM-DD'),
+        shareTimeEnd:fieldsValue.shareTime && fieldsValue.shareTime[1].format('YYYY-MM-DD'),
+        shareTime:'',
       };
 
       this.setState({
@@ -142,7 +142,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'character/fetch',
+        type: 'share/fetch',
         payload: values,
       });
     });
@@ -150,59 +150,30 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
-    const { character: {states, themes,cardUnits, genders, colors } } = this.props;
+    const { share: { scenes, templates } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="性格主题名称">
-                  {getFieldDecorator('name')(
+              <FormItem label="分享人">
+                  {getFieldDecorator('customerId')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="主题">
-                  {getFieldDecorator('themeId')(
+              <FormItem label="场景">
+                  {getFieldDecorator('sceneId')(
                   <Select>
-                    {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    {scenes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                   </Select>
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="性格色彩">
-                  {getFieldDecorator('characterColorId')(
-                  <Select>
-                    {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="性别">
-                  {getFieldDecorator('gender')(
-                  <Select>
-                    {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="状态">
-                  {getFieldDecorator('state')(
-                  <Select>
-                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="描述">
-                  {getFieldDecorator('description')(
+              <FormItem label="分享路径">
+                  {getFieldDecorator('path')(
                   <Input placeholder="" />
                   )}
               </FormItem>
@@ -210,11 +181,18 @@ export default class TableList extends PureComponent {
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="所属卡牌">
-                  {getFieldDecorator('cardUnitId')(
+              <FormItem label="模板">
+                  {getFieldDecorator('templateId')(
                   <Select>
-                    {cardUnits.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    {templates.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                   </Select>
+                  )}
+              </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+              <FormItem label="分享时间">
+                  {getFieldDecorator('shareTime')(
+                  <RangePicker style={{ width: '100%' }}/>
                   )}
               </FormItem>
               </Col>
@@ -224,7 +202,7 @@ export default class TableList extends PureComponent {
                     <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
                   </span>
               </Col>
-            </Row >
+          </Row >
 
       </Form>
     );
@@ -237,7 +215,7 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { character: { loading: characterLoading, data } } = this.props;
+    const { share: { loading: shareLoading, data } } = this.props;
     const { selectedRows } = this.state;
 
     const menu = (
@@ -249,14 +227,14 @@ export default class TableList extends PureComponent {
 
 
     return (
-      <PageHeaderLayout title="性格列表">
+      <PageHeaderLayout title="分享记录列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/character/charactertheme/add'));}}>添加性格主题</Button>
+              {/*<Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/share/add')); console.log('新建')}}>新建</Button>*/}
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -272,9 +250,9 @@ export default class TableList extends PureComponent {
 
 
 
-            <CharacterTable
+            <ShareTable
               selectedRows={selectedRows}
-              loading={characterLoading}
+              loading={shareLoading}
               data={data}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}

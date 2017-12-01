@@ -35,6 +35,9 @@ export default class BasicForms extends PureComponent {
         this.props.dispatch({
           type: 'character/add',
           payload: values,
+          callback: () => {
+            this.props.dispatch(routerRedux.push('/character/charactertheme'));
+          },
         });
       }
     });
@@ -93,7 +96,7 @@ export default class BasicForms extends PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
-                  label="主题ID"
+                  label="主题"
                 >
                   {getFieldDecorator('themeId', {
                     rules: [{
@@ -115,7 +118,7 @@ export default class BasicForms extends PureComponent {
                 >
                   {getFieldDecorator('characterColorId', {
                     rules: [{
-                      required: true, message: '请输入性格色彩ID',
+                      required: true, message: '请输入性格色彩',
                     }],
                     })(
                       <Select>
@@ -148,6 +151,7 @@ export default class BasicForms extends PureComponent {
                   label="状态"
                 >
                   {getFieldDecorator('state', {
+                    initialValue:states.length >0 ?states[0].code+'':'',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],
@@ -168,7 +172,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入描述',
                     }],
                     })(
-                      <TextArea placeholder="" />
+                      <TextArea placeholder="" autosize={{ minRows: 4, maxRows: 8 }}/>
                     )}
                 </FormItem>
               </Col>

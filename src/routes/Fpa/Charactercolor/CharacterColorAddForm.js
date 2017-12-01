@@ -35,6 +35,9 @@ export default class BasicForms extends PureComponent {
         this.props.dispatch({
           type: 'charactercolor/add',
           payload: values,
+          callback: () => {
+            this.props.dispatch(routerRedux.push('/character/color'));
+          },
         });
       }
     });
@@ -158,6 +161,7 @@ export default class BasicForms extends PureComponent {
               label="状态"
             >
               {getFieldDecorator('state', {
+                initialValue:states.length >0 ?states[0].code+'':'',
                 rules: [{
                   required: true, message: '请选择状态',
                 }],

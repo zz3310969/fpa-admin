@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react';
 import moment from 'moment';
 import {routerRedux, Link} from 'dva/router';
 import {connect} from 'dva';
-import {Table, Alert, Badge, Divider, Modal} from 'antd';
+import {Table, Alert, Badge, Divider, Modal,Tooltip} from 'antd';
 import styles from '../defaultTable.less';
 
 const confirm = Modal.confirm;
@@ -92,13 +92,13 @@ class StandardTable extends PureComponent {
           if(record.color2Id != null){
               return (
                 <div>
-                <div style={{background: record.colorCode,width:'10px',height:'10px'}}>
+                <div style={{background: record.colorCode,width:'20px',height:'20px'}}>
                     </div>
-                    <div style={{background: record.color2Code,width:'10px',height:'10px'}}>
+                    <div style={{background: record.color2Code,width:'20px',height:'20px'}}>
                       </div></div>
               )
                    }else {
-                  return (<div style={{background: record.colorCode,width:'10px',height:'10px'}}>
+                  return (<div style={{background: record.colorCode,width:'20px',height:'20px'}}>
                                   </div>)
             }
         },
@@ -107,6 +107,15 @@ class StandardTable extends PureComponent {
         title: '描述',
         dataIndex: 'description',
         key: 'description',
+        render(val) {
+            var str = '';
+            if(val !== undefined && val.length > 10){
+              str = val.substring(0,10)+'...';
+            }else {
+              str = val;
+            }
+            return <Tooltip title={val}><span>{str}</span></Tooltip>;
+        },
       },
       {
         title: '状态',

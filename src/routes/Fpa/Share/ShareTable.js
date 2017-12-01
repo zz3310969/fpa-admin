@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { routerRedux, Link } from 'dva/router';
 import { connect } from 'dva';
-import { Table, Alert, Badge, Divider,Modal,Tooltip } from 'antd';
+import { Table, Alert, Badge, Divider,Modal } from 'antd';
 import styles from '../defaultTable.less';
 const confirm = Modal.confirm;
 
 const statusMap = ['error','success'];
 
 @connect(state => ({
-  character: state.character,
+  share: state.share,
 }))
 class StandardTable extends PureComponent {
   state = {
@@ -44,10 +44,6 @@ class StandardTable extends PureComponent {
     this.handleRowSelectChange([], []);
   }
 
-  onRowMouseEnter = (record, index, event)=>{
-    
-  }
-
   deleteHandle(record) {
     const { dispatch,reLoadList } = this.props;
     return function() {
@@ -56,13 +52,13 @@ class StandardTable extends PureComponent {
             content: '确认删除吗？',
             onOk() {
               dispatch({
-                type: 'character/remove',
-                payload: {
-                  id: record.id,
-                },
-                callback: () => {
-                  reLoadList();
-                },
+              type: 'share/remove',
+              payload: {
+                id: record.id,
+              },
+            callback: () => {
+              reLoadList();
+            },
             });
           },
           onCancel() {}
@@ -78,59 +74,35 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '性格主题名称',
-          dataIndex: 'name',
-          key: 'name',
+          title: '分享人',
+          dataIndex: 'customerName',
+          key: 'customerName',
       },
       {
-          title: '所属主题',
-          dataIndex: 'themeName',
-          key: 'themeName',
+          title: '场景',
+          dataIndex: 'sceneName',
+          key: 'sceneName',
       },
       {
-          title: '适用性别',
-          dataIndex: 'genderEnum',
-          key: 'genderEnum',
-          render(val) {
-            return val !== undefined ?val.display:'';
-          },
+          title: '分享路径',
+          dataIndex: 'path',
+          key: 'path',
       },
       {
-          title: '适用性格',
-          dataIndex: 'characterColorName',
-          key: 'characterColorName',
-      }, 
-      {
-          title: '状态',
-          dataIndex: 'state',
-          key: 'state',
-          render(val) {
-            return <Badge status={statusMap[val]} text={status[val]} />;
-          },
+          title: '模板',
+          dataIndex: 'templateName',
+          key: 'templateName',
       },
       {
-          title: '描述',
-          dataIndex: 'description',
-          key: 'description',
-          render(val) {
-            var str = '';
-            if(val !== undefined && val.length > 10){
-              str = val.substring(0,10)+'...';
-            }else {
-              str = val;
-            }
-            return <Tooltip title={val}><span>{str}</span></Tooltip>;
-          },
+          title: '分享时间',
+          dataIndex: 'shareTime',
+          key: 'shareTime',
       },
        {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/character/charactertheme/edit/'+record.id+'?read=true'}>查看</Link>
-              <Divider type="vertical" />
-              <Link to={'/character/charactertheme/edit/'+record.id}>编辑</Link>
-              <Divider type="vertical" />
-              <a onClick={this.deleteHandle(record, index)}>删除</a>
+              <Link to={'/share/edit/'+record.resultId+'?read=true'}>查看结果</Link>
           </div>
         ),
       },];
@@ -172,7 +144,6 @@ class StandardTable extends PureComponent {
           columns={columns}
           pagination={paginationProps}
           onChange={this.handleTableChange}
-          onRowMouseEnter={this.onRowMouseEnter}
         />
       </div>
     );

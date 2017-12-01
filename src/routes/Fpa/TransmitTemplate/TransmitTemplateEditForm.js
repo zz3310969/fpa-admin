@@ -47,6 +47,9 @@ export default class BasicForms extends PureComponent {
         this.props.dispatch({
           type: 'transmittemplate/update',
           payload: values,
+          callback: () => {
+            this.props.dispatch(routerRedux.push('/scheme/transmittemplate'));
+          },
         });
       }
     });
