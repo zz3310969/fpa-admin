@@ -156,7 +156,7 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="性格主题名称">
+              <FormItem label="主题名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
@@ -172,7 +172,7 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="性格色彩">
+              <FormItem label="所属性格">
                   {getFieldDecorator('characterColorId')(
                   <Select>
                     {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
@@ -183,7 +183,7 @@ export default class TableList extends PureComponent {
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="性别">
+              <FormItem label="适用性别">
                   {getFieldDecorator('gender')(
                   <Select>
                     {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
@@ -201,36 +201,17 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="描述">
-                  {getFieldDecorator('description')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="所属卡牌">
-                  {getFieldDecorator('cardUnitId')(
-                  <Select>
-                    {cardUnits.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
               <span className={styles.submitButtons}>
                     <Button type="primary" htmlType="submit">查询</Button>
                     <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
                   </span>
               </Col>
-            </Row >
-
+           </Row >
       </Form>
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -284,7 +265,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
