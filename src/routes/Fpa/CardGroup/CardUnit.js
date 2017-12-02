@@ -100,7 +100,7 @@ export default class BasicForms extends PureComponent {
                     {getFieldDecorator('colorId', {
                       rules: [{ required: true, message: '请选择颜色' }],
                     })(
-                      <Select >
+                      <Select size="small">
                         {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                       </Select>
                     )}
@@ -114,7 +114,7 @@ export default class BasicForms extends PureComponent {
                     {getFieldDecorator('score', {
                       rules: [{ required: true, message: '请输入分值!' }],
                     })(
-                      <Input />
+                      <Input size="small"/>
                     )}
                   </FormItem>
                   <FormItem
@@ -126,7 +126,7 @@ export default class BasicForms extends PureComponent {
                     {getFieldDecorator('name', {
                       rules: [{ required: true, message: '请输入名称' }],
                     })(
-                      <Input />
+                      <Input size="small"/>
                     )}
                   </FormItem>
                 </Form>
@@ -170,7 +170,7 @@ export default class BasicForms extends PureComponent {
                     {getFieldDecorator('colorId', {
                       rules: [{ required: true, message: '请选择颜色' }],
                     })(
-                      <Select >
+                      <Select size="small">
                         {colors.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                       </Select>
                     )}
@@ -184,7 +184,7 @@ export default class BasicForms extends PureComponent {
                     {getFieldDecorator('score', {
                       rules: [{ required: true, message: '请输入分值!' }],
                     })(
-                      <Input />
+                      <Input size="small"/>
                     )}
                   </FormItem>
                   <FormItem
@@ -196,7 +196,7 @@ export default class BasicForms extends PureComponent {
                     {getFieldDecorator('name', {
                       rules: [{ required: true, message: '请输入名称' }],
                     })(
-                      <Input />
+                      <Input size="small"/>
                     )}
                   </FormItem>
                 </Form>

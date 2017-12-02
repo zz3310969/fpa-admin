@@ -84,35 +84,35 @@ export default class BasicForms extends PureComponent {
                 <Col md={12} sm={12}>
                 <FormItem
                         {...formItemLayout}
-                        label="名称"
+                        label="卡牌名称"
                 >
                     {getFieldDecorator('name', {
                     rules: [{
-                      required: true, message: '请输入名称',
+                      required: true, message: '请输入卡牌名称',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入卡牌名称" />
                     )}
                 </FormItem>
                 </Col>
                 <Col md={12} sm={12}>
                 <FormItem
                         {...formItemLayout}
-                        label="张数"
+                        label="卡牌张数"
                 >
                     {getFieldDecorator('amount', {
                     rules: [{
-                      required: true, message: '请输入张数',
+                      required: true, message: '请添加卡牌，根据卡牌自动计算',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="根据卡牌自动计算" disabled="true"/>
                     )}
                 </FormItem>
                 </Col>
                 <Col md={12} sm={12}>
                 <FormItem
                         {...formItemLayout}
-                        label="是否可用"
+                        label="卡牌状态"
                 >
                     {getFieldDecorator('usable', {
                     rules: [{
@@ -125,7 +125,7 @@ export default class BasicForms extends PureComponent {
                     )}
                 </FormItem>
                 </Col>
-            
+
               <Col md={24} sm={24}>
               <CardUnit
                  colors={colors}

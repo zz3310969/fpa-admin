@@ -74,17 +74,17 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '名称',
+          title: '卡牌名称',
           dataIndex: 'name',
           key: 'name',
       },
       {
-          title: '张数',
+          title: '卡牌张数',
           dataIndex: 'amount',
           key: 'amount',
       },
       {
-          title: '是否可用',
+          title: '卡牌状态',
           dataIndex: 'usable',
           key: 'usable',
           render(val) {
@@ -125,7 +125,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}
