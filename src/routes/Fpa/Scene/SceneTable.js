@@ -84,6 +84,16 @@ class StandardTable extends PureComponent {
           key: 'numb',
       },
       {
+        title: '测试主题',
+        dataIndex: 'themeName',
+        key: 'themeName',
+      },
+      {
+        title: '版本',
+        dataIndex: 'version',
+        key: 'version',
+      },
+      {
           title: '选用卡牌',
           dataIndex: 'cardGroupName',
           key: 'cardGroupName',
@@ -94,17 +104,7 @@ class StandardTable extends PureComponent {
           key: 'repeatCount',
       },
       {
-          title: '场景版本',
-          dataIndex: 'version',
-          key: 'version',
-      },
-      {
-          title: '测试主题',
-          dataIndex: 'themeName',
-          key: 'themeName',
-      },
-      {
-          title: '场景状态',
+          title: '状态',
           dataIndex: 'state',
           key: 'state',
           render(val) {

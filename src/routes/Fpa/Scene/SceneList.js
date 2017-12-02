@@ -188,7 +188,7 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="场景版本">
+              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;版本">
                   {getFieldDecorator('version')(
                   <Input placeholder="" />
                   )}
@@ -206,7 +206,7 @@ export default class TableList extends PureComponent {
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="场景状态">
+              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
                   {getFieldDecorator('state')(
                   <Select>
                     <Select.Option value='' >所有状态</Select.Option>

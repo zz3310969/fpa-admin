@@ -156,14 +156,14 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="分享人">
+              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;分享人">
                   {getFieldDecorator('customerId')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="场景">
+              <FormItem label="分享场景">
                   {getFieldDecorator('sceneId')(
                   <Select>
                     {scenes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
@@ -172,27 +172,20 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="分享路径">
-                  {getFieldDecorator('path')(
-                  <Input placeholder="" />
+                <FormItem label="分享时间">
+                  {getFieldDecorator('shareTime')(
+                    <RangePicker style={{ width: '100%' }}/>
                   )}
-              </FormItem>
+                </FormItem>
               </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="模板">
+              <FormItem label="分享模板">
                   {getFieldDecorator('templateId')(
                   <Select>
                     {templates.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                   </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="分享时间">
-                  {getFieldDecorator('shareTime')(
-                  <RangePicker style={{ width: '100%' }}/>
                   )}
               </FormItem>
               </Col>
@@ -208,7 +201,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -262,7 +255,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
