@@ -45,7 +45,7 @@ class StandardTable extends PureComponent {
   }
 
   onRowMouseEnter = (record, index, event)=>{
-    
+
   }
 
   deleteHandle(record) {
@@ -78,12 +78,12 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '性格主题名称',
+          title: '主题名称',
           dataIndex: 'name',
           key: 'name',
       },
       {
-          title: '所属主题',
+          title: '主题',
           dataIndex: 'themeName',
           key: 'themeName',
       },
@@ -96,10 +96,10 @@ class StandardTable extends PureComponent {
           },
       },
       {
-          title: '适用性格',
+          title: '所属性格',
           dataIndex: 'characterColorName',
           key: 'characterColorName',
-      }, 
+      },
       {
           title: '状态',
           dataIndex: 'state',
@@ -156,7 +156,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}
