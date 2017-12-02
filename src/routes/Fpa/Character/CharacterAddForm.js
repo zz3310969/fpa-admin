@@ -82,11 +82,11 @@ export default class BasicForms extends PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
-                  label="性格主题名称"
+                  label="主题名称"
                 >
                   {getFieldDecorator('name', {
                     rules: [{
-                      required: true, message: '请输入性格主题名称',
+                      required: true, message: '请输入主题名称',
                     }],
                     })(
                       <Input placeholder="" />
@@ -114,11 +114,11 @@ export default class BasicForms extends PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
-                  label="性格色彩"
+                  label="所属性格"
                 >
                   {getFieldDecorator('characterColorId', {
                     rules: [{
-                      required: true, message: '请输入性格色彩',
+                      required: true, message: '请选择所属性格',
                     }],
                     })(
                       <Select>
@@ -130,11 +130,11 @@ export default class BasicForms extends PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
-                  label="性别"
+                  label="适用性别"
                 >
                   {getFieldDecorator('gender', {
                     rules: [{
-                      required: true, message: '请输入性别',
+                      required: true, message: '请选择适用性别',
                     }],
                     })(
                       <Select>
@@ -153,7 +153,7 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('state', {
                     initialValue:states.length >0 ?states[0].code+'':'',
                     rules: [{
-                      required: true, message: '请输入状态',
+                      required: true, message: '请选择状态',
                     }],
                     })(
                       <Select>
