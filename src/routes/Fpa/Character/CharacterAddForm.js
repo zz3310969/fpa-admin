@@ -86,7 +86,7 @@ export default class BasicForms extends PureComponent {
                 >
                   {getFieldDecorator('name', {
                     rules: [{
-                      required: true, message: '请输入主题名称',
+                      required: true, message: '请选择主题名称',
                     }],
                     })(
                       <Input placeholder="" />

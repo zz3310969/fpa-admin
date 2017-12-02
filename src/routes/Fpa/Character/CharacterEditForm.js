@@ -100,12 +100,12 @@ export default class BasicForms extends PureComponent {
               <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="性格主题名称"
+                  label="主题名称"
               >
                   {getFieldDecorator('name', {
                     initialValue:formdate.name,
                     rules: [{
-                      required: true, message: '请输入性格主题名称',
+                      required: true, message: '请输入主题名称',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -120,7 +120,7 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('themeId', {
                     initialValue:formdate.themeId !== undefined ?formdate.themeId+'':'',
                     rules: [{
-                      required: true, message: '请输入主题',
+                      required: true, message: '请选择主题',
                     }],
                   })(
                   <Select disabled={this.state.onlyread} >
@@ -134,12 +134,12 @@ export default class BasicForms extends PureComponent {
               <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="性格色彩"
+                  label="所属性格"
               >
                   {getFieldDecorator('characterColorId', {
                     initialValue:formdate.characterColorId !== undefined ?formdate.characterColorId+'':'',
                     rules: [{
-                      required: true, message: '请输入性格色彩',
+                      required: true, message: '请选择性格色彩',
                     }],
                   })(
                   <Select disabled={this.state.onlyread} >
@@ -151,12 +151,12 @@ export default class BasicForms extends PureComponent {
               <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="性别"
+                  label="适用性别"
               >
                   {getFieldDecorator('gender', {
                     initialValue:formdate.gender !== undefined ?formdate.gender+'':'',
                     rules: [{
-                      required: true, message: '请输入性别',
+                      required: true, message: '请选择适用性别',
                     }],
                   })(
                   <Select disabled={this.state.onlyread} >
@@ -175,7 +175,7 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('state', {
                     initialValue:formdate.state !== undefined ?formdate.state+'':'',
                     rules: [{
-                      required: true, message: '请输入状态',
+                      required: true, message: '请选择状态',
                     }],
                   })(
                   <Select disabled={this.state.onlyread} >
@@ -200,7 +200,7 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               </Col>
               </Row>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
                 this.state.onlyread ?'':(
