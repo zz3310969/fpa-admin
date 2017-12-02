@@ -156,21 +156,21 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="名称">
+              <FormItem label="场景名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="编号">
+              <FormItem label="场景编号">
                   {getFieldDecorator('numb')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="套牌">
+              <FormItem label="选用卡牌">
                   {getFieldDecorator('cardGroup')(
                   <Select>
                     {cardGroups.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
@@ -181,21 +181,21 @@ export default class TableList extends PureComponent {
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="可重复次数">
+              <FormItem label="重用次数">
                   {getFieldDecorator('repeatCount')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="版本">
+              <FormItem label="场景版本">
                   {getFieldDecorator('version')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="主题">
+              <FormItem label="测试主题">
                   {getFieldDecorator('themeId')(
                   <Select>
                     {themes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
@@ -206,7 +206,7 @@ export default class TableList extends PureComponent {
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="状态">
+              <FormItem label="场景状态">
                   {getFieldDecorator('state')(
                   <Select>
                     <Select.Option value='' >所有状态</Select.Option>
@@ -227,7 +227,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -253,7 +253,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/character/scene/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/character/scene/add')); console.log('添加场景')}}>添加场景</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -281,7 +281,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
