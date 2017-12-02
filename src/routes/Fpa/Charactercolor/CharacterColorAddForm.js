@@ -101,11 +101,11 @@ export default class BasicForms extends PureComponent {
             )}
             <FormItem
               {...formItemLayout}
-              label="编号"
+              label="性格编号"
             >
               {getFieldDecorator('numb', {
                 rules: [{
-                  required: true, message: '请输入编号',
+                  required: true, message: '请输入性格编号',
                 }],
               })(
                 <Input placeholder="" />
@@ -113,11 +113,11 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="名称"
+              label="性格名称"
             >
               {getFieldDecorator('name', {
                 rules: [{
-                  required: true, message: '请输入名称',
+                  required: true, message: '请输入性格名称',
                 }],
               })(
                 <Input placeholder="" />
@@ -129,7 +129,7 @@ export default class BasicForms extends PureComponent {
             >
               {getFieldDecorator('colorIds', {
                 rules: [{
-                  required: true, message: '请输入代表颜色',
+                  required: true, message: '请选择代表颜色',
                 }],
               })(
                 <Select
@@ -146,14 +146,14 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="描述"
+              label="定义"
             >
               {getFieldDecorator('description', {
                 rules: [{
-                  required: true, message: '请输入描述',
+                  required: true, message: '请输入定义',
                 }],
               })(
-                <TextArea style={{ minHeight: 32 }} placeholder="请输入描述" rows={4} />
+                <TextArea style={{ minHeight: 32 }} placeholder="请输入定义" rows={4} />
               )}
             </FormItem>
             <FormItem

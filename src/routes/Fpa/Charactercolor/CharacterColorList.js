@@ -155,9 +155,9 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="名称">
+            <FormItem label="性格名称">
               {getFieldDecorator('name')(
-                <Input placeholder="请输入" />
+                <Input placeholder="请输入性格名称" />
                   )}
             </FormItem>
           </Col>
@@ -206,7 +206,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => { this.props.dispatch(routerRedux.push('/character/color/add')); console.log('新建'); }}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => { this.props.dispatch(routerRedux.push('/character/color/add')); console.log('添加性格'); }}>添加性格</Button>
               {
                 selectedRows.length > 0 && (
                   <span>

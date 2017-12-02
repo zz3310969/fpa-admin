@@ -148,12 +148,12 @@ export default class BasicForms extends PureComponent {
             )}
             <FormItem
               {...formItemLayout}
-              label="编号"
+              label="性格编号"
             >
               {getFieldDecorator('numb', {
                 initialValue: formdate.numb,
                 rules: [{
-                  required: true, message: '请输入编号',
+                  required: true, message: '请输入性格编号',
                 }],
               })(
                 <Input placeholder="" disabled={this.state.onlyread}/>
@@ -161,12 +161,12 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="名称"
+              label="性格名称"
             >
               {getFieldDecorator('name', {
                 initialValue: formdate.name,
                 rules: [{
-                  required: true, message: '请输入名称',
+                  required: true, message: '请输入性格名称',
                 }],
               })(
                 <Input placeholder="" disabled={this.state.onlyread}/>
@@ -197,15 +197,15 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="描述"
+              label="定义"
             >
               {getFieldDecorator('description', {
                 initialValue: formdate.description,
                 rules: [{
-                  required: true, message: '请输入描述',
+                  required: true, message: '请输入定义',
                 }],
               })(
-                <TextArea style={{minHeight: 32}} placeholder="请输入描述" rows={4} disabled={this.state.onlyread}/>
+                <TextArea style={{minHeight: 32}} placeholder="请输入定义" rows={4} disabled={this.state.onlyread}/>
               )}
             </FormItem>
             <FormItem
@@ -215,7 +215,7 @@ export default class BasicForms extends PureComponent {
               {getFieldDecorator('state', {
                 initialValue: formdate.state !== undefined ? formdate.state + '' : '',
                 rules: [{
-                  required: true, message: '请输入状态',
+                  required: true, message: '请选择状态',
                 }],
               })(
                 <Select disabled={this.state.onlyread} >

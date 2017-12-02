@@ -75,12 +75,12 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-        title: '编号',
+        title: '性格编号',
         dataIndex: 'numb',
         key: 'numb',
       },
       {
-        title: '名称',
+        title: '性格名称',
         dataIndex: 'name',
         key: 'name',
       },
@@ -104,7 +104,7 @@ class StandardTable extends PureComponent {
         },
       },
       {
-        title: '描述',
+        title: '定义',
         dataIndex: 'description',
         key: 'description',
         render(val) {
