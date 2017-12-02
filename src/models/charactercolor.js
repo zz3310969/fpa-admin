@@ -74,7 +74,7 @@ export default {
         message.error('提交失败');
       }
     },
-    *update({ payload }, { call, put }) {
+    *update({ payload ,callback}, { call, put }) {
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: true,
