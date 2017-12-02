@@ -153,13 +153,6 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="主题编号">
-                  {getFieldDecorator('numb')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
               <FormItem label="主题名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
@@ -176,19 +169,19 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
+              <Col md={8} sm={24}>
+                <span  className={styles.submitButtons}>
+                  <Button type="primary" htmlType="submit">查询</Button>
+                  <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+                </span>
+              </Col>
           </Row >
-          <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-          </span>
-        </div>
 
       </Form>
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -214,7 +207,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/character/theme/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/character/theme/add')); console.log('新建')}}>添加主题</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -242,7 +235,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
