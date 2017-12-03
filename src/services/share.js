@@ -2,7 +2,7 @@ import { stringify } from 'qs';
 import request from '../utils/request';
 
 export async function queryShare(params) {
-  return request(`/api/fpa/share?${stringify(params)}`);
+  return request(`/api/fpa/sharevo?${stringify(params)}`);
 }
 
 export async function addShare(params) {
