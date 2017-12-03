@@ -170,6 +170,7 @@ export default class TableList extends PureComponent {
                 <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
                   {getFieldDecorator('state')(
                     <Select disabled={this.state.onlyread}>
+                      <Select.Option value='' >所有状态</Select.Option>
                       {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
                     </Select>
                   )}

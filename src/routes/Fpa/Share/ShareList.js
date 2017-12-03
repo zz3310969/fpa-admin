@@ -32,6 +32,9 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'share/fetch',
     });
+    dispatch({
+      type: 'share/base',
+    });
   }
   componentWillReceiveProps(nextProps) {
 
@@ -166,6 +169,7 @@ export default class TableList extends PureComponent {
               <FormItem label="分享场景">
                   {getFieldDecorator('sceneId')(
                   <Select>
+                    <Select.Option value='' >所有场景</Select.Option>
                     {scenes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                   </Select>
                   )}
@@ -184,6 +188,7 @@ export default class TableList extends PureComponent {
               <FormItem label="分享模板">
                   {getFieldDecorator('templateId')(
                   <Select>
+                    <Select.Option value='' >所有模板</Select.Option>
                     {templates.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                   </Select>
                   )}
