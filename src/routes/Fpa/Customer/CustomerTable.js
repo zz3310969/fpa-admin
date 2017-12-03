@@ -77,9 +77,9 @@ class StandardTable extends PureComponent {
           title: '微信头像',
           dataIndex: 'weixinHeadImage',
           key: 'weixinHeadImage',
-          render() {
+          render(text, record, index) {
             return (
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              <Avatar shape="square" size="large" icon="user" src={record.weixinHeadImage} />
             );
           }
       },

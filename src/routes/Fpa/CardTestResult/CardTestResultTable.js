@@ -107,7 +107,7 @@ class StandardTable extends PureComponent {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/cardtestresult/edit/'+record.id+'?read=true'}>查看详情</Link>
+              <Link to={'/test/result/profile/'+record.id}>查看详情</Link>
               {/*<Divider type="vertical" />
               <Link to={'/cardtestresult/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />

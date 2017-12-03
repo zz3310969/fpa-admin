@@ -8,6 +8,8 @@ import Monitor from '../routes/Dashboard/Monitor';
 import Workplace from '../routes/Dashboard/Workplace';
 
 import CardTestResultList from '../routes/Fpa/CardTestResult/CardTestResultList';
+import CardTestResultProfile from '../routes/Fpa/CardTestResult/CardTestResultProfile';
+
 
 
 import CardGroupList from '../routes/Fpa/CardGroup/CardGroupList';
@@ -182,6 +184,11 @@ const data = [{
       name: '测试结果',
       path: 'result',
       component: CardTestResultList,
+      children: [{
+        breadname: '详情',
+        path: 'profile/:id',
+        component: CardTestResultProfile,
+      },],
     },],
   },{
     name: '性格管理',

@@ -20,6 +20,7 @@
   },
   "ignoreMomentLocale": true,
   "theme": "./src/theme.js",
+  "hash":true,
   "proxy": {
     "/api": {
       "target": "http://localhost:8080/fpa-web",
