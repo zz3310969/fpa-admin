@@ -153,13 +153,6 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="模板编号">
-                  {getFieldDecorator('code')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
               <FormItem label="模板名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
@@ -173,31 +166,17 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
+                  {getFieldDecorator('state')(
+                    <Select disabled={this.state.onlyread}>
+                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="转发路径">
-                  {getFieldDecorator('path')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="自定义图片路径">
-                  {getFieldDecorator('imageurl')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="状态">
-                  {getFieldDecorator('state')(
-                  <Select disabled={this.state.onlyread}>
-                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
           </Row >
           <div style={{ overflow: 'hidden' }}>
               <span style={{ float: 'right', marginBottom: 24 }}>
@@ -210,7 +189,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -236,7 +215,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/scheme/transmittemplate/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/scheme/transmittemplate/add')); console.log('添加分享模板')}}>添加分享模板</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -264,7 +243,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

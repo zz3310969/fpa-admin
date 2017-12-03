@@ -89,19 +89,14 @@ class StandardTable extends PureComponent {
           key: 'name',
       },
       {
+        title: '联系电话',
+        dataIndex: 'mobile',
+        key: 'mobile',
+      },
+      {
           title: '昵称',
           dataIndex: 'nickName',
           key: 'nickName',
-      },
-      {
-          title: '微信openid',
-          dataIndex: 'weixinOpenId',
-          key: 'weixinOpenId',
-      },
-      {
-          title: '联系电话',
-          dataIndex: 'mobile',
-          key: 'mobile',
       },
       {
           title: '性别',
@@ -155,7 +150,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}

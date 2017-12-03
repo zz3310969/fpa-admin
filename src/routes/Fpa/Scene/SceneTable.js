@@ -74,34 +74,34 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '名称',
+          title: '场景名称',
           dataIndex: 'name',
           key: 'name',
       },
       {
-          title: '编号',
+          title: '场景编号',
           dataIndex: 'numb',
           key: 'numb',
       },
       {
-          title: '套牌',
+        title: '测试主题',
+        dataIndex: 'themeName',
+        key: 'themeName',
+      },
+      {
+        title: '版本',
+        dataIndex: 'version',
+        key: 'version',
+      },
+      {
+          title: '选用卡牌',
           dataIndex: 'cardGroupName',
           key: 'cardGroupName',
       },
       {
-          title: '可重复次数',
+          title: '重用次数',
           dataIndex: 'repeatCount',
           key: 'repeatCount',
-      },
-      {
-          title: '版本',
-          dataIndex: 'version',
-          key: 'version',
-      },
-      {
-          title: '主题',
-          dataIndex: 'themeName',
-          key: 'themeName',
       },
       {
           title: '状态',
@@ -145,7 +145,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}

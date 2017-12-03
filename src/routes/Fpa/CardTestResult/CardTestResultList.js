@@ -169,43 +169,20 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="分享人ID">
-                  {getFieldDecorator('shareCustomerId')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
               <FormItem label="测试人ID">
                   {getFieldDecorator('customerId')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="测试时间">
+                <FormItem label="测试时间">
                   {getFieldDecorator('testDate')(
-                  <RangePicker style={{ width: '100%' }}/>
+                    <RangePicker style={{ width: '100%' }}/>
                   )}
-              </FormItem>
+                </FormItem>
               </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="测试结果">
-                  {getFieldDecorator('result')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="结果模板ID">
-                  {getFieldDecorator('resultTempId')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-          </Row >
+           </Row >
           <div style={{ overflow: 'hidden' }}>
               <span style={{ float: 'right', marginBottom: 24 }}>
               <Button type="primary" htmlType="submit">查询</Button>
@@ -217,7 +194,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -270,7 +247,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

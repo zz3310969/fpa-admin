@@ -79,11 +79,6 @@ class StandardTable extends PureComponent {
           key: 'sceneName',
       },
       {
-          title: '分享人',
-          dataIndex: 'shareCustomerName',
-          key: 'shareCustomerName',
-      },
-      {
           title: '测试人',
           dataIndex: 'customerName',
           key: 'customerName',
@@ -94,14 +89,9 @@ class StandardTable extends PureComponent {
           key: 'testDate',
       },
       {
-          title: '测试结果',
-          dataIndex: 'result',
-          key: 'result',
-      },
-      {
-          title: '结果模板ID',
-          dataIndex: 'resultTempId',
-          key: 'resultTempId',
+        title: '分享人',
+        dataIndex: 'shareCustomerName',
+        key: 'shareCustomerName',
       },
        {
         title: '操作',
@@ -137,7 +127,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}
