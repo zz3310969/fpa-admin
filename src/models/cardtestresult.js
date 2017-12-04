@@ -10,10 +10,11 @@ export default {
       list: [],
       pagination: {},
     },
-    formdate:{},
+    formdate:{customer:{},cardTestResultDetailVoList:[],chats:[],result:{}},
     loading: true,
     scenes:[],
     regularFormSubmitting: false,
+    basicLoading:true,
   },
 
   effects: {
@@ -92,10 +93,12 @@ export default {
     *fetchBasic({payload}, { call, put }) {
       yield put({
         type: 'changeLoading',
-        payload: {},
+        payload: { basicLoading: true },
       });
       const response = yield call(loadCardTestResult,payload);
       if(response.state == 'success'){
+        const result = JSON.parse(response.data.result); 
+        response.data.result = result;
         yield put({
           type: 'show',
           payload: response.data,
@@ -108,7 +111,7 @@ export default {
       
       yield put({
         type: 'changeLoading',
-        payload: {},
+        payload: { basicLoading: false },
       });
     },
     *base({ payload }, { call, put }) {
@@ -147,6 +150,7 @@ export default {
       return {
         ...state,
         loading: action.payload,
+        ...action.payload,
       };
     },
     changeRegularFormSubmitting(state, { payload }) {
