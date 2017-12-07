@@ -61,6 +61,7 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
+  params.grant_type = 'password';
   return request('/api/token', {
     method: 'POST',
     body: params,
