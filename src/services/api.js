@@ -91,10 +91,8 @@ export async function queryCache(params) {
 }
 
 export async function removeCache(params) {
-  return request('/api/cache', {
+  var cacheName= encodeURIComponent(params['cacheName']);
+  return request('/api/cache/'+cacheName, {
     method: 'DELETE',
-    body: {
-      ...params
-    },
   });
 }

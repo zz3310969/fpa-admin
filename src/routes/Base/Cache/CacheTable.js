@@ -1,9 +1,14 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
-import { Table, Alert, Badge, Divider } from 'antd';
-import styles from './index.less';
+import { Table, Alert, Badge, Divider,Modal } from 'antd';
+import styles from '../defaultTable.less';
+import { connect } from 'dva';
+const confirm = Modal.confirm;
 
 const statusMap = ['default', 'processing', 'success', 'error'];
+@connect(state => ({
+  cache: state.cache,
+}))
 class StandardTable extends PureComponent {
   state = {
     selectedRowKeys: [],
@@ -37,6 +42,28 @@ class StandardTable extends PureComponent {
     this.handleRowSelectChange([], []);
   }
 
+  deleteHandle(record) {
+    const { dispatch,reLoadList } = this.props;
+    return function() {
+        confirm({
+          title: '提示',
+          content: '确认删除吗？',
+          onOk() {
+            dispatch({
+            type: 'cache/remove',
+            payload: {
+              cacheName: record.cacheName,
+            },
+          callback: () => {
+            reLoadList();
+          },
+          });
+        },
+        onCancel() {}
+      });
+    };
+  };
+
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { data, pagination }, loading } = this.props;
@@ -50,11 +77,9 @@ class StandardTable extends PureComponent {
           width: 800
       }, {
         title: '操作',
-        render: () => (
+        render: (text, record, index) => (
           <div>
-            <a href="">配置</a>
-            <Divider type="vertical" />
-            <a href="">订阅警报</a>
+              <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>
         ),
       },];
@@ -72,6 +97,8 @@ class StandardTable extends PureComponent {
         disabled: record.disabled,
       }),
     };
+
+    
 
     return (
       <div className={styles.standardTable}>

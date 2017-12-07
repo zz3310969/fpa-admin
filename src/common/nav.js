@@ -46,7 +46,7 @@ import CustomerList from '../routes/Fpa/Customer/CustomerList';
 import CustomerAddForm from '../routes/Fpa/Customer/CustomerAddForm';
 import CustomerEditForm from '../routes/Fpa/Customer/CustomerEditForm';
 
-import CacheList from '../routes/List/CacheList';
+import CacheList from '../routes/Base/Cache/CacheList';
 import TableList from '../routes/List/TableList';
 import CoverCardList from '../routes/List/CoverCardList';
 import CardList from '../routes/List/CardList';

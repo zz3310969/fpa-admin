@@ -32,7 +32,6 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      debugger;
       const response = yield call(removeCache, payload);
       yield put({
         type: 'save',
