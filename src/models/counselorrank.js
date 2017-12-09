@@ -1,21 +1,20 @@
 import { message } from 'antd';
 
-import {queryCounselor,addCounselor,loadCounselor,updateCounselor,removeCounselor,queryCounselorBase } from '../services/counselor';
+import {queryCounselorRank,addCounselorRank,loadCounselorRank,updateCounselorRank,removeCounselorRank,queryCounselorRankBase } from '../services/counselorrank';
+import {getLocalState } from '../utils/helper';
 
 export default {
-  namespace: 'counselor',
+  namespace: 'counselorrank',
 
   state: {
     data: {
       list: [],
       pagination: {},
     },
+    states:getLocalState(),
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
-    states:[],
-    genders:[],
-    counselorRanks:[],
   },
 
   effects: {
@@ -24,7 +23,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryCounselor, payload);
+      const response = yield call(queryCounselorRank, payload);
       if(response.state == 'success'){
         yield put({
           type: 'save',
@@ -43,7 +42,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(removeCounselor, payload);
+      const response = yield call(removeCounselorRank, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -60,7 +59,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(addCounselor, payload);
+      const response = yield call(addCounselorRank, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -79,7 +78,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(updateCounselor, payload);
+      const response = yield call(updateCounselorRank, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -98,7 +97,7 @@ export default {
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadCounselor,payload);
+      const response = yield call(loadCounselorRank,payload);
       if(response.state == 'success'){
         yield put({
           type: 'show',
@@ -115,7 +114,7 @@ export default {
       });
     },
     *base({ payload }, { call, put }) {
-      const response = yield call(queryCounselorBase, payload);
+      const response = yield call(queryCounselorRankBase, payload);
       if(response.state == 'success'){
         yield put({
           type: 'load',

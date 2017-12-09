@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip, Row, Col,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
+import moment from 'moment';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -30,6 +31,9 @@ export default class BasicForms extends PureComponent {
       onlyread:optype?true:false,
     })
     const { dispatch } = this.props;
+    dispatch({
+      type: 'counselor/base',
+    });
     if(this.props.match.params.id){
       dispatch({
         type: 'counselor/fetchBasic',
@@ -48,14 +52,14 @@ export default class BasicForms extends PureComponent {
           type: 'counselor/update',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/counselor'));
+            this.props.dispatch(routerRedux.push('/counsel/counselor'));
           },
         });
       }
     });
   }
   render() {
-    const { counselor: { regularFormSubmitting:submitting, formdate } } = this.props;
+    const { counselor: { regularFormSubmitting:submitting, formdate, states, genders, counselorRanks } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -93,6 +97,8 @@ export default class BasicForms extends PureComponent {
                 })(
                     <Input type="hidden"/>
                   )}
+          <Row >
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="咨询师编号"
@@ -106,6 +112,8 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
+            </Col>
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="姓名"
@@ -119,6 +127,10 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
+            </Col>
+          </Row >
+          <Row >
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="电话"
@@ -132,19 +144,27 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
+            </Col>
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
-                  label="性别(0:女,1:男)"
+                  label="性别"
               >
                   {getFieldDecorator('gender', {
-                    initialValue:formdate.gender,
+                    initialValue:formdate.gender!== undefined ?formdate.gender+'':'',
                     rules: [{
-                      required: true, message: '请输入性别(0:女,1:男)',
+                      required: true, message: '请输入性别',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select disabled={this.state.onlyread}>
+                    {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="特长"
@@ -158,6 +178,8 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
+            </Col>
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="微信号"
@@ -171,58 +193,61 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="级别"
               >
                   {getFieldDecorator('rank', {
-                    initialValue:formdate.rank,
+                    initialValue:formdate.rank!== undefined ?formdate.rank+'':'',
                     rules: [{
                       required: true, message: '请输入级别',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select disabled={this.state.onlyread}>
+                      {counselorRanks.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
+            </Col>
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="注册时间"
               >
                   {getFieldDecorator('regTime', {
-                    initialValue:formdate.regTime,
+                    initialValue:moment(formdate.regTime),
                     rules: [{
                       required: true, message: '请输入注册时间',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <DatePicker disabled={this.state.onlyread} style={{ width: '100%' }} showTime format="YYYY-MM-DD HH:mm:ss" />
                   )}
               </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
               <FormItem
                   {...formItemLayout}
                   label="状态"
               >
                   {getFieldDecorator('state', {
-                    initialValue:formdate.state,
+                    initialValue:formdate.state !== undefined ?formdate.state+'':'',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread}>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="是否可用,用于删除"
-              >
-                  {getFieldDecorator('usable', {
-                    initialValue:formdate.usable,
-                    rules: [{
-                      required: true, message: '请输入是否可用,用于删除',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
+            </Col>
+          </Row>
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
@@ -232,7 +257,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/counselor'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/counsel/counselor'}><Button style={{ marginLeft: 8 }}>返回</Button></Link>
             </FormItem>
           </Form>
         </Card>

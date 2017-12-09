@@ -13,7 +13,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 @connect(state => ({
-  customerwords: state.customerwords,
+  counselorrank: state.counselorrank,
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -32,7 +32,7 @@ export default class BasicForms extends PureComponent {
     const { dispatch } = this.props;
     if(this.props.match.params.id){
       dispatch({
-        type: 'customerwords/fetchBasic',
+        type: 'counselorrank/fetchBasic',
         payload:{id:this.props.match.params.id}
       });
     }
@@ -45,17 +45,17 @@ export default class BasicForms extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'customerwords/update',
+          type: 'counselorrank/update',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/customerwords'));
+            this.props.dispatch(routerRedux.push('/counsel/rank'));
           },
         });
       }
     });
   }
   render() {
-    const { customerwords: { regularFormSubmitting:submitting, formdate } } = this.props;
+    const { counselorrank: { regularFormSubmitting:submitting, formdate,states } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -95,12 +95,25 @@ export default class BasicForms extends PureComponent {
                   )}
               <FormItem
                   {...formItemLayout}
-                  label="客户名称"
+                  label="等级编号"
+              >
+                  {getFieldDecorator('numb', {
+                    initialValue:formdate.numb,
+                    rules: [{
+                      required: true, message: '请输入等级编号',
+                    }],
+                  })(
+                    <Input placeholder="" disabled={this.state.onlyread} />
+                  )}
+              </FormItem>
+              <FormItem
+                  {...formItemLayout}
+                  label="等级名称"
               >
                   {getFieldDecorator('name', {
                     initialValue:formdate.name,
                     rules: [{
-                      required: true, message: '请输入客户名称',
+                      required: true, message: '请输入等级名称',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -108,12 +121,12 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="微信unionid"
+                  label="备注"
               >
-                  {getFieldDecorator('wechatId', {
-                    initialValue:formdate.wechatId,
+                  {getFieldDecorator('remark', {
+                    initialValue:formdate.remark,
                     rules: [{
-                      required: true, message: '请输入微信unionid',
+                      required: true, message: '请输入备注',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -121,54 +134,17 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="客户ID"
+                  label="状态"
               >
-                  {getFieldDecorator('customerId', {
-                    initialValue:formdate.customerId,
+                  {getFieldDecorator('state', {
+                    initialValue:formdate.state!== undefined ?formdate.state+'':'',
                     rules: [{
-                      required: true, message: '请输入客户ID',
+                      required: true, message: '请输入状态',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="手机号"
-              >
-                  {getFieldDecorator('mobile', {
-                    initialValue:formdate.mobile,
-                    rules: [{
-                      required: true, message: '请输入手机号',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="邮箱"
-              >
-                  {getFieldDecorator('mail', {
-                    initialValue:formdate.mail,
-                    rules: [{
-                      required: true, message: '请输入邮箱',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="留言"
-              >
-                  {getFieldDecorator('words', {
-                    initialValue:formdate.words,
-                    rules: [{
-                      required: true, message: '请输入留言',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread}>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
             
@@ -180,7 +156,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/counsel/words'}><Button style={{ marginLeft: 8 }}>返回</Button></Link>
+                <Link to={'/counselorrank'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

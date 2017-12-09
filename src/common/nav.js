@@ -11,6 +11,15 @@ import CardTestResultList from '../routes/Fpa/CardTestResult/CardTestResultList'
 import CardTestResultProfile from '../routes/Fpa/CardTestResult/CardTestResultProfile';
 
 
+import CounselorRankList from '../routes/Fpa/CounselorRank/CounselorRankList';
+import CounselorRankAddForm from '../routes/Fpa/CounselorRank/CounselorRankAddForm';
+import CounselorRankEditForm from '../routes/Fpa/CounselorRank/CounselorRankEditForm';
+
+import CounselorList from '../routes/Fpa/Counselor/CounselorList';
+import CounselorAddForm from '../routes/Fpa/Counselor/CounselorAddForm';
+import CounselorEditForm from '../routes/Fpa/Counselor/CounselorEditForm';
+
+
 
 import CardGroupList from '../routes/Fpa/CardGroup/CardGroupList';
 import CardGroupAddForm from '../routes/Fpa/CardGroup/CardGroupAddForm';
@@ -25,6 +34,10 @@ import TransmitTemplateEditForm from '../routes/Fpa/TransmitTemplate/TransmitTem
 import CharacterColorList from '../routes/Fpa/Charactercolor/CharacterColorList';
 import CharacterColorAddForm from '../routes/Fpa/Charactercolor/CharacterColorAddForm';
 import CharacterColorEditForm from '../routes/Fpa/Charactercolor/CharacterColorEditForm';
+
+import CustomerWordsList from '../routes/Fpa/CustomerWords/CustomerWordsList';
+import CustomerWordsEditForm from '../routes/Fpa/CustomerWords/CustomerWordsEditForm';
+
 
 import ThemeList from '../routes/Fpa/Theme/ThemeList';
 import ThemeAddForm from '../routes/Fpa/Theme/ThemeAddForm';
@@ -266,6 +279,46 @@ const data = [{
       },],
     },],
   }, {
+    name: '咨询师服务管理',
+    path: 'counsel',
+    icon: 'table',
+    children: [{
+      name: '咨询师等级管理',
+      path: 'rank',
+      component: CounselorRankList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CounselorRankAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CounselorRankEditForm,
+      },],
+    },{
+      name: '咨询师管理',
+      path: 'counselor',
+      component: CounselorList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CounselorAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CounselorEditForm,
+      },],
+    },{
+      name: '客户留言管理',
+      path: 'words',
+      component: CustomerWordsList,
+      children: [{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CustomerWordsEditForm,
+      },],
+    },],
+  },{
     name: '详情页',
     path: 'profile',
     icon: 'profile',

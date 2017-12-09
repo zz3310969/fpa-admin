@@ -9,7 +9,7 @@ const confirm = Modal.confirm;
 const statusMap = ['error','success'];
 
 @connect(state => ({
-  counselor: state.counselor,
+  counselorrank: state.counselorrank,
 }))
 class StandardTable extends PureComponent {
   state = {
@@ -52,7 +52,7 @@ class StandardTable extends PureComponent {
             content: '确认删除吗？',
             onOk() {
               dispatch({
-                type: 'counselor/remove',
+                type: 'counselorrank/remove',
                 payload: {
                   id: record.id,
                 },
@@ -74,47 +74,19 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '咨询师编号',
+          title: '等级编号',
           dataIndex: 'numb',
           key: 'numb',
       },
       {
-          title: '姓名',
+          title: '等级名称',
           dataIndex: 'name',
           key: 'name',
       },
       {
-          title: '电话',
-          dataIndex: 'mobile',
-          key: 'mobile',
-      },
-      {
-          title: '性别',
-          dataIndex: 'genderEnum',
-          key: 'genderEnum',
-          render(val) {
-            return val !== undefined ?val.display:'';
-          },
-      },
-      {
-          title: '特长',
-          dataIndex: 'specialty',
-          key: 'specialty',
-      },
-      {
-          title: '微信号',
-          dataIndex: 'wechat',
-          key: 'wechat',
-      },
-      {
-          title: '级别',
-          dataIndex: 'rankName',
-          key: 'rankName',
-      },
-      {
-          title: '注册时间',
-          dataIndex: 'regTime',
-          key: 'regTime',
+          title: '备注',
+          dataIndex: 'remark',
+          key: 'remark',
       },
       {
           title: '状态',
@@ -128,9 +100,9 @@ class StandardTable extends PureComponent {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/counsel/counselor/edit/'+record.id+'?read=true'}>查看</Link>
+              <Link to={'/counsel/rank/edit/'+record.id+'?read=true'}>查看</Link>
               <Divider type="vertical" />
-              <Link to={'/counsel/counselor/edit/'+record.id}>编辑</Link>
+              <Link to={'/counsel/rank/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
               <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>

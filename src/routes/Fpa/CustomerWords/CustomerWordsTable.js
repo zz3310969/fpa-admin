@@ -107,9 +107,9 @@ class StandardTable extends PureComponent {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/customerwords/edit/'+record.id+'?read=true'}>查看</Link>
+              <Link to={'/counsel/words/edit/'+record.id+'?read=true'}>查看</Link>
               <Divider type="vertical" />
-              <Link to={'/customerwords/edit/'+record.id}>编辑</Link>
+              <Link to={'/counsel/words/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
               <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>

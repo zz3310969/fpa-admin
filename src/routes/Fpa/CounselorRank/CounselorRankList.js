@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,Table } from 'antd';
-import CounselorTable from './CounselorTable';
+import CounselorRankTable from './CounselorRankTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
 import styles from '../defaultTableList.less';
-const { MonthPicker, RangePicker } = DatePicker;
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -16,7 +15,7 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 
 @connect(state => ({
-  counselor: state.counselor,
+  counselorrank: state.counselorrank,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -31,10 +30,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'counselor/fetch',
-    });
-    dispatch({
-      type: 'counselor/base',
+      type: 'counselorrank/fetch',
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -65,7 +61,7 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'counselor/fetch',
+      type: 'counselorrank/fetch',
       payload: params,
     });
   }
@@ -74,7 +70,7 @@ export default class TableList extends PureComponent {
     const { form, dispatch } = this.props;
     form.resetFields();
     dispatch({
-      type: 'counselor/fetch',
+      type: 'counselorrank/fetch',
       payload: {},
     });
   }
@@ -89,7 +85,7 @@ export default class TableList extends PureComponent {
       ...formValues,
     };
     dispatch({
-      type: 'counselor/fetch',
+      type: 'counselorrank/fetch',
       payload: params,
     });
   }
@@ -103,7 +99,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'counselor/remove',
+          type: 'counselorrank/remove',
           payload: {
             ids: selectedRows.map(row => row.id).join(','),
           },
@@ -136,9 +132,6 @@ export default class TableList extends PureComponent {
       const values = {
         ...fieldsValue,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-        regTimeStart:fieldsValue.regTime && fieldsValue.regTime[0].format('YYYY-MM-DD'),
-        regTimeEnd:fieldsValue.regTime && fieldsValue.regTime[1].format('YYYY-MM-DD'),
-        regTime:'',
       };
 
       this.setState({
@@ -146,7 +139,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'counselor/fetch',
+        type: 'counselorrank/fetch',
         payload: values,
       });
     });
@@ -154,74 +147,41 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
-    const { counselor: { states, genders, counselorRanks} } = this.props;
+    const { counselorrank: { states } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="咨询师编号">
+              <FormItem label="等级编号">
                   {getFieldDecorator('numb')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="姓名">
+              <FormItem label="等级名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="电话">
-                  {getFieldDecorator('mobile')(
+              <FormItem label="备注">
+                  {getFieldDecorator('remark')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="性别">
-                  {getFieldDecorator('gender')(
-                  <Select>
-                    {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="特长">
-                  {getFieldDecorator('specialty')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="级别">
-                  {getFieldDecorator('rank')(
-                  <Select>
-                    {counselorRanks.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="注册时间">
-                  {getFieldDecorator('regTime')(
-                  <RangePicker style={{ width: '100%' }}/>
-                  )}
-              </FormItem>
-              </Col>
               <Col md={8} sm={24}>
               <FormItem label="状态">
                   {getFieldDecorator('state')(
-                  <Select>
-                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
+                    <Select>
+                      <Select.Option value='' >所有状态</Select.Option>
+                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               </Col>
@@ -231,7 +191,8 @@ export default class TableList extends PureComponent {
                     <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
                   </span>
               </Col>
-           </Row >
+            </Row >
+
       </Form>
     );
   }
@@ -243,7 +204,7 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { counselor: { loading: counselorLoading, data } } = this.props;
+    const { counselorrank: { loading: counselorrankLoading, data } } = this.props;
     const { selectedRows } = this.state;
 
     const menu = (
@@ -255,14 +216,14 @@ export default class TableList extends PureComponent {
 
 
     return (
-      <PageHeaderLayout title="咨询师列表">
+      <PageHeaderLayout title="咨询师等级列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/counsel/counselor/add')); console.log('新建')}}>添加咨询师</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/counsel/rank/add')); console.log('新建')}}>添加等级</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -278,9 +239,9 @@ export default class TableList extends PureComponent {
 
 
 
-            <CounselorTable
+            <CounselorRankTable
               selectedRows={selectedRows}
-              loading={counselorLoading}
+              loading={counselorrankLoading}
               data={data}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
