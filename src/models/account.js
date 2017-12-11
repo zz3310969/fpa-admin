@@ -1,9 +1,9 @@
 import { message } from 'antd';
 
-import {queryUser,addUser,loadUser,updateUser,removeUser,queryUserBase, queryCurrent } from '../services/user';
+import {queryAccount,addAccount,loadAccount,updateAccount,removeAccount,queryAccountBase } from '../services/account';
 
 export default {
-  namespace: 'user',
+  namespace: 'account',
 
   state: {
     data: {
@@ -13,7 +13,6 @@ export default {
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
-    currentUser: {},
   },
 
   effects: {
@@ -22,7 +21,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryUser, payload);
+      const response = yield call(queryAccount, payload);
       if(response.state == 'success'){
         yield put({
           type: 'save',
@@ -41,7 +40,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(removeUser, payload);
+      const response = yield call(removeAccount, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -58,7 +57,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(addUser, payload);
+      const response = yield call(addAccount, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -77,7 +76,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(updateUser, payload);
+      const response = yield call(updateAccount, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -96,7 +95,7 @@ export default {
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadUser,payload);
+      const response = yield call(loadAccount,payload);
       if(response.state == 'success'){
         yield put({
           type: 'show',
@@ -113,7 +112,7 @@ export default {
       });
     },
     *base({ payload }, { call, put }) {
-      const response = yield call(queryUserBase, payload);
+      const response = yield call(queryAccountBase, payload);
       if(response.state == 'success'){
         yield put({
           type: 'load',
@@ -127,13 +126,6 @@ export default {
       yield put({
         type: 'show',
         payload: {formdate: {},},
-      });
-    },
-    *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
-      yield put({
-        type: 'saveCurrentUser',
-        payload: response,
       });
     },
   },
@@ -167,21 +159,6 @@ export default {
       return {
         ...state,
         regularFormSubmitting: payload,
-      };
-    },
-    saveCurrentUser(state, action) {
-      return {
-        ...state,
-        currentUser: action.payload,
-      };
-    },
-    changeNotifyCount(state, action) {
-      return {
-        ...state,
-        currentUser: {
-          ...state.currentUser,
-          notifyCount: action.payload,
-        },
       };
     },
   },

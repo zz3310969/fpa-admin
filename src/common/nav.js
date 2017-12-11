@@ -59,6 +59,11 @@ import CustomerList from '../routes/Fpa/Customer/CustomerList';
 import CustomerAddForm from '../routes/Fpa/Customer/CustomerAddForm';
 import CustomerEditForm from '../routes/Fpa/Customer/CustomerEditForm';
 
+import UserList from '../routes/Base/User/UserList';
+import UserAddForm from '../routes/Base/User/UserAddForm';
+import UserEditForm from '../routes/Base/User/UserEditForm';
+
+
 import CacheList from '../routes/Base/Cache/CacheList';
 import TableList from '../routes/List/TableList';
 import CoverCardList from '../routes/List/CoverCardList';
@@ -151,6 +156,10 @@ const data = [{
       name: '缓存列表',
       path: 'cache-list',
       component: CacheList,
+    },{
+      name: '用户列表',
+      path: 'user-list',
+      component: UserList,
     },{
       name: '查询表格',
       path: 'table-list',
