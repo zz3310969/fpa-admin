@@ -59,6 +59,12 @@ import CustomerList from '../routes/Fpa/Customer/CustomerList';
 import CustomerAddForm from '../routes/Fpa/Customer/CustomerAddForm';
 import CustomerEditForm from '../routes/Fpa/Customer/CustomerEditForm';
 
+import OrderList from '../routes/Fpa/Order/OrderList';
+import OrderAddForm from '../routes/Fpa/Order/OrderAddForm';
+import OrderEditForm from '../routes/Fpa/Order/OrderEditForm';
+import OrderProfile from '../routes/Fpa/Order/OrderProfile';
+
+
 import UserList from '../routes/Base/User/UserList';
 import UserAddForm from '../routes/Base/User/UserAddForm';
 import UserEditForm from '../routes/Base/User/UserEditForm';
@@ -257,13 +263,22 @@ const data = [{
       },],
     },],
   }, {
-    name: '顾客管理',
+    name: '客户管理',
     path: 'customer',
     icon: 'table',
     children: [{
-      name: '顾客资料',
+      name: '客户资料',
       path: 'info',
       component: CustomerList,
+    },{
+      name: '客户订单',
+      path: 'order',
+      component: OrderList,
+      children: [{
+        breadname: '详情',
+        path: 'profile/:id',
+        component: OrderProfile,
+      },],
     },],
   },{
     name: '营销管理',

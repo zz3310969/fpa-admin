@@ -6,7 +6,7 @@ import { Table, Alert, Badge, Divider,Modal } from 'antd';
 import styles from '../defaultTable.less';
 const confirm = Modal.confirm;
 
-const statusMap = ['error','success'];
+const statusMap = ['default', 'processing', 'success', 'error'];
 
 @connect(state => ({
   order: state.order,
@@ -69,19 +69,24 @@ class StandardTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { dataList, total }, loading } = this.props;
-    const status = ['不可用', '可用'];
+    const status = ['未支付', '已支付', '已完成', '已取消'];
 
 
     const columns = [
       {
-          title: '客户ID',
-          dataIndex: 'customerId',
-          key: 'customerId',
+        title: '订单编号',
+        dataIndex: 'numb',
+        key: 'numb',
       },
       {
-          title: '咨询师ID',
-          dataIndex: 'counselorId',
-          key: 'counselorId',
+          title: '客户',
+          dataIndex: 'customerName',
+          key: 'customerName',
+      },
+      {
+          title: '咨询师',
+          dataIndex: 'counselorName',
+          key: 'counselorName',
       },
       {
           title: '服务记录ID',
@@ -107,21 +112,19 @@ class StandardTable extends PureComponent {
           title: '订单状态',
           dataIndex: 'state',
           key: 'state',
-      },
-      {
-          title: '账户金额变更详情ID',
-          dataIndex: 'accountDetailId',
-          key: 'accountDetailId',
+          render(val) {
+            return <Badge status={statusMap[val]} text={status[val]} />;
+          },
       },
        {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/order/edit/'+record.id+'?read=true'}>查看</Link>
-              <Divider type="vertical" />
+              <Link to={'/customer/order/profile/'+record.id}>查看订单轨迹</Link>
+              {/*<Divider type="vertical" />
               <Link to={'/order/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
-              <a onClick={this.deleteHandle(record, index)}>删除</a>
+              <a onClick={this.deleteHandle(record, index)}>删除</a>*/}
           </div>
         ),
       },];

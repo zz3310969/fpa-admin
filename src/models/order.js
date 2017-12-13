@@ -13,6 +13,7 @@ export default {
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
+    states:[],
   },
 
   effects: {

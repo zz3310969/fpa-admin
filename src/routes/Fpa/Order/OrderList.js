@@ -6,6 +6,7 @@ import OrderTable from './OrderTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
 import styles from '../defaultTableList.less';
+const { RangePicker } = DatePicker;
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -31,6 +32,9 @@ export default class TableList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'order/fetch',
+    });
+    dispatch({
+      type: 'order/base',
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -132,6 +136,12 @@ export default class TableList extends PureComponent {
       const values = {
         ...fieldsValue,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        createTimeStart:fieldsValue.createTime && fieldsValue.createTime[0].format('YYYY-MM-DD'),
+        createTimeEnd:fieldsValue.createTime && fieldsValue.createTime[1].format('YYYY-MM-DD'),
+        createTime:'',
+        payTimeStart:fieldsValue.payTime && fieldsValue.payTime[0].format('YYYY-MM-DD'),
+        payTimeEnd:fieldsValue.payTime && fieldsValue.payTime[1].format('YYYY-MM-DD'),
+        payTime:'',
       };
 
       this.setState({
@@ -147,33 +157,41 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
+    const { order: { states } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="客户ID">
+              <FormItem label="订单编号">
+                  {getFieldDecorator('numb')(
+                  <Input placeholder="" />
+                  )}
+              </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+              <FormItem label="客户">
                   {getFieldDecorator('customerId')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="咨询师ID">
+              <FormItem label="咨询师">
                   {getFieldDecorator('counselorId')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="服务记录ID">
-                  {getFieldDecorator('serviceRecordId')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+              <FormItem label="服务记录">
+                  {getFieldDecorator('serviceRecordId')(
+                  <Input placeholder="" />
+                  )}
+              </FormItem>
+              </Col>
               <Col md={8} sm={24}>
               <FormItem label="价格">
                   {getFieldDecorator('price')(
@@ -184,30 +202,27 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="创建时间">
                   {getFieldDecorator('createTime')(
-                  <Input placeholder="" />
+                  <RangePicker style={{ width: '100%' }}/>
                   )}
               </FormItem>
               </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="支付时间">
-                  {getFieldDecorator('payTime')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
+              
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="订单状态">
-                  {getFieldDecorator('state')(
-                  <Input placeholder="" />
+              <FormItem label="支付时间">
+                  {getFieldDecorator('payTime')(
+                  <RangePicker style={{ width: '100%' }}/>
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="账户金额变更详情ID">
-                  {getFieldDecorator('accountDetailId')(
-                  <Input placeholder="" />
+              <FormItem label="订单状态">
+                  {getFieldDecorator('state')(
+                  <Select>
+                    <Select.Option value='' >所有状态</Select.Option>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
               </Col>
@@ -249,7 +264,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/order/add')); console.log('新建')}}>新建</Button>
+              
               {
                 selectedRows.length > 0 && (
                   <span>
