@@ -166,6 +166,15 @@ const data = [{
       name: '用户列表',
       path: 'user-list',
       component: UserList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: UserAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: UserEditForm,
+      },],
     },{
       name: '查询表格',
       path: 'table-list',

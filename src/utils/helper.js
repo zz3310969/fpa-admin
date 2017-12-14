@@ -7,6 +7,12 @@ export function getLocalStorage(val) {
 
 
 export function getLocalState(val) {
-   let states = [{'code':1,'display':'å¯ç”¨'},{'code':0,'display':'ä¸å¯ç”¨'},];
+   let states = [{'code':1,'display':'¿ÉÓÃ'},{'code':0,'display':'²»¿ÉÓÃ'},];
+  return states;
+}
+
+
+export function getLocalStatus(val) {
+   let states = [{'code':1,'display':'ÊÇ'},{'code':0,'display':'·ñ'},];
   return states;
 }

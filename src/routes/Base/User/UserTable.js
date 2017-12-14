@@ -6,7 +6,7 @@ import { Table, Alert, Badge, Divider,Modal } from 'antd';
 import styles from '../defaultTable.less';
 const confirm = Modal.confirm;
 
-const statusMap = ['error','success'];
+const statusMap = ['success','error'];
 
 @connect(state => ({
   user: state.user,
@@ -69,7 +69,7 @@ class StandardTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { dataList, total }, loading } = this.props;
-    const status = ['不可用', '可用'];
+    const status = ['是', '否'];
 
 
     const columns = [
@@ -79,29 +79,36 @@ class StandardTable extends PureComponent {
           key: 'username',
       },
       {
-          title: '密码',
-          dataIndex: 'password',
-          key: 'password',
-      },
-      {
           title: '是否未过期',
-          dataIndex: 'accountnonexpired',
-          key: 'accountnonexpired',
+          dataIndex: 'accountNonExpired',
+          key: 'accountNonExpired',
+          render(val) {
+            return <Badge status={statusMap[val?0:1]} text={status[val?0:1]} />;
+          }
       },
       {
           title: '是否未锁定',
-          dataIndex: 'accountnonlocked',
-          key: 'accountnonlocked',
+          dataIndex: 'accountNonLocked',
+          key: 'accountNonLocked',
+          render(val) {
+            return <Badge status={statusMap[val?0:1]} text={status[val?0:1]} />;
+          }
       },
       {
           title: '登录凭据是否未过期',
-          dataIndex: 'credentialsnonexpired',
-          key: 'credentialsnonexpired',
+          dataIndex: 'credentialsNonExpired',
+          key: 'credentialsNonExpired',
+          render(val) {
+            return <Badge status={statusMap[val?0:1]} text={status[val?0:1]} />;
+          }
       },
       {
           title: '是否可用',
           dataIndex: 'enabled',
           key: 'enabled',
+          render(val) {
+            return <Badge status={statusMap[val?0:1]} text={status[val?0:1]} />;
+          }
       },
       {
           title: '类型',
@@ -119,27 +126,17 @@ class StandardTable extends PureComponent {
           key: 'create_date',
       },
       {
-          title: '更新时间',
-          dataIndex: 'update_time',
-          key: 'update_time',
-      },
-      {
-          title: '登录次数',
-          dataIndex: 'login_count',
-          key: 'login_count',
-      },
-      {
           title: '所属机构',
-          dataIndex: 'org_id',
-          key: 'org_id',
+          dataIndex: 'org.name',
+          key: 'org.name',
       },
        {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/user/edit/'+record.id+'?read=true'}>查看</Link>
+              <Link to={'/list/user-list/edit/'+record.id+'?read=true'}>查看</Link>
               <Divider type="vertical" />
-              <Link to={'/user/edit/'+record.id}>编辑</Link>
+              <Link to={'/list/user-list/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
               <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>

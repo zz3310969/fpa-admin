@@ -159,35 +159,13 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="密码">
-                  {getFieldDecorator('password')(
+              <FormItem label="用户名称">
+                  {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="是否未过期">
-                  {getFieldDecorator('accountnonexpired')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="是否未锁定">
-                  {getFieldDecorator('accountnonlocked')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="登录凭据是否未过期">
-                  {getFieldDecorator('credentialsnonexpired')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
+              
               <Col md={8} sm={24}>
               <FormItem label="是否可用">
                   {getFieldDecorator('enabled')(
@@ -196,52 +174,7 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
            </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="类型">
-                  {getFieldDecorator('dtype')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="用户名称">
-                  {getFieldDecorator('name')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="创建时间">
-                  {getFieldDecorator('create_date')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="更新时间">
-                  {getFieldDecorator('update_time')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="登录次数">
-                  {getFieldDecorator('login_count')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="所属机构">
-                  {getFieldDecorator('org_id')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-          </Row >
+            
           <div style={{ overflow: 'hidden' }}>
               <span style={{ float: 'right', marginBottom: 24 }}>
               <Button type="primary" htmlType="submit">查询</Button>
@@ -272,14 +205,14 @@ export default class TableList extends PureComponent {
 
 
     return (
-      <PageHeaderLayout title="s_user列表">
+      <PageHeaderLayout title="用户列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/user/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/list/user-list/add'));}}>添加用户</Button>
               {
                 selectedRows.length > 0 && (
                   <span>

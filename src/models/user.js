@@ -14,6 +14,8 @@ export default {
     loading: true,
     regularFormSubmitting: false,
     currentUser: {},
+    roleses:[],
+    orgs:[],
   },
 
   effects: {
@@ -115,6 +117,17 @@ export default {
     *base({ payload }, { call, put }) {
       const response = yield call(queryUserBase, payload);
       if(response.state == 'success'){
+        if(response.data.roleses){
+          var roles = new Array();
+          response.data.roleses.map(function(index) {
+            var r ={};
+            r.label = index.description;
+            r.value = index.id;
+            roles.push(r);
+          });
+          response.data.roleses = roles;
+        }
+
         yield put({
           type: 'load',
           payload: response.data,

@@ -2,15 +2,17 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,Checkbox, TreeSelect
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
+import request from '../../../utils/request';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+const CheckboxGroup = Checkbox.Group;
 
 @connect(state => ({
   user: state.user,
@@ -35,6 +37,9 @@ export default class BasicForms extends PureComponent {
         type: 'user/fetchBasic',
         payload:{id:this.props.match.params.id}
       });
+      dispatch({
+        type: 'user/base',
+    })
     }
   }
 
@@ -48,14 +53,44 @@ export default class BasicForms extends PureComponent {
           type: 'user/update',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/user'));
+            this.props.dispatch(routerRedux.push('/list/user-list'));
           },
         });
       }
     });
   }
+
+  authorities = (roles) =>{
+    var roleses = new Array();
+    if(roles){
+      roles.map(function(index) {
+        roleses.push(index.id)
+        
+      })
+    }
+    return roleses;
+  }
+
+  usernameExists = (rule, value, callback) => {
+    const { getFieldValue } = this.props.form;
+    var id = getFieldValue('id');
+    if (!value) {
+      callback();
+    } else {
+        request('api/userAction/sameUsername?username='+value+'&id='+id)
+        .then(result => {
+          if(!result) {
+            callback([new Error('抱歉，该用户名已被占用。')])
+          } else {
+            callback()
+          }
+        })
+    }
+  };
+
+
   render() {
-    const { user: { regularFormSubmitting:submitting, formdate } } = this.props;
+    const { user: { regularFormSubmitting:submitting, formdate, roleses, orgs  } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -101,6 +136,8 @@ export default class BasicForms extends PureComponent {
                     initialValue:formdate.username,
                     rules: [{
                       required: true, message: '请输入用户名',
+                    },{
+                      validator: this.usernameExists
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -116,74 +153,10 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入密码',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder="" type="password" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="是否未过期"
-              >
-                  {getFieldDecorator('accountnonexpired', {
-                    initialValue:formdate.accountnonexpired,
-                    rules: [{
-                      required: true, message: '请输入是否未过期',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="是否未锁定"
-              >
-                  {getFieldDecorator('accountnonlocked', {
-                    initialValue:formdate.accountnonlocked,
-                    rules: [{
-                      required: true, message: '请输入是否未锁定',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="登录凭据是否未过期"
-              >
-                  {getFieldDecorator('credentialsnonexpired', {
-                    initialValue:formdate.credentialsnonexpired,
-                    rules: [{
-                      required: true, message: '请输入登录凭据是否未过期',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="是否可用"
-              >
-                  {getFieldDecorator('enabled', {
-                    initialValue:formdate.enabled,
-                    rules: [{
-                      required: true, message: '请输入是否可用',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="类型"
-              >
-                  {getFieldDecorator('dtype', {
-                    initialValue:formdate.dtype,
-                    rules: [{
-                      required: true, message: '请输入类型',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
+
               <FormItem
                   {...formItemLayout}
                   label="用户名称"
@@ -197,58 +170,34 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="创建时间"
-              >
-                  {getFieldDecorator('create_date', {
-                    initialValue:formdate.create_date,
-                    rules: [{
-                      required: true, message: '请输入创建时间',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="更新时间"
-              >
-                  {getFieldDecorator('update_time', {
-                    initialValue:formdate.update_time,
-                    rules: [{
-                      required: true, message: '请输入更新时间',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="登录次数"
-              >
-                  {getFieldDecorator('login_count', {
-                    initialValue:formdate.login_count,
-                    rules: [{
-                      required: true, message: '请输入登录次数',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
+              
               <FormItem
                   {...formItemLayout}
                   label="所属机构"
               >
-                  {getFieldDecorator('org_id', {
-                    initialValue:formdate.org_id,
+                  {getFieldDecorator('org.id', {
+                    initialValue:formdate.org!== undefined && formdate.org.id!== undefined ?formdate.org.id+'':'',
                     rules: [{
                       required: true, message: '请输入所属机构',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <TreeSelect placeholder="" treeData={orgs} disabled={this.state.onlyread}/>
                   )}
               </FormItem>
+              <FormItem
+                        {...formItemLayout}
+                        label="角色"
+                >
+                    {getFieldDecorator('rolesIds', {
+                      initialValue:this.authorities(formdate.authorities),
+                    rules: [{
+                      required: true, message: '请输入所属角色',
+                    }],
+                    })(
+                    <CheckboxGroup options={roleses} disabled={this.state.onlyread} />
+                    )}
+                </FormItem>
+              
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
@@ -258,7 +207,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/user'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/list/user-list'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
