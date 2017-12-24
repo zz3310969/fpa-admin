@@ -46,7 +46,7 @@ export default class BasicProfile extends Component {
     const { cardtestresult: { regularFormSubmitting:submitting, formdate ,basicLoading} } = this.props;
     const { customer, cardTestResultDetailVoList,chats,result } = formdate;
 
-    
+
     return (
       <PageHeaderLayout title="测试结果详情页">
         <Card bordered={false}>
@@ -68,8 +68,8 @@ export default class BasicProfile extends Component {
             dataSource={[...cardTestResultDetailVoList]}
             renderItem={item => (item ? (
               <List.Item key={item.id}>
-                <Card hoverable className={styles.card} >
-                  <img alt="" className={styles.cardAvatar} src={'/api/fpa/pic/middle/'+item.cardUnitImage} />
+                <Card hoverable className={styles.card}
+                  cover={ <img alt="" className={styles.cardAvatar} src={'/api/fpa/pic/middle/'+item.cardUnitImage} />}>
                 </Card>
               </List.Item>
               ) : (
@@ -83,7 +83,7 @@ export default class BasicProfile extends Component {
           </DescriptionList>
 
           <Divider style={{ marginBottom: 32 }} />
-          
+
           <DescriptionList size="large" title="测试报告" style={{ marginBottom: 32 }}>
           <Pie
                 hasLegend
@@ -107,11 +107,11 @@ export default class BasicProfile extends Component {
 
           <h4>{result.ruleCharacterCare}</h4>
 
-  
+
 
           </DescriptionList>
 
-          
+
         </Card>
       </PageHeaderLayout>
     );
