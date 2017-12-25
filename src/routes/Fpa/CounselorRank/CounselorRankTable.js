@@ -84,17 +84,17 @@ class StandardTable extends PureComponent {
           key: 'name',
       },
       {
-          title: '备注',
-          dataIndex: 'remark',
-          key: 'remark',
-      },
-      {
           title: '状态',
           dataIndex: 'state',
           key: 'state',
           render(val) {
             return <Badge status={statusMap[val]} text={status[val]} />;
           }
+      },
+      {
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
       },
        {
         title: '操作',
@@ -130,7 +130,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}
