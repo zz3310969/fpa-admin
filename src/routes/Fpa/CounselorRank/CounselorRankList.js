@@ -153,51 +153,33 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="等级编号">
-                  {getFieldDecorator('numb')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
               <FormItem label="等级名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
               </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="备注">
-                  {getFieldDecorator('remark')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
+              </Col><Col md={8} sm={24}>
               <FormItem label="状态">
-                  {getFieldDecorator('state')(
-                    <Select>
-                      <Select.Option value='' >所有状态</Select.Option>
-                      {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                    </Select>
-                  )}
+                {getFieldDecorator('state')(
+                  <Select>
+                    <Select.Option value='' >所有状态</Select.Option>
+                    {states.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
+                )}
               </FormItem>
-              </Col>
+            </Col>
               <Col md={8} sm={24}>
               <span className={styles.submitButtons}>
                     <Button type="primary" htmlType="submit">查询</Button>
                     <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
                   </span>
               </Col>
-            </Row >
-
+           </Row >
       </Form>
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -251,7 +233,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
