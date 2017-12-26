@@ -160,13 +160,6 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="咨询师编号">
-                  {getFieldDecorator('numb')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
               <FormItem label="姓名">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
@@ -180,35 +173,17 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="性别">
-                  {getFieldDecorator('gender')(
-                  <Select>
-                    {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="特长">
-                  {getFieldDecorator('specialty')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="级别">
+                <FormItem label="级别">
                   {getFieldDecorator('rank')(
-                  <Select>
-                    {counselorRanks.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
+                    <Select>
+                      {counselorRanks.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
-              </FormItem>
+                </FormItem>
               </Col>
            </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+           <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
               <FormItem label="注册时间">
                   {getFieldDecorator('regTime')(
@@ -236,7 +211,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -290,7 +265,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
