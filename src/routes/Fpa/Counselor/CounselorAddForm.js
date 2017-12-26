@@ -225,12 +225,12 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
               </Col>
             </Row>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-                <Link to={'/counselor'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/counsel/counselor'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
