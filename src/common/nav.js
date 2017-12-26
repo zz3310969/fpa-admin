@@ -114,23 +114,192 @@ const data = [{
   name: '首页', // for breadcrumb
   path: '',
   children: [{
-    name: 'Dashboard',
-    icon: 'dashboard',
-    path: 'dashboard',
+    name: '卡牌测试管理',
+    path: 'test',
+    icon: 'credit-card',
     children: [{
-      name: '分析页',
-      path: 'analysis',
-      component: Analysis,
-    }, {
-      name: '监控页',
-      path: 'monitor',
-      component: Monitor,
-    }, {
-      name: '工作台',
-      path: 'workplace',
-      component: Workplace,
+      name: '测试场景',
+      path: 'scene',
+      component: SceneList,
+    },{
+      name: '卡牌管理',
+      path: 'cardgroup',
+      component: CardGroupList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CardGroupAddForm,
+      }]
+    },{
+      name: '测试结果',
+      path: 'result',
+      component: CardTestResultList,
+      children: [{
+        breadname: '详情',
+        path: 'profile/:id',
+        component: CardTestResultProfile,
+      },],
+    },],
+  },{
+    name: '性格管理',
+    path: 'character',
+    icon: 'pie-chart',
+    children: [{
+      name: '性格色彩列表',
+      path: 'color',
+      component: CharacterColorList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CharacterColorAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CharacterColorEditForm,
+      },],
+    },{
+      name: '主题列表',
+      path: 'theme',
+      component: ThemeList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: ThemeAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: ThemeEditForm,
+      },],
+    },{
+      name: '性格主题配置',
+      path: 'charactertheme',
+      component: CharacterList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CharacterAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CharacterEditForm,
+      },],
+    },],
+  }, {
+    name: '客户管理',
+    path: 'customer',
+    icon: 'team',
+    children: [{
+      name: '客户资料',
+      path: 'info',
+      component: CustomerList,
+    },{
+      name: '客户订单',
+      path: 'order',
+      component: OrderList,
+      children: [{
+        breadname: '详情',
+        path: 'profile/:id',
+        component: OrderProfile,
+      },],
+    },],
+  },{
+    name: '营销管理',
+    path: 'scheme',
+    icon: 'notification',
+    children: [{
+      name: '分享记录',
+      path: 'share',
+      component: ShareList,
+    },{
+      name: '分享模板管理',
+      path: 'transmittemplate',
+      component: TransmitTemplateList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: TransmitTemplateAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: TransmitTemplateEditForm,
+      },],
+    },],
+  }, {
+    name: '咨询师服务管理',
+    path: 'counsel',
+    icon: 'customer-service',
+    children: [{
+      name: '咨询师等级管理',
+      path: 'rank',
+      component: CounselorRankList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CounselorRankAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CounselorRankEditForm,
+      },],
+    },{
+      name: '咨询师管理',
+      path: 'counselor',
+      component: CounselorList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CounselorAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CounselorEditForm,
+      },],
+    },{
+      name: '客户留言管理',
+      path: 'words',
+      component: CustomerWordsList,
+      children: [{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CustomerWordsEditForm,
+      },],
+    },],
+  },{
+    name:'系统管理',
+    path:'sysm',
+    icon:'windows-o',
+    children: [{
+      name: '缓存列表',
+      path: 'cache-list',
+      component: CacheList,
+    },{
+      name: '用户列表',
+      path: 'user-list',
+      component: UserList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: UserAddForm,
+      }]
     }],
   }, {
+      name: 'Dashboard',
+      icon: 'dashboard',
+      path: 'dashboard',
+      children: [{
+        name: '分析页',
+        path: 'analysis',
+        component: Analysis,
+      }, {
+        name: '监控页',
+        path: 'monitor',
+        component: Monitor,
+      }, {
+        name: '工作台',
+        path: 'workplace',
+        component: Workplace,
+      }],
+    },{
     name: '表单页',
     path: 'form',
     icon: 'form',
@@ -154,7 +323,7 @@ const data = [{
       path: 'advanced-form',
       component: AdvancedForm,
     }],
-  }, {
+  },{
     name: '列表页',
     path: 'list',
     icon: 'table',
@@ -200,158 +369,7 @@ const data = [{
       path: 'search',
       component: SearchList,
     }],
-  },{
-    name: '卡牌测试管理',
-    path: 'test',
-    icon: 'table',
-    children: [{
-      name: '测试场景',
-      path: 'scene',
-      component: SceneList,
-    },{
-      name: '卡牌管理',
-      path: 'cardgroup',
-      component: CardGroupList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: CardGroupAddForm,
-      }]
-    },{
-      name: '测试结果',
-      path: 'result',
-      component: CardTestResultList,
-      children: [{
-        breadname: '详情',
-        path: 'profile/:id',
-        component: CardTestResultProfile,
-      },],
-    },],
-  },{
-    name: '性格管理',
-    path: 'character',
-    icon: 'table',
-    children: [{
-      name: '性格色彩列表',
-      path: 'color',
-      component: CharacterColorList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: CharacterColorAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: CharacterColorEditForm,
-      },],
-    },{
-      name: '主题列表',
-      path: 'theme',
-      component: ThemeList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: ThemeAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: ThemeEditForm,
-      },],
-    },{
-      name: '性格主题配置',
-      path: 'charactertheme',
-      component: CharacterList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: CharacterAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: CharacterEditForm,
-      },],
-    },],
   }, {
-    name: '客户管理',
-    path: 'customer',
-    icon: 'table',
-    children: [{
-      name: '客户资料',
-      path: 'info',
-      component: CustomerList,
-    },{
-      name: '客户订单',
-      path: 'order',
-      component: OrderList,
-      children: [{
-        breadname: '详情',
-        path: 'profile/:id',
-        component: OrderProfile,
-      },],
-    },],
-  },{
-    name: '营销管理',
-    path: 'scheme',
-    icon: 'table',
-    children: [{
-      name: '分享记录',
-      path: 'share',
-      component: ShareList,
-    },{
-      name: '分享模板管理',
-      path: 'transmittemplate',
-      component: TransmitTemplateList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: TransmitTemplateAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: TransmitTemplateEditForm,
-      },],
-    },],
-  }, {
-    name: '咨询师服务管理',
-    path: 'counsel',
-    icon: 'table',
-    children: [{
-      name: '咨询师等级管理',
-      path: 'rank',
-      component: CounselorRankList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: CounselorRankAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: CounselorRankEditForm,
-      },],
-    },{
-      name: '咨询师管理',
-      path: 'counselor',
-      component: CounselorList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: CounselorAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: CounselorEditForm,
-      },],
-    },{
-      name: '客户留言管理',
-      path: 'words',
-      component: CustomerWordsList,
-      children: [{
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: CustomerWordsEditForm,
-      },],
-    },],
-  },{
     name: '详情页',
     path: 'profile',
     icon: 'profile',
