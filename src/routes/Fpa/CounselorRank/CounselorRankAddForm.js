@@ -129,12 +129,12 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-                <Link to={'/counselorrank'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/counsel/rank'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

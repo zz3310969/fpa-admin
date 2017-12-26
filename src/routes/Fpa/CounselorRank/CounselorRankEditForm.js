@@ -147,7 +147,7 @@ export default class BasicForms extends PureComponent {
                   </Select>
                   )}
               </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
                 this.state.onlyread ?'':(
@@ -156,7 +156,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/counselorrank'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/counsel/rank'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
