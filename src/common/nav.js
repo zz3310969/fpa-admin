@@ -209,7 +209,7 @@ const data = [{
       path: 'scene',
       component: SceneList,
     },{
-      name: '卡牌',
+      name: '卡牌管理',
       path: 'cardgroup',
       component: CardGroupList,
       children: [{
