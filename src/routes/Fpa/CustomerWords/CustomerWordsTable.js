@@ -79,14 +79,9 @@ class StandardTable extends PureComponent {
           key: 'name',
       },
       {
-          title: '微信unionid',
-          dataIndex: 'wechatId',
-          key: 'wechatId',
-      },
-      {
-          title: '客户ID',
-          dataIndex: 'customerId',
-          key: 'customerId',
+        title: '留言',
+        dataIndex: 'words',
+        key: 'words',
       },
       {
           title: '手机号',
@@ -97,12 +92,7 @@ class StandardTable extends PureComponent {
           title: '邮箱',
           dataIndex: 'mail',
           key: 'mail',
-      },
-      {
-          title: '留言',
-          dataIndex: 'words',
-          key: 'words',
-      },
+      },,
        {
         title: '操作',
         render: (text, record, index) => (
@@ -137,7 +127,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}

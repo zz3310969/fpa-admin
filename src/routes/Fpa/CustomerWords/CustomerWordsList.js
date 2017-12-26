@@ -152,6 +152,13 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
+                <FormItem label="留言">
+                  {getFieldDecorator('words')(
+                    <Input placeholder="" />
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
               <FormItem label="客户名称">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
@@ -159,42 +166,13 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="微信unionid">
-                  {getFieldDecorator('wechatId')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="客户ID">
-                  {getFieldDecorator('customerId')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="手机号">
+                <FormItem label="手机号">
                   {getFieldDecorator('mobile')(
-                  <Input placeholder="" />
+                    <Input placeholder="" />
                   )}
-              </FormItem>
+                </FormItem>
               </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="邮箱">
-                  {getFieldDecorator('mail')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="留言">
-                  {getFieldDecorator('words')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
+
           </Row >
           <div style={{ overflow: 'hidden' }}>
               <span style={{ float: 'right', marginBottom: 24 }}>
@@ -207,7 +185,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -232,23 +210,6 @@ export default class TableList extends PureComponent {
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
-            <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/customerwords/add')); console.log('新建')}}>新建</Button>
-              {
-                selectedRows.length > 0 && (
-                  <span>
-                    <Dropdown overlay={menu}>
-                      <Button>
-                        更多操作 <Icon type="down" />
-                      </Button>
-                    </Dropdown>
-                  </span>
-                )
-              }
-            </div>
-
-
-
             <CustomerWordsTable
               selectedRows={selectedRows}
               loading={customerwordsLoading}
@@ -261,7 +222,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
