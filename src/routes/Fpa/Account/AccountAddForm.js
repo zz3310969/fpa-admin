@@ -102,18 +102,7 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" />
                     )}
                 </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="账户可提现金额(分)"
-                >
-                    {getFieldDecorator('amount', {
-                    rules: [{
-                      required: true, message: '请输入账户可提现金额(分)',
-                    }],
-                    })(
-                    <Input placeholder="" />
-                    )}
-                </FormItem>
+
                 <FormItem
                         {...formItemLayout}
                         label="结算日期"

@@ -79,9 +79,9 @@ class StandardTable extends PureComponent {
           key: 'numb',
       },
       {
-          title: '咨询师ID',
-          dataIndex: 'counselorId',
-          key: 'counselorId',
+          title: '咨询师',
+          dataIndex: 'counselorName',
+          key: 'counselorName',
       },
       {
           title: '账户可提现金额(分)',

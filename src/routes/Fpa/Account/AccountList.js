@@ -166,8 +166,8 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="账户可提现金额(分)">
-                  {getFieldDecorator('amount')(
+              <FormItem label="状态">
+                  {getFieldDecorator('state')(
                   <Input placeholder="" />
                   )}
               </FormItem>
@@ -177,13 +177,6 @@ export default class TableList extends PureComponent {
               <Col md={8} sm={24}>
               <FormItem label="结算日期">
                   {getFieldDecorator('balanceDate')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="状态">
-                  {getFieldDecorator('state')(
                   <Input placeholder="" />
                   )}
               </FormItem>
@@ -226,7 +219,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/account/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/finance/account/add'));}}>添加账户</Button>
               {
                 selectedRows.length > 0 && (
                   <span>

@@ -20,6 +20,21 @@ import CounselorAddForm from '../routes/Fpa/Counselor/CounselorAddForm';
 import CounselorEditForm from '../routes/Fpa/Counselor/CounselorEditForm';
 
 
+import WithdrawList from '../routes/Fpa/Withdraw/WithdrawList';
+import WithdrawAddForm from '../routes/Fpa/Withdraw/WithdrawAddForm';
+import WithdrawEditForm from '../routes/Fpa/Withdraw/WithdrawEditForm';
+
+import RefundList from '../routes/Fpa/Refund/RefundList';
+import RefundAddForm from '../routes/Fpa/Refund/RefundAddForm';
+import RefundEditForm from '../routes/Fpa/Refund/RefundEditForm';
+
+
+import ServiceRecordList from '../routes/Fpa/ServiceRecord/ServiceRecordList';
+
+import AccountList from '../routes/Fpa/Account/AccountList';
+import AccountAddForm from '../routes/Fpa/Account/AccountAddForm';
+import AccountEditForm from '../routes/Fpa/Account/AccountEditForm';
+
 
 import CardGroupList from '../routes/Fpa/CardGroup/CardGroupList';
 import CardGroupAddForm from '../routes/Fpa/CardGroup/CardGroupAddForm';
@@ -265,6 +280,82 @@ const data = [{
       },],
     },],
   },{
+    name: '财务',
+    path: 'finance',
+    icon: 'pay-circle',
+    children: [{
+      name: '咨询师账户管理',
+      path: 'account',
+      component: AccountList,
+      children: [{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AccountEditForm,
+      }],
+    },{
+      name: '提现申请',
+      path: 'withdraw/apply',
+      component: WithdrawList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: WithdrawAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: WithdrawEditForm,
+      }],
+    },{
+      name: '提现审核',
+      path: 'withdraw/audit',
+      component: WithdrawList,
+      children: [{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: WithdrawEditForm,
+      }],
+    },{
+      name: '提现记录',
+      path: 'withdraw/list',
+      component: WithdrawList,
+      children: [ {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: WithdrawEditForm,
+      }],
+    },{
+      name: '退款申请',
+      path: 'refund/apply',
+      component: RefundList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: RefundAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: RefundEditForm,
+      }],
+    },{
+      name: '退款审核',
+      path: 'refund/audit',
+      component: RefundList,
+      children: [ {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: RefundEditForm,
+      }],
+    },{
+      name: '退款记录',
+      path: 'refund/list',
+      component: RefundList,
+      children: [{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: RefundEditForm,
+      }],
+    },],
+  },{
     name:'系统管理',
     path:'sysm',
     icon:'windows-o',
@@ -299,120 +390,7 @@ const data = [{
         path: 'workplace',
         component: Workplace,
       }],
-    },{
-    name: '表单页',
-    path: 'form',
-    icon: 'form',
-    children: [{
-      name: '基础表单',
-      path: 'basic-form',
-      component: BasicForm,
-    }, {
-      name: '分步表单',
-      path: 'step-form',
-      component: StepForm,
-      children: [{
-        path: 'confirm',
-        component: Step2,
-      }, {
-        path: 'result',
-        component: Step3,
-      }],
-    }, {
-      name: '高级表单',
-      path: 'advanced-form',
-      component: AdvancedForm,
-    }],
-  },{
-    name: '列表页',
-    path: 'list',
-    icon: 'table',
-    children: [{
-      name: '缓存列表',
-      path: 'cache-list',
-      component: CacheList,
-    },{
-      name: '用户列表',
-      path: 'user-list',
-      component: UserList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: UserAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: UserEditForm,
-      },],
-    },{
-      name: '查询表格',
-      path: 'table-list',
-      component: TableList,
-    }, {
-      name: '标准列表',
-      path: 'basic-list',
-      component: BasicList,
-    }, {
-      name: '卡片列表',
-      path: 'card-list',
-      component: CardList,
-    }, {
-      name: '搜索列表（项目）',
-      path: 'cover-card-list',
-      component: CoverCardList,
-    }, {
-      name: '搜索列表（应用）',
-      path: 'filter-card-list',
-      component: FilterCardList,
-    }, {
-      name: '搜索列表（文章）',
-      path: 'search',
-      component: SearchList,
-    }],
-  }, {
-    name: '详情页',
-    path: 'profile',
-    icon: 'profile',
-    children: [{
-      name: '基础详情页',
-      path: 'basic',
-      component: BasicProfile,
-    }, {
-      name: '高级详情页',
-      path: 'advanced',
-      component: AdvancedProfile,
-    }],
-  }, {
-    name: '结果',
-    path: 'result',
-    icon: 'check-circle-o',
-    children: [{
-      name: '成功',
-      path: 'success',
-      component: Success,
-    }, {
-      name: '失败',
-      path: 'fail',
-      component: Error,
-    }],
-  }, {
-    name: '异常',
-    path: 'exception',
-    icon: 'warning',
-    children: [{
-      name: '403',
-      path: '403',
-      component: Exception403,
-    }, {
-      name: '404',
-      path: '404',
-      component: Exception404,
-    }, {
-      name: '500',
-      path: '500',
-      component: Exception500,
-    }],
-  }],
+    },],
 }, {
   component: UserLayout,
   layout: 'UserLayout',

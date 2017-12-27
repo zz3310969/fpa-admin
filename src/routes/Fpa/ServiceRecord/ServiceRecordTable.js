@@ -74,19 +74,19 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
-          title: '咨询师ID',
-          dataIndex: 'counselorId',
-          key: 'counselorId',
+          title: '咨询师',
+          dataIndex: 'counselorName',
+          key: 'counselorName',
       },
       {
-          title: '客户ID',
-          dataIndex: 'customerId',
-          key: 'customerId',
+          title: '客户',
+          dataIndex: 'customerName',
+          key: 'customerName',
       },
       {
-          title: '咨询主题ID',
-          dataIndex: 'themeId',
-          key: 'themeId',
+          title: '咨询主题',
+          dataIndex: 'themeName',
+          key: 'themeName',
       },
       {
           title: '服务时长',
