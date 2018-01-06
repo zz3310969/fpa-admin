@@ -3,9 +3,9 @@ import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, Modal, message,Tree } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
-import styles from '../defaultTableList.less';
+import styles from '../defaultTree.less';
 import request from '../../../utils/request';
-
+import {queryResource, } from '../../../services/organization';
 const FormItem = Form.Item;
 const { Option } = Select;
 const TreeNode = Tree.TreeNode;
@@ -13,30 +13,10 @@ const TreeNode = Tree.TreeNode;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 
-function loop(data, type) {
-  var result;
-   data.filter((item, index, arr) => {
-    debugger;
-      if (item.val == type) {
-        result = item.val;
-        return item.val;;
-      }
-      if (item.children) {
-        var re = loop(item.children, type);
-        if(re){
-          return re;
-        }
-      }
-    });
-   return result;
- }
 
-/*const loop = (data, type) => {
-    
-  };*/
 
 @connect(state => ({
-  dictionary: state.dictionary,
+  organization: state.organization,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -47,133 +27,153 @@ export default class TableList extends PureComponent {
     formValues: {},
     limit:10,
     currentPage:1,
-    treeData: this.props.dictionary.data,
-    parentType:"",
-    id:0,
+    treeData: this.props.organization.data,
+    parentId:0,
   };
 
 
   onSelect = (selectedKeys, info) => {
     const { dispatch } = this.props;
+    const { resetFields } = this.props.form;
+    resetFields();
     let id = info.node.props.dataRef.id;
-    let parentType = loop(this.state.treeData,info.node.props.dataRef.val)
-        debugger;
-
     this.setState({
-      parentType:parentType,
-      id:id
-    })
+      parentId: id,
+    });
     dispatch({
-        type: 'dictionary/fetchBasic',
+        type: 'organization/fetchBasic',
         payload:{id:id}
       });
     console.log('selected', selectedKeys, info);
   }
 
+  onChange = () => {
+    console.log('onChange');
+  }
+
+
+
 
   onLoadData = (treeNode) => {
-    
+    var self = this;
     return new Promise((resolve) => {
       if (treeNode.props.children) {
         resolve();
         return;
       }
-      request('api/base/dictionary/read?type='+treeNode.props.eventKey)
-        .then(result => {
-          if(result.state =='success') {
-            treeNode.props.dataRef.children = result.data;
-            this.setState({
-              treeData: [...this.state.treeData],
-            });
-          }
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'organization/fetch',
+        treeData:this.state.treeData,
+        payload:{parentId:treeNode.props.eventKey},
+        callback:()=>{
           resolve(); 
-        })
-
+        }
+      });
       
     });
   }
   renderTreeNodes = (data) => {
     return data.map((item) => {
-      if (item.children) {
+      item.title = item.name;
+      item.key = item.id+"";
+      item.isLeaf = item.leaf;
+      if (item.children && item.children.length > 0) {
         return (
-          <TreeNode title={item.title} key={item.key} dataRef={item}>
+          <TreeNode title={item.title} key={item.key} dataRef={item} >
             {this.renderTreeNodes(item.children)}
           </TreeNode>
         );
       }
-      return <TreeNode {...item} dataRef={item} />;
+      return <TreeNode {...item} title={item.title} dataRef={item} />;
     });
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'dictionary/fetch',
-      payload:{type:this.state.parentType},
+      type: 'organization/fetch',
+      payload:{parentId:this.state.parentId},
       treeData:this.state.treeData,
     });
   }
   componentWillReceiveProps(nextProps) {
-
+    
   }
-
-  reLoadTree = (parentType) => {
+  componentWillUnmount(){
     const { dispatch } = this.props;
-      dispatch({
-        type: 'dictionary/fetch',
-        treeData:this.state.treeData,
-        payload:{type:parentType},
-        callback:()=>{
-        }
-      });
-  }
-
-
-
-
-  handleUpdateSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        this.props.dispatch({
-          type: 'dictionary/update',
-          payload: values,
-          callback: () => {
-            debugger;
-            this.reLoadTree(this.state.parentType);
-          },
-        });
-      }
+    dispatch({
+      type: 'organization/clean',
     });
   }
 
 
-  
+  reLoadTree = (parentId) => {
+    const { dispatch } = this.props;
+      dispatch({
+        type: 'organization/fetch',
+        treeData:this.state.treeData,
+        payload:{parentId:parentId},
+        callback:()=>{
+        }
+      });
 
-  handleReset = () => {
-    this.props.form.resetFields();
   }
+
 
   toggleForm = () => {
     this.setState({
       expandForm: !this.state.expandForm,
     });
   }
-
-  handleAdd = () => {
+  createPrivilege = () => {
     const { dispatch } = this.props;
+    const { treeData } = this.state;
+    console.log(treeData);
     dispatch({
-      type: 'dictionary/add',
-      payload: {parentId:this.state.id,text:'未命名',val:'initialValue'},
-      callback:()=>{
-        this.reLoadTree(this.state.parentType);
+        type: 'organization/add',
+        payload:{parent_id:this.state.parentId,name:'未命名'},
+        callback: () => {
+          this.reLoadTree(this.state.parentId);
+        },
+      });
+  }
+
+  deleteResource = () => {
+    const { dispatch } = this.props;
+    if(this.state.parentId){
+      dispatch({
+        type: 'organization/remove',
+        treeData:this.state.treeData,
+        payload:{id:this.state.parentId},
+      });
+    }
+    
+  }
+
+  handleUpdateSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        this.props.dispatch({
+          type: 'organization/update',
+          payload: values,
+          callback: () => {
+            this.reLoadTree(values['parent_id']);
+          },
+        });
       }
     });
   }
 
+  handleReset = () => {
+    this.props.form.resetFields();
+  }
+
+
   renderUpdateForm() {
     const { getFieldDecorator } = this.props.form;
-    const { dictionary: { regularFormSubmitting: submitting, formdate} } = this.props;
+    const { organization: { regularFormSubmitting: submitting, formdate} } = this.props;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -198,13 +198,13 @@ export default class TableList extends PureComponent {
             hideRequiredMark
             style={{ marginTop: 8 }}
           >
-
           <FormItem >
-              <Col span={24} style={{ textAlign: 'right' }}>
-              <Button  size="small" onClick={this.handleAdd} htmlType="button" >
+          <Col span={24} style={{ textAlign: 'right' }}>
+              <Button  size="small" onClick={this.createPrivilege} htmlType="button" >
                 新增
               </Button>
-              <Button style={{ marginLeft: 8 }} size="small" htmlType="button" >
+              
+              <Button style={{ marginLeft: 8 }} size="small" onClick={this.deleteResource} htmlType="button" >
                 删除
               </Button>
               </Col>
@@ -216,27 +216,25 @@ export default class TableList extends PureComponent {
                     )}
                 <FormItem
                         {...formItemLayout}
-                        label="类型"
+                        label="组织名"
                 >
-                    {getFieldDecorator('type', {
-                    initialValue:formdate.type,
+                    {getFieldDecorator('name', {
+                    initialValue:formdate.name,
                     rules: [{
-                      required: true, message: '请输入类型',
-                    },{
-                      validator: this.usernameExists
+                      required: true, message: '请输入组织名',
                     }],
                     })(
-                    <Input placeholder="" disabled={true}/>
+                    <Input placeholder="" />
                     )}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="值"
+                        label="上级节点"
                 >
-                    {getFieldDecorator('val', {
-                    initialValue:formdate.val,
+                    {getFieldDecorator('parent_id', {
+                    initialValue:formdate.parent_id,
                     rules: [{
-                      required: true, message: '请输入值',
+                      required: true, message: '请输入上级节点',
                     }],
                     })(
                     <Input  placeholder="" />
@@ -244,29 +242,31 @@ export default class TableList extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="文本"
+                        label="等级"
                 >
-                    {getFieldDecorator('text', {
-                    initialValue:formdate.text,
+                    {getFieldDecorator('lvl', {
+                    initialValue:formdate.lvl,
                     rules: [{
-                      required: true, message: '请输入文本',
+                      required: true, message: '请输入等级',
                     }],
                     })(
                     <Input placeholder="" />
                     )}
                 </FormItem>
+                
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 更新
               </Button>
-                <Link to={'/list/user-list'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Button onClick={this.handleReset} style={{ marginLeft: 8 }}>取消</Button>
             </FormItem>
           </Form>
     );
   }
 
 
+  
 
 
   renderForm() {
@@ -276,21 +276,22 @@ export default class TableList extends PureComponent {
 
 
   render() {
-    const { dictionary: { regularFormSubmitting: submitting, data:treeData ,formdate} } = this.props;
+    const { organization: { regularFormSubmitting: submitting, data:treeData ,formdate} } = this.props;
     
 
 
 
     return (
-      <PageHeaderLayout title="字典树">
+      <PageHeaderLayout title="组织架构">
         <Card bordered={false}>
 
         <Row gutter={16}>
-          <Col span={4}>
-            <Card title="" bordered={false} style={{ width: 300 }}>
+          <Col span={6}>
+            <Card title="" bordered={false} style={{ width: '100%' }}>
               <Tree loadData={this.onLoadData}
                   onSelect={this.onSelect}
                   onCheck={this.onCheck}
+                  
               >
               {this.renderTreeNodes(treeData)}
               </Tree>

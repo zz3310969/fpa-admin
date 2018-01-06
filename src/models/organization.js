@@ -1,34 +1,22 @@
 import { message } from 'antd';
 
-import {queryDictionary,addDictionary,loadDictionary,updateDictionary,removeDictionary,queryDictionaryBase } from '../services/dictionary';
-import {loopDelete} from '../utils/helper';
-
-
-const loop = (data, type,children) => {
-  data.forEach((item, index, arr) => {
-    if (item.val == type) {
-      item.children = children;
-      return ;
-    }
-    if (item.children) {
-      loop(item.children, type, children);
-    }
-  });
-  return data;
-};
+import {queryOrganization,addOrganization,loadOrganization,updateOrganization,removeOrganization,queryOrganizationBase, } from '../services/organization';
+import {loop,loopDelete} from '../utils/helper';
 
 export default {
-  namespace: 'dictionary',
+  namespace: 'organization',
 
   state: {
     data: [],
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
-    currentUser: {},
+    currentResource: {},
     roleses:[],
     orgs:[],
   },
+
+  
 
   effects: {
     *fetch({ payload,treeData,callback }, { call, put }) {
@@ -36,14 +24,13 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryDictionary, payload);
+      const response = yield call(queryOrganization, payload);
       if(response.state == 'success'){
         if(treeData && treeData.length == 0){
           Object.assign(treeData,response.data);
         }else{
-            treeData = loop(treeData,payload.type,response.data)
+            treeData = loop(treeData,payload.parentId,response.data)
         }
-        
         yield put({
           type: 'save',
           payload: treeData,
@@ -55,17 +42,21 @@ export default {
         type: 'changeLoading',
         payload: false,
       });
+      if (callback) callback();
     },
     *remove({ treeData,payload, callback }, { call, put }) {
       yield put({
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(removeDictionary, payload);
-      yield put({
-        type: 'save',
-        payload: loopDelete(treeData,payload.id),
-      });
+      const response = yield call(removeOrganization, payload);
+      debugger;
+      if(response.state == 'success'){
+        yield put({
+          type: 'save',
+          payload: loopDelete(treeData,payload.id),
+        });
+      }
       yield put({
         type: 'changeLoading',
         payload: false,
@@ -78,7 +69,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(addDictionary, payload);
+      const response = yield call(addOrganization, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -97,7 +88,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(updateDictionary, payload);
+      const response = yield call(updateOrganization, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -116,7 +107,7 @@ export default {
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadDictionary,payload);
+      const response = yield call(loadOrganization,payload);
       if(response.state == 'success'){
         yield put({
           type: 'show',
@@ -133,7 +124,7 @@ export default {
       });
     },
     *base({ payload }, { call, put }) {
-      const response = yield call(queryDictionaryBase, payload);
+      const response = yield call(queryOrganizationBase, payload);
       if(response.state == 'success'){
         if(response.data.roleses){
           var roles = new Array();
@@ -157,9 +148,10 @@ export default {
     *clean({ payload }, { call, put }){
       yield put({
         type: 'show',
-        payload: {formdate: {},},
+        payload: {formdate: {},data: [],},
       });
     },
+
   },
 
   reducers: {

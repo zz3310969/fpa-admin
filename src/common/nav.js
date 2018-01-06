@@ -84,6 +84,11 @@ import UserList from '../routes/Base/User/UserList';
 import UserAddForm from '../routes/Base/User/UserAddForm';
 import UserEditForm from '../routes/Base/User/UserEditForm';
 
+import DictionaryTree from '../routes/Base/Dictionary/DictionaryTree';
+import ResourceTree from '../routes/Base/Resource/ResourceTree';
+import OrganizationTree from '../routes/Base/Organization/OrganizationTree';
+import MenuTree from '../routes/Base/Menu/MenuTree';
+
 
 import CacheList from '../routes/Base/Cache/CacheList';
 import TableList from '../routes/List/TableList';
@@ -363,6 +368,22 @@ const data = [{
       name: '缓存列表',
       path: 'cache-list',
       component: CacheList,
+    },{
+      name: '菜单',
+      path: 'menu-tree',
+      component: MenuTree,
+    },{
+      name: '字典',
+      path: 'dictionary-tree',
+      component: DictionaryTree,
+    },{
+      name: '资源',
+      path: 'resource-tree',
+      component:ResourceTree,
+    },{
+      name: '组织架构',
+      path: 'org-tree',
+      component:OrganizationTree,
     },{
       name: '用户列表',
       path: 'user-list',
