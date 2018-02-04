@@ -69,7 +69,7 @@ export default class BasicProfile extends Component {
             renderItem={item => (item ? (
               <List.Item key={item.id}>
                 <Card hoverable className={styles.card}
-                  cover={ <img alt="" className={styles.cardAvatar} src={'/api/fpa/pic/middle/'+item.cardUnitImage} />}>
+                  cover={ <img alt="" className={styles.cardAvatar} src={item.cardUnitImage} />}>
                 </Card>
               </List.Item>
               ) : (
