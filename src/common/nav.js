@@ -119,6 +119,36 @@ import Register from '../routes/User/Register';
 import RegisterResult from '../routes/User/RegisterResult';
 
 
+import ApplicationList from '../routes/Advisory/Application/ApplicationList';
+import ApplicationAddForm from '../routes/Advisory/Application/ApplicationAddForm';
+import ApplicationEditForm from '../routes/Advisory/Application/ApplicationEditForm';
+
+
+import ConsultantList from '../routes/Advisory/Consultant/ConsultantList';
+import ConsultantAddForm from '../routes/Advisory/Consultant/ConsultantAddForm';
+import ConsultantEditForm from '../routes/Advisory/Consultant/ConsultantEditForm';
+
+import QuickReplyList from '../routes/Advisory/QuickReply/QuickReplyList';
+import QuickReplyAddForm from '../routes/Advisory/QuickReply/QuickReplyAddForm';
+import QuickReplyEditForm from '../routes/Advisory/QuickReply/QuickReplyEditForm';
+
+import LevelList from '../routes/Advisory/Level/LevelList';
+import LevelAddForm from '../routes/Advisory/Level/LevelAddForm';
+import LevelEditForm from '../routes/Advisory/Level/LevelEditForm';
+
+import CommissionPricingList from '../routes/Advisory/CommissionPricing/CommissionPricingList';
+import CommissionPricingAddForm from '../routes/Advisory/CommissionPricing/CommissionPricingAddForm';
+import CommissionPricingEditForm from '../routes/Advisory/CommissionPricing/CommissionPricingEditForm';
+
+import AdvisoryModesList from '../routes/Advisory/AdvisoryModes/AdvisoryModesList';
+import AdvisoryModesAddForm from '../routes/Advisory/AdvisoryModes/AdvisoryModesAddForm';
+import AdvisoryModesEditForm from '../routes/Advisory/AdvisoryModes/AdvisoryModesEditForm';
+
+import AdvisoryThemeList from '../routes/Advisory/AdvisoryTheme/AdvisoryThemeList';
+import AdvisoryThemeAddForm from '../routes/Advisory/AdvisoryTheme/AdvisoryThemeAddForm';
+import AdvisoryThemeEditForm from '../routes/Advisory/AdvisoryTheme/AdvisoryThemeEditForm';
+
+
 import dynamic from 'dva/dynamic';
 
 // wrapper of dynamic
@@ -134,6 +164,102 @@ const data = [{
   name: '首页', // for breadcrumb
   path: '',
   children: [{
+    name: '咨询',
+    path: 'advisory',
+    icon: 'credit-card',
+    children: [{
+      name: '接入管理',
+      path: 'application',
+      component: ApplicationList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: ApplicationAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: ApplicationEditForm,
+      }]
+    },{
+      name: '咨询师管理',
+      path: 'consultant',
+      component: ConsultantList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: ConsultantAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: ConsultantEditForm,
+      }]
+    },{
+      name: '咨询师等级管理',
+      path: 'level',
+      component: LevelList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: LevelAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: LevelEditForm,
+      }]
+    },{
+      name: '知识管理',
+      path: 'quickreply',
+      component: QuickReplyList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: QuickReplyAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: QuickReplyEditForm,
+      }]
+    },{
+      name: '佣金定价',
+      path: 'commissionpricing',
+      component: CommissionPricingList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: CommissionPricingAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CommissionPricingEditForm,
+      }]
+    },{
+      name: '咨询模式',
+      path: 'advisorymodes',
+      component: AdvisoryModesList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: AdvisoryModesAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AdvisoryModesEditForm,
+      }]
+    },{
+      name: '咨询主题',
+      path: 'advisorytheme',
+      component: AdvisoryThemeList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: AdvisoryThemeAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AdvisoryThemeEditForm,
+      }]
+    }],
+  },{
     name: '卡牌测试管理',
     path: 'test',
     icon: 'credit-card',
