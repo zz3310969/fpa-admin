@@ -9,7 +9,7 @@ const confirm = Modal.confirm;
 const statusMap = ['error','success'];
 
 @connect(state => ({
-  commissionpricing: state.commissionpricing,
+  advisorypricing: state.advisorypricing,
 }))
 class StandardTable extends PureComponent {
   state = {
@@ -52,7 +52,7 @@ class StandardTable extends PureComponent {
             content: '确认删除吗？',
             onOk() {
               dispatch({
-                type: 'commissionpricing/remove',
+                type: 'advisorypricing/remove',
                 payload: {
                   id: record.id,
                 },
@@ -67,7 +67,7 @@ class StandardTable extends PureComponent {
   };
 
   render() {
-    const { commissionpricing: {fix_types } } = this.props;
+    const { advisorypricing: {fix_types } } = this.props;
     const { selectedRowKeys } = this.state;
     const { data: { dataList, total }, loading } = this.props;
     const status = ['不可用', '可用'];
@@ -80,7 +80,7 @@ class StandardTable extends PureComponent {
           key: 'appName',
       },
       {
-          title: '咨询师姓名',
+          title: '咨询师',
           dataIndex: 'consultantName',
           key: 'consultantName',
       },
@@ -123,6 +123,14 @@ class StandardTable extends PureComponent {
           key: 'introduction',
       },
       {
+          title: '有效期',
+          dataIndex: 'validityStartTime',
+          key: 'validityStartTime',
+          render: (text, record, index) => {
+            return record.validityStartTime +"-"+ record.validityEndTime
+          }
+      },
+      {
           title: '状态',
           dataIndex: 'status',
           key: 'status',
@@ -134,9 +142,9 @@ class StandardTable extends PureComponent {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/advisory/commissionpricing/edit/'+record.id+'?read=true'}>查看</Link>
+              <Link to={'/advisory/advisorypricing/edit/'+record.id+'?read=true'}>查看</Link>
               <Divider type="vertical" />
-              <Link to={'/advisory/commissionpricing/edit/'+record.id}>编辑</Link>
+              <Link to={'/advisory/advisorypricing/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
               <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>

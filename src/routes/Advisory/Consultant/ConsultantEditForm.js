@@ -6,6 +6,7 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
+import AvatarUpload from '../common/AvatarUpload'
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -136,9 +137,35 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入头像',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <AvatarUpload placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
+              <FormItem
+                        {...formItemLayout}
+                        label="用户名"
+                >
+                    {getFieldDecorator('username', {
+                    initialValue:formdate.username,
+                    rules: [{
+                      required: true, message: '请输入用户名',
+                    }],
+                    })(
+                    <Input placeholder="" />
+                    )}
+                </FormItem>
+                <FormItem
+                        {...formItemLayout}
+                        label="手机号码"
+                >
+                    {getFieldDecorator('mobile', {
+                    initialValue:formdate.mobile,
+                    rules: [{
+                      required: true, message: '请输入手机号码',
+                    }],
+                    })(
+                    <Input placeholder="" />
+                    )}
+                </FormItem>
               <FormItem
                   {...formItemLayout}
                   label="等级"

@@ -58,8 +58,9 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { commissionpricing: { regularFormSubmitting:submitting, formdate ,status,apps} } = this.props;
+    const { commissionpricing: { regularFormSubmitting:submitting, formdate ,status,apps,fix_types} } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
+    const advisoryModes = this.props.commissionpricing.advisoryModes.filter(item => item.appId +"" == this.props.form.getFieldValue("appId"));
 
     const formItemLayout = {
       labelCol: {
@@ -96,6 +97,14 @@ export default class BasicForms extends PureComponent {
                 })(
                     <Input type="hidden"/>
                   )}
+                {getFieldDecorator('consultantId', {
+                    initialValue:formdate.consultantId,
+                    rules: [{
+                      required: true, message: '请输入咨询师姓名',
+                    }],
+                  })(
+                    <Input type="hidden"  />
+                  )}
               <FormItem
                   {...formItemLayout}
                   label="所属系统"
@@ -106,7 +115,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入所属系统',
                     }],
                   })(
-                    <Select disabled={this.state.onlyread}  showSearch
+                    <Select disabled={true}  showSearch
                       filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >
                       {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
@@ -117,13 +126,13 @@ export default class BasicForms extends PureComponent {
                   {...formItemLayout}
                   label="咨询师姓名"
               >
-                  {getFieldDecorator('consultantId', {
-                    initialValue:formdate.consultantId,
+                  {getFieldDecorator('consultantName', {
+                    initialValue:formdate.consultantName,
                     rules: [{
                       required: true, message: '请输入咨询师姓名',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder="" disabled={true} />
                   )}
               </FormItem>
               <FormItem
@@ -131,12 +140,14 @@ export default class BasicForms extends PureComponent {
                   label="咨询模式"
               >
                   {getFieldDecorator('moldeId', {
-                    initialValue:formdate.moldeId,
+                    initialValue:formdate.moldeId !== undefined ?formdate.moldeId+'':'',
                     rules: [{
                       required: true, message: '请输入咨询模式',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select disabled={this.state.onlyread}>
+                      {advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
@@ -144,12 +155,14 @@ export default class BasicForms extends PureComponent {
                   label="定价类型"
               >
                   {getFieldDecorator('fixType', {
-                    initialValue:formdate.fixType,
+                    initialValue:formdate.fixType ,
                     rules: [{
                       required: true, message: '请输入定价类型',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select disabled={this.state.onlyread}>
+                      {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
@@ -201,7 +214,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入简介',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <TextArea rows={4} placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem

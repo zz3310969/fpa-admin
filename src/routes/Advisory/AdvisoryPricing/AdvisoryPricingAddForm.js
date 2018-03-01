@@ -6,7 +6,6 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
-import AvatarUpload from '../common/AvatarUpload'
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -14,68 +13,56 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 @connect(state => ({
-  consultant: state.consultant,
+  advisorypricing: state.advisorypricing,
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
 
   state = {
-    levels:[],
-    advisoryThemes:[],
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'consultant/base',
+      type: 'advisorypricing/base',
     });
+    if(this.props.match.params.id){
+      dispatch({
+        type: 'advisorypricing/fetchConsultant',
+        payload:{id:this.props.match.params.id}
+      });
+    }
+
   }
 
 
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
       if (!err) {
+        const values = {
+          ...fieldsValue,
+          validityStartTime:fieldsValue.validityTime && fieldsValue.validityTime[0].format('YYYY-MM-DD'),
+          validityEndTime:fieldsValue.validityTime && fieldsValue.validityTime[1].format('YYYY-MM-DD'),
+          validityTime:'',
+        };
         this.props.dispatch({
-          type: 'consultant/add',
+          type: 'advisorypricing/add',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/advisory/consultant'));
+            this.props.dispatch(routerRedux.push('/advisorypricing'));
           },
         });
       }
     });
-  }
 
-  onAppChange = (value) => {
-    let allThems = this.props.consultant.advisoryThemes;
-    let allLevels = this.props.consultant.levels;
-    let advisoryThemes = new Array();
-    let levels = new Array();
     
-      for (var i = 0; i < allThems.length; i++) {
-        if(allThems[i].appId +"" == value){
-          advisoryThemes.push(allThems[i]);
-        }
-        console.log(allThems[i])
-      }
-      for (var i = 0; i < allLevels.length; i++) {
-        if(allLevels[i].appId +"" == value){
-          levels.push(allLevels[i]);
-        }
-      }
-      this.props.form.setFieldsValue({"levelId":''});
-      this.props.form.setFieldsValue({"themeId":''});
-      this.setState({
-        advisoryThemes,
-        levels,
-      })
-    };
-  
+  }
   render() {
-    const { consultant: { regularFormSubmitting:submitting ,apps,status,advisoryThemes,levels,genders} } = this.props;
+    const { advisorypricing: { regularFormSubmitting:submitting,apps,status,fix_types,formdate } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
+    const advisoryModes = this.props.advisorypricing.advisoryModes.filter(item => item.appId +"" == this.props.form.getFieldValue("appId"));
 
     const formItemLayout = {
       labelCol: {
@@ -95,8 +82,6 @@ export default class BasicForms extends PureComponent {
         sm: { span: 10, offset: 7 },
       },
     };
-    
-
 
     return (
       <PageHeaderLayout title="" content="">
@@ -111,18 +96,24 @@ export default class BasicForms extends PureComponent {
                     })(
                     <Input type="hidden"/>
                     )}
+                    {getFieldDecorator('consultantId', {
+                    initialValue:formdate.consultantId,
+                    })(
+                    <Input type="hidden"/>
+                    )}
                 <FormItem
                         {...formItemLayout}
                         label="所属系统"
                 >
                     {getFieldDecorator('appId', {
+                    initialValue:formdate.appId!== undefined ?formdate.appId+'':'',
                     rules: [{
                       required: true, message: '请输入所属系统',
                     }],
                     })(
                     <Select showSearch
                       filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                      onChange={this.onAppChange}
+                      onChange={this.onAppChange} disabled={true}
                     >
                       {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                     </Select>
@@ -130,11 +121,12 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="咨询师姓名"
+                        label="咨询师"
                 >
-                    {getFieldDecorator('name', {
+                    {getFieldDecorator('consultantName', {
+                    initialValue:formdate.consultantName,
                     rules: [{
-                      required: true, message: '请输入咨询师姓名',
+                      required: true, message: '请输入咨询师',
                     }],
                     })(
                     <Input placeholder="" />
@@ -142,75 +134,39 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="头像"
+                        label="咨询模式"
                 >
-                    {getFieldDecorator('headImageUrl', {
+                    {getFieldDecorator('moldeId', {
                     rules: [{
-                      required: true, message: '请输入头像',
-                    }],
-                    })(
-                    <AvatarUpload placeholder="" />
-                    )}
-                </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="用户名"
-                >
-                    {getFieldDecorator('username', {
-                    rules: [{
-                      required: true, message: '请输入用户名',
-                    }],
-                    })(
-                    <Input placeholder="" />
-                    )}
-                </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="手机号码"
-                >
-                    {getFieldDecorator('mobile', {
-                    rules: [{
-                      required: true, message: '请输入手机号码',
-                    }],
-                    })(
-                    <Input placeholder="" />
-                    )}
-                </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="等级"
-                >
-                    {getFieldDecorator('levelId', {
-                    rules: [{
-                      required: true, message: '请输入等级',
+                      required: true, message: '请输入咨询模式',
                     }],
                     })(
                     <Select>
-                      {this.state.levels.map(d => <Select.Option key={d.id}>{d.levelName}</Select.Option>)}
+                      {advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
                     </Select>
                     )}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="服务主题"
+                        label="定价类型"
                 >
-                    {getFieldDecorator('themeId', {
+                    {getFieldDecorator('fixType', {
                     rules: [{
-                      required: true, message: '请输入服务主题',
+                      required: true, message: '请输入定价类型',
                     }],
                     })(
                     <Select>
-                      {this.state.advisoryThemes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                      {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
                     </Select>
                     )}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="所在地区"
+                        label="单位"
                 >
-                    {getFieldDecorator('areaId', {
+                    {getFieldDecorator('unit', {
                     rules: [{
-                      required: true, message: '请输入所在地区',
+                      required: true, message: '请输入单位',
                     }],
                     })(
                     <Input placeholder="" />
@@ -218,16 +174,26 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="性别"
+                        label="原单价"
                 >
-                    {getFieldDecorator('gender', {
+                    {getFieldDecorator('originalPrice', {
                     rules: [{
-                      required: true, message: '请输入性别',
+                      required: true, message: '请输入原单价',
                     }],
                     })(
-                    <Select>
-                      {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                    </Select>
+                    <Input placeholder="" />
+                    )}
+                </FormItem>
+                <FormItem
+                        {...formItemLayout}
+                        label="现单价"
+                >
+                    {getFieldDecorator('currentPrice', {
+                    rules: [{
+                      required: true, message: '请输入现单价',
+                    }],
+                    })(
+                    <Input placeholder="" />
                     )}
                 </FormItem>
                 <FormItem
@@ -240,6 +206,19 @@ export default class BasicForms extends PureComponent {
                     }],
                     })(
                     <TextArea rows={4} placeholder="" />
+                    )}
+                </FormItem>
+                
+                <FormItem
+                        {...formItemLayout}
+                        label="有效期"
+                >
+                    {getFieldDecorator('validityTime', {
+                    rules: [{
+                      required: true, message: '请输入有效期',
+                    }],
+                    })(
+                    <RangePicker style={{ width: '100%' }}/>
                     )}
                 </FormItem>
                 <FormItem
@@ -256,12 +235,13 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
+                
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-                <Link to={'/advisory/consultant'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/advisorypricing'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

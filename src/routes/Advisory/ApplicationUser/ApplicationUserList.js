@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,Table } from 'antd';
-import ConsultantTable from './ConsultantTable';
+import ApplicationUserTable from './ApplicationUserTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
-import ApplicationRemoteSelect from '../common/ApplicationRemoteSelect'
+
 import styles from '../defaultTableList.less';
 
 const FormItem = Form.Item;
@@ -15,7 +15,7 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 
 @connect(state => ({
-  consultant: state.consultant,
+  applicationuser: state.applicationuser,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -30,10 +30,10 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'consultant/base',
+      type: 'applicationuser/base',
     });
     dispatch({
-      type: 'consultant/fetch',
+      type: 'applicationuser/fetch',
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -64,7 +64,7 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'consultant/fetch',
+      type: 'applicationuser/fetch',
       payload: params,
     });
   }
@@ -73,7 +73,7 @@ export default class TableList extends PureComponent {
     const { form, dispatch } = this.props;
     form.resetFields();
     dispatch({
-      type: 'consultant/fetch',
+      type: 'applicationuser/fetch',
       payload: {},
     });
   }
@@ -88,7 +88,7 @@ export default class TableList extends PureComponent {
       ...formValues,
     };
     dispatch({
-      type: 'consultant/fetch',
+      type: 'applicationuser/fetch',
       payload: params,
     });
   }
@@ -102,7 +102,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'consultant/remove',
+          type: 'applicationuser/remove',
           payload: {
             ids: selectedRows.map(row => row.id).join(','),
           },
@@ -142,7 +142,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'consultant/fetch',
+        type: 'applicationuser/fetch',
         payload: values,
       });
     });
@@ -150,7 +150,7 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
-    const { consultant: { status, apps,advisoryThemes,levels,genders} } = this.props;
+    const { applicationuser: { apps,status, } } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
@@ -160,25 +160,23 @@ export default class TableList extends PureComponent {
                   {getFieldDecorator('appId')(
                   <Select showSearch
                       filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
+                    >
+                      {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="咨询师姓名">
+              <FormItem label="姓名">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="等级">
-                  {getFieldDecorator('levelId')(
-                  <Select>
-                      {levels.map(d => <Select.Option key={d.id}>{d.levelName}</Select.Option>)}
-                  </Select>
+              <FormItem label="用户名">
+                  {getFieldDecorator('username')(
+                  <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
@@ -186,34 +184,19 @@ export default class TableList extends PureComponent {
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               
               <Col md={8} sm={24}>
-              <FormItem label="服务主题">
-                  {getFieldDecorator('themeId')(
-                  <Select>
-                    {advisoryThemes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="所在地区">
-                  {getFieldDecorator('areaId')(
+              <FormItem label="手机">
+                  {getFieldDecorator('moblie')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="性别">
-                  {getFieldDecorator('gender')(
-                  <Select>
-                      {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
+              <FormItem label="邮箱">
+                  {getFieldDecorator('email')(
+                  <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              
-              
               <Col md={8} sm={24}>
               <FormItem label="状态">
                   {getFieldDecorator('status')(
@@ -223,14 +206,13 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
-              <Col md={8} sm={24}>
-              <span className={styles.submitButtons}>
-                    <Button type="primary" htmlType="submit">查询</Button>
-                    <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-                  </span>
-              </Col>
-          </Row >
-          
+           </Row >
+          <div style={{ overflow: 'hidden' }}>
+              <span style={{ float: 'right', marginBottom: 24 }}>
+              <Button type="primary" htmlType="submit">查询</Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+              </span>
+          </div>
 
       </Form>
     );
@@ -243,7 +225,7 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { consultant: { loading: consultantLoading, data } } = this.props;
+    const { applicationuser: { loading: applicationuserLoading, data } } = this.props;
     const { selectedRows } = this.state;
 
     const menu = (
@@ -255,14 +237,14 @@ export default class TableList extends PureComponent {
 
 
     return (
-      <PageHeaderLayout title="咨询师列表">
+      <PageHeaderLayout title="接入系统用户列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/consultant/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/applicationuser/add')); console.log('新建')}}>新建</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -278,9 +260,9 @@ export default class TableList extends PureComponent {
 
 
 
-            <ConsultantTable
+            <ApplicationUserTable
               selectedRows={selectedRows}
-              loading={consultantLoading}
+              loading={applicationuserLoading}
               data={data}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}

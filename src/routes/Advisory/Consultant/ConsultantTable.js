@@ -89,9 +89,19 @@ class StandardTable extends PureComponent {
           key: 'headImageUrl',
           render(text, record, index) {
             return (
-              <Avatar shape="square" size="large" icon="user" src={record.weixinHeadImage} />
+              <Avatar shape="square" size="large" icon="user" src={record.headImageUrl} />
             );
           }
+      },
+      {
+          title: '用户名',
+          dataIndex: 'username',
+          key: 'username',
+      },
+      {
+          title: '手机号码',
+          dataIndex: 'mobile',
+          key: 'mobile',
       },
       {
           title: '等级',
@@ -147,6 +157,10 @@ class StandardTable extends PureComponent {
               <Link to={'/advisory/consultant/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
               <a onClick={this.deleteHandle(record, index)}>删除</a>
+              <Divider type="vertical" />
+              <Link to={'/advisory/commissionpricing/add/'+record.id}>佣金定价</Link>
+              <Divider type="vertical" />
+              <Link to={'/advisory/advisorypricing/add/'+record.id}>咨询定价</Link>
           </div>
         ),
       },];

@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { routerRedux, Link } from 'dva/router';
 import { connect } from 'dva';
-import { Table, Alert, Badge, Divider,Modal } from 'antd';
+import { Table, Alert, Badge, Divider,Modal,Avatar } from 'antd';
 import styles from '../defaultTable.less';
 const confirm = Modal.confirm;
 
 const statusMap = ['error','success'];
 
 @connect(state => ({
-  commissionpricing: state.commissionpricing,
+  applicationuser: state.applicationuser,
 }))
 class StandardTable extends PureComponent {
   state = {
@@ -52,7 +52,7 @@ class StandardTable extends PureComponent {
             content: '确认删除吗？',
             onOk() {
               dispatch({
-                type: 'commissionpricing/remove',
+                type: 'applicationuser/remove',
                 payload: {
                   id: record.id,
                 },
@@ -67,7 +67,6 @@ class StandardTable extends PureComponent {
   };
 
   render() {
-    const { commissionpricing: {fix_types } } = this.props;
     const { selectedRowKeys } = this.state;
     const { data: { dataList, total }, loading } = this.props;
     const status = ['不可用', '可用'];
@@ -80,63 +79,47 @@ class StandardTable extends PureComponent {
           key: 'appName',
       },
       {
-          title: '咨询师姓名',
-          dataIndex: 'consultantName',
-          key: 'consultantName',
-      },
-      {
-          title: '咨询模式',
-          dataIndex: 'modeName',
-          key: 'modeName',
-      },
-      {
-          title: '定价类型',
-          dataIndex: 'fixType',
-          key: 'fixType',
-          render(val) {
-            for (var i = 0; i < fix_types.length; i++) {
-              if(fix_types[i].val == val){
-                return fix_types[i].text;
-              }
-            }
-            return val;
+          title: '头像',
+          dataIndex: 'headImageUrl',
+          key: 'headImageUrl',
+          render(text, record, index) {
+            return (
+              <Avatar shape="square" size="large" icon="user" src={record.headImageUrl} />
+            );
           }
       },
       {
-          title: '单位',
-          dataIndex: 'unit',
-          key: 'unit',
+          title: '姓名',
+          dataIndex: 'name',
+          key: 'name',
       },
       {
-          title: '原单价',
-          dataIndex: 'originalPrice',
-          key: 'originalPrice',
+          title: '用户名',
+          dataIndex: 'username',
+          key: 'username',
       },
       {
-          title: '现单价',
-          dataIndex: 'currentPrice',
-          key: 'currentPrice',
+          title: '手机',
+          dataIndex: 'moblie',
+          key: 'moblie',
       },
       {
-          title: '简介',
-          dataIndex: 'introduction',
-          key: 'introduction',
+          title: '邮箱',
+          dataIndex: 'email',
+          key: 'email',
       },
       {
           title: '状态',
           dataIndex: 'status',
           key: 'status',
-          render(val) {
-            return <Badge status={statusMap[val]} text={status[val]} />;
-          }
       },
        {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/advisory/commissionpricing/edit/'+record.id+'?read=true'}>查看</Link>
+              <Link to={'/advisory/applicationuser/edit/'+record.id+'?read=true'}>查看</Link>
               <Divider type="vertical" />
-              <Link to={'/advisory/commissionpricing/edit/'+record.id}>编辑</Link>
+              <Link to={'/advisory/applicationuser/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
               <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>

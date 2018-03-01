@@ -8,14 +8,13 @@ import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
 import AvatarUpload from '../common/AvatarUpload'
 
-
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 @connect(state => ({
-  application: state.application,
+  applicationuser: state.applicationuser,
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -33,11 +32,11 @@ export default class BasicForms extends PureComponent {
     })
     const { dispatch } = this.props;
     dispatch({
-      type: 'application/base',
+      type: 'applicationuser/base',
     });
     if(this.props.match.params.id){
       dispatch({
-        type: 'application/fetchBasic',
+        type: 'applicationuser/fetchBasic',
         payload:{id:this.props.match.params.id}
       });
     }
@@ -50,17 +49,17 @@ export default class BasicForms extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'application/update',
+          type: 'applicationuser/update',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/advisory/application'));
+            this.props.dispatch(routerRedux.push('/applicationuser'));
           },
         });
       }
     });
   }
   render() {
-    const { application: { regularFormSubmitting:submitting, formdate,status } } = this.props;
+    const { applicationuser: { regularFormSubmitting:submitting, formdate,apps,status, } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -100,25 +99,29 @@ export default class BasicForms extends PureComponent {
                   )}
               <FormItem
                   {...formItemLayout}
-                  label="系统名称"
+                  label="所属系统"
               >
-                  {getFieldDecorator('name', {
-                    initialValue:formdate.name,
+                  {getFieldDecorator('appId', {
+                    initialValue:formdate.appId!== undefined ?formdate.appId+'':'',
                     rules: [{
-                      required: true, message: '请输入系统名称',
+                      required: true, message: '请输入所属系统',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                  <Select showSearch disabled={this.state.onlyread}
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="logo"
+                  label="头像"
               >
-                  {getFieldDecorator('logoImageUrl', {
-                    initialValue:formdate.logoImageUrl,
+                  {getFieldDecorator('headImageUrl', {
+                    initialValue:formdate.headImageUrl,
                     rules: [{
-                      required: true, message: '请输入logo',
+                      required: true, message: '请输入头像',
                     }],
                   })(
                     <AvatarUpload placeholder="" disabled={this.state.onlyread} />
@@ -126,25 +129,12 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="系统编码"
+                  label="姓名"
               >
-                  {getFieldDecorator('appCode', {
-                    initialValue:formdate.appCode,
+                  {getFieldDecorator('name', {
+                    initialValue:formdate.name,
                     rules: [{
-                      required: true, message: '请输入系统编码',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={true} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="所属行业"
-              >
-                  {getFieldDecorator('industry', {
-                    initialValue:formdate.industry,
-                    rules: [{
-                      required: true, message: '请输入所属行业',
+                      required: true, message: '请输入姓名',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -152,12 +142,12 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="联系人"
+                  label="用户名"
               >
-                  {getFieldDecorator('contact', {
-                    initialValue:formdate.contact,
+                  {getFieldDecorator('username', {
+                    initialValue:formdate.username,
                     rules: [{
-                      required: true, message: '请输入联系人',
+                      required: true, message: '请输入用户名',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -165,12 +155,12 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="联系电话"
+                  label="手机"
               >
-                  {getFieldDecorator('contactTel', {
-                    initialValue:formdate.contactTel,
+                  {getFieldDecorator('moblie', {
+                    initialValue:formdate.moblie,
                     rules: [{
-                      required: true, message: '请输入联系电话',
+                      required: true, message: '请输入手机',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -183,13 +173,12 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('email', {
                     initialValue:formdate.email,
                     rules: [{
-                      required: true, message: '请输入邮箱',type:'email',
+                      required: true, message: '请输入邮箱',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              
               <FormItem
                   {...formItemLayout}
                   label="状态"
@@ -200,9 +189,9 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                   })(
-                    <Select disabled={this.state.onlyread}>
-                      {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                    </Select>
+                  <Select  disabled={this.state.onlyread} >
+                    {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                   )}
               </FormItem>
             
@@ -214,7 +203,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/advisory/application'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/applicationuser'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
