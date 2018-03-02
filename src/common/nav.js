@@ -174,47 +174,38 @@ const data = [{
   name: '首页', // for breadcrumb
   path: '',
   children: [{
-    name: '咨询',
+    name: '在线咨询',
     path: 'advisory',
-    icon: 'credit-card',
+    icon: 'solution',
     children: [{
-      name: '接入管理',
+      name:'在线咨询服务台',
+      path: 'chat',
+      component: ChatIndex
+    },{
+      name: '接入系统管理',
       path: 'application',
       component: ApplicationList,
       children: [{
-        breadname: '新增',
+        breadname: '添加接入系统',
         path: 'add',
         component: ApplicationAddForm,
       },{
-        breadname: '编辑',
+        breadname: '编辑接入系统',
         path: 'edit/:id',
         component: ApplicationEditForm,
       }]
     },{
-      name: '接入用户管理',
+      name: '接入系统用户管理',
       path: 'applicationuser',
       component: ApplicationUserList,
       children: [{
-        breadname: '新增',
+        breadname: '添加接入系统用户',
         path: 'add',
         component: ApplicationUserAddForm,
       },{
-        breadname: '编辑',
+        breadname: '编辑接入系统用户',
         path: 'edit/:id',
         component: ApplicationUserEditForm,
-      }]
-    },{
-      name: '咨询师管理',
-      path: 'consultant',
-      component: ConsultantList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: ConsultantAddForm,
-      },{
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: ConsultantEditForm,
       }]
     },{
       name: '咨询师等级管理',
@@ -228,6 +219,45 @@ const data = [{
         breadname: '编辑',
         path: 'edit/:id',
         component: LevelEditForm,
+      }]
+    },{
+      name: '咨询服务主题管理',
+      path: 'advisorytheme',
+      component: AdvisoryThemeList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: AdvisoryThemeAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AdvisoryThemeEditForm,
+      }]
+    },{
+      name: '咨询服务模式管理',
+      path: 'advisorymodes',
+      component: AdvisoryModesList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: AdvisoryModesAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AdvisoryModesEditForm,
+      }]
+    },{
+      name: '咨询师管理',
+      path: 'consultant',
+      component: ConsultantList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: ConsultantAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: ConsultantEditForm,
       }]
     },{
       name: '知识管理',
@@ -268,36 +298,6 @@ const data = [{
         path: 'edit/:id',
         component: CommissionPricingEditForm,
       }]
-    },{
-      name: '咨询模式',
-      path: 'advisorymodes',
-      component: AdvisoryModesList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: AdvisoryModesAddForm,
-      },{
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: AdvisoryModesEditForm,
-      }]
-    },{
-      name: '咨询主题',
-      path: 'advisorytheme',
-      component: AdvisoryThemeList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: AdvisoryThemeAddForm,
-      },{
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: AdvisoryThemeEditForm,
-      }]
-    },{
-      name:'咨询对话',
-      path: 'chat',
-      component: ChatIndex
     }],
   },{
     name: '卡牌测试管理',
