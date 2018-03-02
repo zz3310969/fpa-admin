@@ -1,5 +1,5 @@
 
-import { Upload, Icon, message } from 'antd';
+import { Upload, Icon, message,Modal } from 'antd';
 import './AvatarUpload.css'
 
 function getBase64(img, callback) {
@@ -81,7 +81,9 @@ export default class Avatar extends React.Component {
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
-        {imageUrl ? <img src={imageUrl} alt="" /> : uploadButton}
+      
+        {imageUrl ? <img src={imageUrl}  alt="" width={'128px'} height={'128px'} /> : uploadButton}
+        
       </Upload>
     );
   }

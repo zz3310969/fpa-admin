@@ -1,10 +1,9 @@
 import { message } from 'antd';
 
-import {queryCommissionPricing,addCommissionPricing,loadCommissionPricing,updateCommissionPricing,removeCommissionPricing,queryCommissionPricingBase } from '../../services/Advisory/commissionpricing';
-import {loadConsultant} from '../../services/Advisory/consultant';
+import {queryApplicationUser,addApplicationUser,loadApplicationUser,updateApplicationUser,removeApplicationUser,queryApplicationUserBase } from '../../services/Advisory/applicationuser';
 
 export default {
-  namespace: 'commissionpricing',
+  namespace: 'applicationuser',
 
   state: {
     data: {
@@ -16,8 +15,6 @@ export default {
     regularFormSubmitting: false,
     apps:[],
     status:[],
-    fix_types:[],
-    advisoryModes:[],
   },
 
   effects: {
@@ -26,7 +23,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryCommissionPricing, payload);
+      const response = yield call(queryApplicationUser, payload);
       if(response.state == 'success'){
         yield put({
           type: 'save',
@@ -45,7 +42,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(removeCommissionPricing, payload);
+      const response = yield call(removeApplicationUser, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -62,7 +59,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(addCommissionPricing, payload);
+      const response = yield call(addApplicationUser, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -81,7 +78,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(updateCommissionPricing, payload);
+      const response = yield call(updateApplicationUser, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -95,35 +92,12 @@ export default {
         message.error('提交失败');
       }
     },
-    *fetchConsultant({payload}, { call, put }) {
-      yield put({
-        type: 'changeLoading',
-        payload: {},
-      });
-      const response = yield call(loadConsultant,payload);
-      if(response.state == 'success'){
-        yield put({
-          type: 'show',
-          payload: {'consultantName':response.data.name,
-          'appId':response.data.appId,
-          'consultantId':response.data.id},
-        });
-      }else if(response.message){
-        message.error(response.message);
-      }else{
-        message.error('提交失败');
-      }
-      yield put({
-        type: 'changeLoading',
-        payload: {},
-      });
-    },
     *fetchBasic({payload}, { call, put }) {
       yield put({
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadCommissionPricing,payload);
+      const response = yield call(loadApplicationUser,payload);
       if(response.state == 'success'){
         yield put({
           type: 'show',
@@ -140,7 +114,7 @@ export default {
       });
     },
     *base({ payload }, { call, put }) {
-      const response = yield call(queryCommissionPricingBase, payload);
+      const response = yield call(queryApplicationUserBase, payload);
       if(response.state == 'success'){
         yield put({
           type: 'load',

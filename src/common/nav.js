@@ -123,6 +123,10 @@ import ApplicationList from '../routes/Advisory/Application/ApplicationList';
 import ApplicationAddForm from '../routes/Advisory/Application/ApplicationAddForm';
 import ApplicationEditForm from '../routes/Advisory/Application/ApplicationEditForm';
 
+import ApplicationUserList from '../routes/Advisory/ApplicationUser/ApplicationUserList';
+import ApplicationUserAddForm from '../routes/Advisory/ApplicationUser/ApplicationUserAddForm';
+import ApplicationUserEditForm from '../routes/Advisory/ApplicationUser/ApplicationUserEditForm';
+
 
 import ConsultantList from '../routes/Advisory/Consultant/ConsultantList';
 import ConsultantAddForm from '../routes/Advisory/Consultant/ConsultantAddForm';
@@ -139,6 +143,10 @@ import LevelEditForm from '../routes/Advisory/Level/LevelEditForm';
 import CommissionPricingList from '../routes/Advisory/CommissionPricing/CommissionPricingList';
 import CommissionPricingAddForm from '../routes/Advisory/CommissionPricing/CommissionPricingAddForm';
 import CommissionPricingEditForm from '../routes/Advisory/CommissionPricing/CommissionPricingEditForm';
+
+import AdvisoryPricingList from '../routes/Advisory/AdvisoryPricing/AdvisoryPricingList';
+import AdvisoryPricingAddForm from '../routes/Advisory/AdvisoryPricing/AdvisoryPricingAddForm';
+import AdvisoryPricingEditForm from '../routes/Advisory/AdvisoryPricing/AdvisoryPricingEditForm';
 
 import AdvisoryModesList from '../routes/Advisory/AdvisoryModes/AdvisoryModesList';
 import AdvisoryModesAddForm from '../routes/Advisory/AdvisoryModes/AdvisoryModesAddForm';
@@ -181,6 +189,19 @@ const data = [{
         component: ApplicationEditForm,
       }]
     },{
+      name: '接入用户管理',
+      path: 'applicationuser',
+      component: ApplicationUserList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: ApplicationUserAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: ApplicationUserEditForm,
+      }]
+    },{
       name: '咨询师管理',
       path: 'consultant',
       component: ConsultantList,
@@ -220,12 +241,25 @@ const data = [{
         component: QuickReplyEditForm,
       }]
     },{
+      name: '咨询定价',
+      path: 'advisorypricing',
+      component: AdvisoryPricingList,
+      children: [{
+        breadname: '新增',
+        path: 'add/:id',
+        component: AdvisoryPricingAddForm,
+      },{
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AdvisoryPricingEditForm,
+      }]
+    },{
       name: '佣金定价',
       path: 'commissionpricing',
       component: CommissionPricingList,
       children: [{
         breadname: '新增',
-        path: 'add',
+        path: 'add/:id',
         component: CommissionPricingAddForm,
       },{
         breadname: '编辑',

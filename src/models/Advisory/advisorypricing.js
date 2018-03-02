@@ -1,10 +1,10 @@
 import { message } from 'antd';
 
-import {queryCommissionPricing,addCommissionPricing,loadCommissionPricing,updateCommissionPricing,removeCommissionPricing,queryCommissionPricingBase } from '../../services/Advisory/commissionpricing';
+import {queryAdvisoryPricing,addAdvisoryPricing,loadAdvisoryPricing,updateAdvisoryPricing,removeAdvisoryPricing,queryAdvisoryPricingBase } from '../../services/Advisory/advisorypricing';
 import {loadConsultant} from '../../services/Advisory/consultant';
 
 export default {
-  namespace: 'commissionpricing',
+  namespace: 'advisorypricing',
 
   state: {
     data: {
@@ -26,7 +26,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryCommissionPricing, payload);
+      const response = yield call(queryAdvisoryPricing, payload);
       if(response.state == 'success'){
         yield put({
           type: 'save',
@@ -45,7 +45,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(removeCommissionPricing, payload);
+      const response = yield call(removeAdvisoryPricing, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -62,7 +62,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(addCommissionPricing, payload);
+      const response = yield call(addAdvisoryPricing, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -81,7 +81,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(updateCommissionPricing, payload);
+      const response = yield call(updateAdvisoryPricing, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -123,7 +123,7 @@ export default {
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadCommissionPricing,payload);
+      const response = yield call(loadAdvisoryPricing,payload);
       if(response.state == 'success'){
         yield put({
           type: 'show',
@@ -140,7 +140,7 @@ export default {
       });
     },
     *base({ payload }, { call, put }) {
-      const response = yield call(queryCommissionPricingBase, payload);
+      const response = yield call(queryAdvisoryPricingBase, payload);
       if(response.state == 'success'){
         yield put({
           type: 'load',

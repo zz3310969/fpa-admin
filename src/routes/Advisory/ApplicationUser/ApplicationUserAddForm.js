@@ -14,7 +14,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 @connect(state => ({
-  application: state.application,
+  applicationuser: state.applicationuser,
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -25,8 +25,9 @@ export default class BasicForms extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'application/base',
+      type: 'applicationuser/base',
     });
+
   }
 
 
@@ -36,17 +37,17 @@ export default class BasicForms extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'application/add',
+          type: 'applicationuser/add',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/advisory/application'));
+            this.props.dispatch(routerRedux.push('/applicationuser'));
           },
         });
       }
     });
   }
   render() {
-    const { application: { regularFormSubmitting:submitting,status } } = this.props;
+    const { applicationuser: { regularFormSubmitting:submitting,apps,status, } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -83,36 +84,39 @@ export default class BasicForms extends PureComponent {
                     )}
                 <FormItem
                         {...formItemLayout}
-                        label="系统名称"
+                        label="所属系统"
                 >
-                    {getFieldDecorator('name', {
+                    {getFieldDecorator('appId', {
                     rules: [{
-                      required: true, message: '请输入系统名称',
+                      required: true, message: '请输入所属系统',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Select showSearch
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                     )}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="LOGO"
+                        label="头像"
                 >
-                    {getFieldDecorator('logoImageUrl', {
+                    {getFieldDecorator('headImageUrl', {
                     rules: [{
-                      required: true, message: '请输入logo',
+                      required: true, message: '请输入头像',
                     }],
                     })(
                     <AvatarUpload placeholder="" />
                     )}
                 </FormItem>
-                
                 <FormItem
                         {...formItemLayout}
-                        label="所属行业"
+                        label="姓名"
                 >
-                    {getFieldDecorator('industry', {
+                    {getFieldDecorator('name', {
                     rules: [{
-                      required: true, message: '请输入所属行业',
+                      required: true, message: '请输入姓名',
                     }],
                     })(
                     <Input placeholder="" />
@@ -120,11 +124,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="联系人"
+                        label="用户名"
                 >
-                    {getFieldDecorator('contact', {
+                    {getFieldDecorator('username', {
                     rules: [{
-                      required: true, message: '请输入联系人',
+                      required: true, message: '请输入用户名',
                     }],
                     })(
                     <Input placeholder="" />
@@ -132,11 +136,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="联系电话"
+                        label="手机"
                 >
-                    {getFieldDecorator('contactTel', {
+                    {getFieldDecorator('moblie', {
                     rules: [{
-                      required: true, message: '请输入联系电话',
+                      required: true, message: '请输入手机',
                     }],
                     })(
                     <Input placeholder="" />
@@ -148,13 +152,12 @@ export default class BasicForms extends PureComponent {
                 >
                     {getFieldDecorator('email', {
                     rules: [{
-                      required: true, message: '请输入邮箱',type:'email',
+                      required: true, message: '请输入邮箱',
                     }],
                     })(
                     <Input placeholder="" />
                     )}
                 </FormItem>
-                
                 <FormItem
                         {...formItemLayout}
                         label="状态"
@@ -165,8 +168,8 @@ export default class BasicForms extends PureComponent {
                     }],
                     })(
                     <Select>
-                      {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                    </Select>
+                    {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                  </Select>
                     )}
                 </FormItem>
             
@@ -174,7 +177,7 @@ export default class BasicForms extends PureComponent {
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-                <Link to={'/advisory/application'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/applicationuser'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

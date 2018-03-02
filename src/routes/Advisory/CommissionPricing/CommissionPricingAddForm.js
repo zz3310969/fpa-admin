@@ -27,8 +27,19 @@ export default class BasicForms extends PureComponent {
     dispatch({
       type: 'commissionpricing/base',
     });
+    if(this.props.match.params.id){
+      dispatch({
+        type: 'commissionpricing/fetchConsultant',
+        payload:{id:this.props.match.params.id}
+      });
+    }
 
   }
+
+  componentWillReceiveProps(nextProps) {
+    
+  }
+
 
 
 
@@ -48,14 +59,15 @@ export default class BasicForms extends PureComponent {
   }
   onAppChange = (value) => {
     let allModes = this.props.commissionpricing.advisoryModes;
-    let advisoryModes = new Array();
+    const advisoryModes = this.props.commissionpricing.advisoryModes.filter(item => item.appId +"" == this.props.form.getFieldValue("appId"));
+    /*let advisoryModes = new Array();
     
       for (var i = 0; i < allModes.length; i++) {
         if(allModes[i].appId +"" == value){
           advisoryModes.push(allModes[i]);
         }
         console.log(allModes[i])
-      }
+      }*/
       this.props.form.setFieldsValue({"moldeId":''});
       this.setState({
         advisoryModes,
@@ -63,9 +75,9 @@ export default class BasicForms extends PureComponent {
     };
 
   render() {
-    const { commissionpricing: { regularFormSubmitting:submitting,apps,status,advisoryModes,fix_types, } } = this.props;
+    const { commissionpricing: { regularFormSubmitting:submitting,apps,status,fix_types,formdate } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
-
+    const advisoryModes = this.props.commissionpricing.advisoryModes.filter(item => item.appId +"" == this.props.form.getFieldValue("appId"));
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -98,18 +110,24 @@ export default class BasicForms extends PureComponent {
                     })(
                     <Input type="hidden"/>
                     )}
+                    {getFieldDecorator('consultantId', {
+                    initialValue:formdate.consultantId,
+                    })(
+                    <Input type="hidden"/>
+                    )}
                 <FormItem
                         {...formItemLayout}
                         label="所属系统"
                 >
                     {getFieldDecorator('appId', {
+                    initialValue:formdate.appId!== undefined ?formdate.appId+'':'',
                     rules: [{
                       required: true, message: '请输入所属系统',
                     }],
                     })(
                     <Select showSearch
                       filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                      onChange={this.onAppChange}
+                      onChange={this.onAppChange} disabled={true}
                     >
                       {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
                     </Select>
@@ -119,12 +137,13 @@ export default class BasicForms extends PureComponent {
                         {...formItemLayout}
                         label="咨询师姓名"
                 >
-                    {getFieldDecorator('consultantId', {
+                    {getFieldDecorator('consultantName', {
+                    initialValue:formdate.consultantName,
                     rules: [{
                       required: true, message: '请输入咨询师姓名',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="" disabled={true}/>
                     )}
                 </FormItem>
                 <FormItem
@@ -137,7 +156,7 @@ export default class BasicForms extends PureComponent {
                     }],
                     })(
                     <Select>
-                      {this.state.advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
+                      {advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
                     </Select>
                     )}
                 </FormItem>

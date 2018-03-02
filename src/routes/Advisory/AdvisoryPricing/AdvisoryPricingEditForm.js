@@ -6,8 +6,7 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
-import AvatarUpload from '../common/AvatarUpload'
-
+import moment from 'moment';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -15,7 +14,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 @connect(state => ({
-  application: state.application,
+  advisorypricing: state.advisorypricing,
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -33,11 +32,11 @@ export default class BasicForms extends PureComponent {
     })
     const { dispatch } = this.props;
     dispatch({
-      type: 'application/base',
+      type: 'advisorypricing/base',
     });
     if(this.props.match.params.id){
       dispatch({
-        type: 'application/fetchBasic',
+        type: 'advisorypricing/fetchBasic',
         payload:{id:this.props.match.params.id}
       });
     }
@@ -49,19 +48,26 @@ export default class BasicForms extends PureComponent {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const values = {
+          ...fieldsValue,
+          validityStartTime:fieldsValue.validityTime && fieldsValue.validityTime[0].format('YYYY-MM-DD'),
+          validityEndTime:fieldsValue.validityTime && fieldsValue.validityTime[1].format('YYYY-MM-DD'),
+          validityTime:'',
+        };
         this.props.dispatch({
-          type: 'application/update',
+          type: 'advisorypricing/update',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/advisory/application'));
+            this.props.dispatch(routerRedux.push('/advisorypricing'));
           },
         });
       }
     });
   }
   render() {
-    const { application: { regularFormSubmitting:submitting, formdate,status } } = this.props;
+    const { advisorypricing: { regularFormSubmitting:submitting, formdate ,apps,status,fix_types,} } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
+    const advisoryModes = this.props.advisorypricing.advisoryModes.filter(item => item.appId +"" == this.props.form.getFieldValue("appId"));
 
     const formItemLayout = {
       labelCol: {
@@ -98,40 +104,40 @@ export default class BasicForms extends PureComponent {
                 })(
                     <Input type="hidden"/>
                   )}
+                {getFieldDecorator('consultantId', {
+                  initialValue:formdate.consultantId,
+                  rules: [{
+                    required: true, message: '请输入consultantId',
+                  }],
+                })(
+                    <Input type="hidden"/>
+                  )}
               <FormItem
                   {...formItemLayout}
-                  label="系统名称"
+                  label="所属系统"
               >
-                  {getFieldDecorator('name', {
-                    initialValue:formdate.name,
+                  {getFieldDecorator('appId', {
+                    initialValue:formdate.appId!== undefined ?formdate.appId+'':'',
                     rules: [{
-                      required: true, message: '请输入系统名称',
+                      required: true, message: '请输入所属系统',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select showSearch
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                       disabled={true}
+                    >
+                      {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="logo"
+                  label="咨询师"
               >
-                  {getFieldDecorator('logoImageUrl', {
-                    initialValue:formdate.logoImageUrl,
+                  {getFieldDecorator('consultantName', {
+                    initialValue:formdate.consultantName,
                     rules: [{
-                      required: true, message: '请输入logo',
-                    }],
-                  })(
-                    <AvatarUpload placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="系统编码"
-              >
-                  {getFieldDecorator('appCode', {
-                    initialValue:formdate.appCode,
-                    rules: [{
-                      required: true, message: '请输入系统编码',
+                      required: true, message: '请输入咨询师',
                     }],
                   })(
                     <Input placeholder="" disabled={true} />
@@ -139,12 +145,42 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="所属行业"
+                  label="咨询模式"
               >
-                  {getFieldDecorator('industry', {
-                    initialValue:formdate.industry,
+                  {getFieldDecorator('moldeId', {
+                    initialValue:formdate.moldeId !== undefined ?formdate.moldeId+'':'',
                     rules: [{
-                      required: true, message: '请输入所属行业',
+                      required: true, message: '请输入咨询模式',
+                    }],
+                  })(
+                    <Select disabled={this.state.onlyread}>
+                      {advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
+                    </Select>
+                  )}
+              </FormItem>
+              <FormItem
+                  {...formItemLayout}
+                  label="定价类型"
+              >
+                  {getFieldDecorator('fixType', {
+                    initialValue:formdate.fixType,
+                    rules: [{
+                      required: true, message: '请输入定价类型',
+                    }],
+                  })(
+                  <Select disabled={this.state.onlyread}>
+                    {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
+                  </Select>
+                  )}
+              </FormItem>
+              <FormItem
+                  {...formItemLayout}
+                  label="单位"
+              >
+                  {getFieldDecorator('unit', {
+                    initialValue:formdate.unit,
+                    rules: [{
+                      required: true, message: '请输入单位',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -152,12 +188,12 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="联系人"
+                  label="原单价"
               >
-                  {getFieldDecorator('contact', {
-                    initialValue:formdate.contact,
+                  {getFieldDecorator('originalPrice', {
+                    initialValue:formdate.originalPrice,
                     rules: [{
-                      required: true, message: '请输入联系人',
+                      required: true, message: '请输入原单价',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -165,12 +201,12 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="联系电话"
+                  label="现单价"
               >
-                  {getFieldDecorator('contactTel', {
-                    initialValue:formdate.contactTel,
+                  {getFieldDecorator('currentPrice', {
+                    initialValue:formdate.currentPrice,
                     rules: [{
-                      required: true, message: '请输入联系电话',
+                      required: true, message: '请输入现单价',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -178,18 +214,30 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="邮箱"
+                  label="简介"
               >
-                  {getFieldDecorator('email', {
-                    initialValue:formdate.email,
+                  {getFieldDecorator('introduction', {
+                    initialValue:formdate.introduction,
                     rules: [{
-                      required: true, message: '请输入邮箱',type:'email',
+                      required: true, message: '请输入简介',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              
+              <FormItem
+                        {...formItemLayout}
+                        label="有效期"
+                >
+                    {getFieldDecorator('validityTime', {
+                    initialValue:[moment(formdate.validityStartTime),moment(formdate.validityEndTime)],
+                    rules: [{
+                      required: true, message: '请输入有效期',
+                    }],
+                    })(
+                    <RangePicker style={{ width: '100%' }} disabled={this.state.onlyread}/>
+                    )}
+                </FormItem>
               <FormItem
                   {...formItemLayout}
                   label="状态"
@@ -200,11 +248,12 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                   })(
-                    <Select disabled={this.state.onlyread}>
+                    <Select disabled={this.state.onlyread} >
                       {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
                     </Select>
                   )}
               </FormItem>
+              
             
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
@@ -214,7 +263,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/advisory/application'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/advisorypricing'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
