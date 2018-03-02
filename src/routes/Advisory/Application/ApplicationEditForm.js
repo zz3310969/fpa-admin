@@ -98,7 +98,20 @@ export default class BasicForms extends PureComponent {
                 })(
                     <Input type="hidden"/>
                   )}
-              <FormItem
+            <FormItem
+              {...formItemLayout}
+              label="logo"
+            >
+              {getFieldDecorator('logoImageUrl', {
+                initialValue:formdate.logoImageUrl,
+                rules: [{
+                  required: true, message: '请输入logo',
+                }],
+              })(
+                <AvatarUpload placeholder="" disabled={this.state.onlyread} />
+              )}
+            </FormItem>
+            <FormItem
                   {...formItemLayout}
                   label="系统名称"
               >
@@ -111,19 +124,7 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="logo"
-              >
-                  {getFieldDecorator('logoImageUrl', {
-                    initialValue:formdate.logoImageUrl,
-                    rules: [{
-                      required: true, message: '请输入logo',
-                    }],
-                  })(
-                    <AvatarUpload placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
+
               <FormItem
                   {...formItemLayout}
                   label="系统编码"
@@ -189,7 +190,7 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
-              
+
               <FormItem
                   {...formItemLayout}
                   label="状态"
@@ -205,7 +206,7 @@ export default class BasicForms extends PureComponent {
                     </Select>
                   )}
               </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
                 this.state.onlyread ?'':(
