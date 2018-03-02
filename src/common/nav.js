@@ -159,6 +159,8 @@ import AdvisoryThemeEditForm from '../routes/Advisory/AdvisoryTheme/AdvisoryThem
 
 import dynamic from 'dva/dynamic';
 
+import ChatIndex from '../routes/Fpa/Chat/Index';
+
 // wrapper of dynamic
 const dynamicWrapper = (app, models, component) => dynamic({
   app,
@@ -292,6 +294,10 @@ const data = [{
         path: 'edit/:id',
         component: AdvisoryThemeEditForm,
       }]
+    },{
+      name:'咨询对话',
+      path: 'chat',
+      component: ChatIndex
     }],
   },{
     name: '卡牌测试管理',

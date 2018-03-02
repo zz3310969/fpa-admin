@@ -4,7 +4,7 @@ import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import BasicLayout from './layouts/BasicLayout';
 import UserLayout from './layouts/UserLayout';
-
+import CustomerLayout from './layouts/CustomerLayout';
 
 const fakeAuth = {
   isAuthenticated: sessionStorage.getItem('token') == null ?false:true,
@@ -40,7 +40,6 @@ function RouterConfig({ history }) {
       </Router>
     </LocaleProvider>
   );
-
 }
 
 
