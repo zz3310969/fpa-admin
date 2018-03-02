@@ -74,32 +74,32 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
+        title: '头像',
+        dataIndex: 'headImageUrl',
+        key: 'headImageUrl',
+        render(text, record, index) {
+          return (
+            <Avatar shape="square" size="large" icon="user" src={record.headImageUrl} />
+          );
+        }
+      },
+      {
           title: '所属系统',
           dataIndex: 'appName',
           key: 'appName',
       },
       {
-          title: '头像',
-          dataIndex: 'headImageUrl',
-          key: 'headImageUrl',
-          render(text, record, index) {
-            return (
-              <Avatar shape="square" size="large" icon="user" src={record.headImageUrl} />
-            );
-          }
-      },
-      {
-          title: '姓名',
+          title: '用户姓名',
           dataIndex: 'name',
           key: 'name',
       },
       {
-          title: '用户名',
+          title: '用户账号',
           dataIndex: 'username',
           key: 'username',
       },
       {
-          title: '手机',
+          title: '联系电话',
           dataIndex: 'moblie',
           key: 'moblie',
       },
@@ -147,7 +147,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}
