@@ -174,7 +174,7 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;等级">
+              <FormItem label="咨询师等级">
                   {getFieldDecorator('levelId')(
                   <Select>
                       {levels.map(d => <Select.Option key={d.id}>{d.levelName}</Select.Option>)}
