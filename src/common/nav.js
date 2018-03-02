@@ -212,11 +212,11 @@ const data = [{
       path: 'level',
       component: LevelList,
       children: [{
-        breadname: '新增',
+        breadname: '添加咨询师等级',
         path: 'add',
         component: LevelAddForm,
       },{
-        breadname: '编辑',
+        breadname: '编辑咨询师等级',
         path: 'edit/:id',
         component: LevelEditForm,
       }]
@@ -225,11 +225,11 @@ const data = [{
       path: 'advisorytheme',
       component: AdvisoryThemeList,
       children: [{
-        breadname: '新增',
+        breadname: '添加咨询服务主题',
         path: 'add',
         component: AdvisoryThemeAddForm,
       },{
-        breadname: '编辑',
+        breadname: '编辑咨询服务主题',
         path: 'edit/:id',
         component: AdvisoryThemeEditForm,
       }]
@@ -238,11 +238,11 @@ const data = [{
       path: 'advisorymodes',
       component: AdvisoryModesList,
       children: [{
-        breadname: '新增',
+        breadname: '添加咨询服务模式',
         path: 'add',
         component: AdvisoryModesAddForm,
       },{
-        breadname: '编辑',
+        breadname: '编辑咨询服务模式',
         path: 'edit/:id',
         component: AdvisoryModesEditForm,
       }]
@@ -251,11 +251,11 @@ const data = [{
       path: 'consultant',
       component: ConsultantList,
       children: [{
-        breadname: '新增',
+        breadname: '添加咨询师',
         path: 'add',
         component: ConsultantAddForm,
       },{
-        breadname: '编辑',
+        breadname: '编辑咨询师信息',
         path: 'edit/:id',
         component: ConsultantEditForm,
       }]
@@ -264,11 +264,11 @@ const data = [{
       path: 'quickreply',
       component: QuickReplyList,
       children: [{
-        breadname: '新增',
+        breadname: '添加知识',
         path: 'add',
         component: QuickReplyAddForm,
       },{
-        breadname: '编辑',
+        breadname: '编辑知识',
         path: 'edit/:id',
         component: QuickReplyEditForm,
       }]
