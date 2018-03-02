@@ -1,0 +1,25 @@
+
+.badge{
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  background: #eee;
+  display: inline-block;
+}
+
+.ant-list-item{
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.chatList{
+  .badge{
+    background-color: #86d067;
+  }
+  :global {
+    .ant-list-split{
+      .ant-list-item:last-child{
+        border-bottom:1px solid #e8e8e8 !important; 
+      }
+    }
+  }
+}

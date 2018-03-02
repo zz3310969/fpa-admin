@@ -1,0 +1,139 @@
+//语音消息
+.message{
+    .audio-msg{
+        display: inline-block;
+        position: relative;
+        padding: 4.5px 10px;
+        max-width: 50%;
+        min-height: 30px;
+        line-height:21px;
+        font-size: 12px;
+        text-align: left;
+        word-break: break-all;
+        background-color: #FFFFFF;
+        border-radius: 4px;
+        margin: 3px 0 0;
+        &:before{
+            content: " ";
+            position: absolute;
+            top: 9px;
+            right: 100%;
+            border: 6px solid transparent;
+            border-right-color: #FFFFFF;
+        }
+        .audio1{
+            font-size: 20px;
+            transform: rotate(180deg) scale(1.5,1.5);
+            color: #3c3c3c;
+            float: left;
+            left: 0;
+            cursor: pointer;
+        }
+    }
+    .self{
+        .audio-msg{
+            background-color: #b2e281;
+            .audio1{
+                transform: scale(1.5,1.5);
+                float: right;
+                left: 0;
+            }
+            &:before {
+                right: inherit;
+                left: 100%;
+                border-right-color: transparent;
+                border-left-color: #b2e281;
+            }
+        }
+    }
+
+}
+
+
+
+.message {
+    height:calc(100% - 50px);
+    background-color: #F7F9FF;
+    position:relative;
+    overflow: hidden;
+    // overflow-y: scroll;
+    ul{padding: 10px 15px;}
+    &.hidden{overflow-y:hidden}
+    li {
+        margin-bottom: 15px;
+        overflow: hidden;
+        &.first{
+            text-align:center;
+            .history{
+                background:#dcdcdc;
+                padding:3px 5px;
+                border-radius:3px;
+                font-size:12px;
+                cursor:pointer ;
+            }
+        }
+    }
+
+    .time {
+        margin: 7px 0;
+        text-align: center;
+
+        > span {
+            display: inline-block;
+            padding: 0 18px;
+            font-size: 12px;
+            color: #fff;
+            border-radius: 2px;
+            background-color: #dcdcdc;
+        }
+    }
+    .avatar {
+        float: left;
+        margin: 0 10px 0 0;
+        border-radius: 100px;
+    }
+    .text {
+        display: inline-block;
+        position: relative;
+        padding: 4.5px 10px;
+        max-width: 50%;
+        min-height: 30px;
+        line-height:21px;
+        font-size: 12px;
+        text-align: left;
+        word-break: break-all;
+        background-color: #FFFFFF;
+        border-radius: 4px;
+        margin: 3px 0 0;
+        a.link{
+            color:#1144e7;
+        }
+        &:before {
+            content: " ";
+            position: absolute;
+            top: 9px;
+            right: 100%;
+            border: 6px solid transparent;
+            border-right-color: #FFFFFF;
+        }
+    }
+
+    .self {
+        text-align: right;
+
+        .avatar {
+            float: right;
+            margin: 0 0 0 10px;
+        }
+        .text {
+            background-color: #b2e281;
+
+            &:before {
+                right: inherit;
+                left: 100%;
+                border-right-color: transparent;
+                border-left-color: #b2e281;
+            }
+        }
+    }
+}
