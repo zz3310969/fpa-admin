@@ -164,7 +164,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入详情',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <TextArea rows={10} placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -182,7 +182,7 @@ export default class BasicForms extends PureComponent {
                     </Select>
                   )}
               </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
                 this.state.onlyread ?'':(
@@ -191,7 +191,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/quickreply'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/advisory/quickreply'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

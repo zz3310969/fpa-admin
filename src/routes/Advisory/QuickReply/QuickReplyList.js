@@ -185,7 +185,7 @@ export default class TableList extends PureComponent {
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="状态">
+              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
                   {getFieldDecorator('status')(
                   <Select>
                     {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
@@ -200,12 +200,12 @@ export default class TableList extends PureComponent {
                   </span>
               </Col>
           </Row >
-          
+
       </Form>
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -224,14 +224,14 @@ export default class TableList extends PureComponent {
 
 
     return (
-      <PageHeaderLayout title="快捷回复列表">
+      <PageHeaderLayout title="知识列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/quickreply/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/quickreply/add')); console.log('添加知识')}}>添加知识</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -259,7 +259,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

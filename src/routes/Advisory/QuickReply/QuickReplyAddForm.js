@@ -144,7 +144,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入详情',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <TextArea rows={10} placeholder="" />
                     )}
                 </FormItem>
                 <FormItem
@@ -161,7 +161,7 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
