@@ -74,6 +74,15 @@ class StandardTable extends PureComponent {
 
     const columns = [
       {
+        title: '头像',
+        dataIndex: 'headImageUrl',
+        key: 'headImageUrl',
+        render(text, record, index) {
+          return (
+            <Avatar shape="square" size="large" icon="user" src={record.headImageUrl} />
+          );
+        }
+      },{
           title: '所属系统',
           dataIndex: 'appName',
           key: 'appName',
@@ -84,36 +93,26 @@ class StandardTable extends PureComponent {
           key: 'name',
       },
       {
-          title: '头像',
-          dataIndex: 'headImageUrl',
-          key: 'headImageUrl',
-          render(text, record, index) {
-            return (
-              <Avatar shape="square" size="large" icon="user" src={record.headImageUrl} />
-            );
-          }
+        title: '等级',
+        dataIndex: 'levelName',
+        key: 'levelName',
       },
-      {
-          title: '用户名',
+      /*{
+          title: '账号',
           dataIndex: 'username',
           key: 'username',
-      },
-      {
+      },*/
+     /* {
           title: '手机号码',
           dataIndex: 'mobile',
           key: 'mobile',
-      },
-      {
-          title: '等级',
-          dataIndex: 'levelName',
-          key: 'levelName',
-      },
+      },*/
       {
           title: '服务主题',
           dataIndex: 'themeName',
           key: 'themeName',
       },
-      {
+      /*{
           title: '所在地区',
           dataIndex: 'areaId',
           key: 'areaId',
@@ -125,7 +124,7 @@ class StandardTable extends PureComponent {
           render(val) {
             return val !== undefined ?val.display:'';
           },
-      },
+      },*/
       {
           title: '简介',
           dataIndex: 'introduction',
@@ -186,7 +185,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}

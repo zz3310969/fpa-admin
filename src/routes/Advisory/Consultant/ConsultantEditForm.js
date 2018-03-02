@@ -114,6 +114,19 @@ export default class BasicForms extends PureComponent {
                     </Select>
                   )}
               </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="头像"
+            >
+              {getFieldDecorator('headImageUrl', {
+                initialValue:formdate.headImageUrl,
+                rules: [{
+                  required: true, message: '请输入头像',
+                }],
+              })(
+                <AvatarUpload placeholder="" disabled={this.state.onlyread} />
+              )}
+            </FormItem>
               <FormItem
                   {...formItemLayout}
                   label="咨询师姓名"
@@ -128,26 +141,13 @@ export default class BasicForms extends PureComponent {
                   )}
               </FormItem>
               <FormItem
-                  {...formItemLayout}
-                  label="头像"
-              >
-                  {getFieldDecorator('headImageUrl', {
-                    initialValue:formdate.headImageUrl,
-                    rules: [{
-                      required: true, message: '请输入头像',
-                    }],
-                  })(
-                    <AvatarUpload placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
                         {...formItemLayout}
-                        label="用户名"
+                        label="账号"
                 >
                     {getFieldDecorator('username', {
                     initialValue:formdate.username,
                     rules: [{
-                      required: true, message: '请输入用户名',
+                      required: true, message: '请输入账号',
                     }],
                     })(
                     <Input placeholder="" />
@@ -168,12 +168,12 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="等级"
+                  label="咨询师等级"
               >
                   {getFieldDecorator('levelId', {
                     initialValue:formdate.levelId,
                     rules: [{
-                      required: true, message: '请输入等级',
+                      required: true, message: '请选择咨询师等级',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -186,7 +186,7 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('themeId', {
                     initialValue:formdate.themeId,
                     rules: [{
-                      required: true, message: '请输入服务主题',
+                      required: true, message: '请选择服务主题',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -246,7 +246,7 @@ export default class BasicForms extends PureComponent {
                     </Select>
                   )}
               </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
                 this.state.onlyread ?'':(
