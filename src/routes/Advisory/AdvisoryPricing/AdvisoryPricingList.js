@@ -164,13 +164,6 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="咨询师姓名">
-                  {getFieldDecorator('consultantId')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
               <FormItem label="咨询模式">
                   {getFieldDecorator('moldeId')(
                   <Select>
@@ -179,71 +172,25 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="定价类型">
+                <FormItem label="定价类型">
                   {getFieldDecorator('fixType')(
-                  <Select>
-                    {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
-                  </Select>
+                    <Select>
+                      {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
+                    </Select>
                   )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="单位">
-                  {getFieldDecorator('unit')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="原单价">
-                  {getFieldDecorator('originalPrice')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
+                </FormItem>
               </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="现单价">
-                  {getFieldDecorator('currentPrice')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="简介">
-                  {getFieldDecorator('introduction')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="状态">
+                <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
                   {getFieldDecorator('status')(
-                  <Select>
-                    {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
+                    <Select>
+                      {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                   )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="有效期">
-                  {getFieldDecorator('validityStartTime')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="有效期">
-                  {getFieldDecorator('validityEndTime')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
+                </FormItem>
               </Col>
               <Col md={8} sm={24}>
               <span className={styles.submitButtons}>
@@ -257,7 +204,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -310,7 +257,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
