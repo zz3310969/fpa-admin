@@ -4,7 +4,7 @@ import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import BasicLayout from './layouts/BasicLayout';
 import UserLayout from './layouts/UserLayout';
-import CustomerLayout from './layouts/CustomerLayout';
+// import CustomerLayout from './layouts/CustomerLayout';
 
 const fakeAuth = {
   isAuthenticated: sessionStorage.getItem('token') == null ?false:true,
