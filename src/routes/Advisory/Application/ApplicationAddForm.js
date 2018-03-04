@@ -165,7 +165,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                     })(
-                    <Select>
+                    <Select placeholder="请选择状态">
                       {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
                     </Select>
                     )}
