@@ -102,7 +102,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入系统名称',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入系统名称" />
                     )}
                 </FormItem>
 
@@ -116,7 +116,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入所属行业',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入所属行业" />
                     )}
                 </FormItem>
                 <FormItem
@@ -128,7 +128,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入联系人',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入联系人姓名" />
                     )}
                 </FormItem>
                 <FormItem
@@ -140,7 +140,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入联系电话',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入手机号码" />
                     )}
                 </FormItem>
                 <FormItem
@@ -152,7 +152,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入邮箱',type:'email',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入邮箱" />
                     )}
                 </FormItem>
 
