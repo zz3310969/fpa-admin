@@ -87,7 +87,7 @@ export default class BasicForms extends PureComponent {
             >
               {getFieldDecorator('logoImageUrl', {
                 rules: [{
-                  required: true, message: '请输入logo',
+                  required: true, message: '请上传logo',
                 }],
               })(
                 <AvatarUpload placeholder="" />
@@ -102,7 +102,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入系统名称',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入系统名称" />
                     )}
                 </FormItem>
 
@@ -116,7 +116,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入所属行业',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入所属行业" />
                     )}
                 </FormItem>
                 <FormItem
@@ -128,7 +128,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入联系人',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入联系人姓名" />
                     )}
                 </FormItem>
                 <FormItem
@@ -137,10 +137,10 @@ export default class BasicForms extends PureComponent {
                 >
                     {getFieldDecorator('contactTel', {
                     rules: [{
-                      required: true, message: '请输入联系电话',
+                      required: true, message: '请输入手机号码',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入手机号码" />
                     )}
                 </FormItem>
                 <FormItem
@@ -149,10 +149,12 @@ export default class BasicForms extends PureComponent {
                 >
                     {getFieldDecorator('email', {
                     rules: [{
-                      required: true, message: '请输入邮箱',type:'email',
+                      type: 'email', message: '邮箱格式输入不正确',
+                    },{
+                      required: true, message: '请输入邮箱'
                     }],
                     })(
-                    <Input placeholder="" />
+                    <Input placeholder="请输入邮箱" />
                     )}
                 </FormItem>
 
@@ -165,7 +167,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                     })(
-                    <Select>
+                    <Select placeholder="请选择状态">
                       {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
                     </Select>
                     )}

@@ -121,7 +121,7 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('headImageUrl', {
                     initialValue:formdate.headImageUrl,
                     rules: [{
-                      required: true, message: '请输入头像',
+                      required: true, message: '请上传头像',
                     }],
                   })(
                     <AvatarUpload placeholder="" disabled={this.state.onlyread} />
@@ -137,7 +137,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入用户姓名',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder="请输入用户姓名" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -150,7 +150,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入用户账号',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder="请输入用户账号" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -160,10 +160,10 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('moblie', {
                     initialValue:formdate.moblie,
                     rules: [{
-                      required: true, message: '请输入联系电话',
+                      required: true, message: '请输入手机号码',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder="请输入手机号码" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -176,7 +176,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入邮箱',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder="请输入邮箱" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -186,10 +186,10 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('status', {
                     initialValue:formdate.status!== undefined ?formdate.status+'':'',
                     rules: [{
-                      required: true, message: '请输入状态',
+                      required: true, message: '请选择状态',
                     }],
                   })(
-                  <Select  disabled={this.state.onlyread} >
+                  <Select placeholder="请选择状态"  disabled={this.state.onlyread} >
                     {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
                   </Select>
                   )}
@@ -203,7 +203,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/applicationuser'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/advisory/applicationuser'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
