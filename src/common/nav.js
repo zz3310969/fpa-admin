@@ -280,6 +280,19 @@ const data = [{
         component: ConsultantEditForm,
       }]
     }, {
+      name: '服务产品管理',
+      path: 'advisoryProduct',
+      component: AdvisoryProductList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: AdvisoryProductAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AdvisoryProductEditForm,
+      }]
+    }, {
       name: '知识管理',
       path: 'quickreply',
       component: QuickReplyList,
@@ -356,19 +369,6 @@ const data = [{
         breadname: '编辑',
         path: 'edit/:id',
         component: CommentRecordEditForm,
-      }]
-    }, {
-      name: '服务产品管理',
-      path: 'advisoryProduct',
-      component: AdvisoryProductList,
-      children: [{
-        breadname: '新增',
-        path: 'add',
-        component: AdvisoryProductAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: AdvisoryProductEditForm,
       }]
     }, {
       name: '咨询订单管理',
