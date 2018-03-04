@@ -1,12 +1,13 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import moment from 'moment';
-import { routerRedux, Link } from 'dva/router';
-import { connect } from 'dva';
-import { Table, Alert, Badge, Divider,Modal } from 'antd';
+import {routerRedux, Link} from 'dva/router';
+import {connect} from 'dva';
+import {Table, Alert, Badge, Divider, Modal} from 'antd';
 import styles from '../defaultTable.less';
+
 const confirm = Modal.confirm;
 
-const statusMap = ['error','success'];
+const statusMap = ['error', 'success'];
 
 @connect(state => ({
   advisoryproduct: state.advisoryproduct,
@@ -33,7 +34,7 @@ class StandardTable extends PureComponent {
       this.props.onSelectRow(selectedRows);
     }
 
-    this.setState({ selectedRowKeys });
+    this.setState({selectedRowKeys});
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -45,93 +46,92 @@ class StandardTable extends PureComponent {
   }
 
   deleteHandle(record) {
-    const { dispatch,reLoadList } = this.props;
-    return function() {
-          confirm({
-            title: '提示',
-            content: '确认删除吗？',
-            onOk() {
-              dispatch({
-                type: 'advisoryproduct/remove',
-                payload: {
-                  id: record.id,
-                },
-                callback: () => {
-                  reLoadList();
-                },
-            });
-          },
-          onCancel() {}
+    const {dispatch, reLoadList} = this.props;
+    return function () {
+      confirm({
+        title: '提示',
+        content: '确认删除吗？',
+        onOk() {
+          dispatch({
+            type: 'advisoryproduct/remove',
+            payload: {
+              id: record.id,
+            },
+            callback: () => {
+              reLoadList();
+            },
+          });
+        },
+        onCancel() {
+        }
       });
     };
   };
 
   render() {
-    const { selectedRowKeys } = this.state;
-    const { data: { dataList, total }, loading } = this.props;
+    const {selectedRowKeys} = this.state;
+    const {data: {dataList, total}, loading} = this.props;
     const status = ['不可用', '可用'];
 
 
     const columns = [
       {
-          title: '产品名称',
-          dataIndex: 'name',
-          key: 'name',
+        title: '所属应用',
+        dataIndex: 'appId',
+        key: 'appId',
       },
       {
-          title: '产品编号',
-          dataIndex: 'code',
-          key: 'code',
+        title: '所属咨询师',
+        dataIndex: 'consId',
+        key: 'consId',
       },
       {
-          title: '所属应用',
-          dataIndex: 'appId',
-          key: 'appId',
+        title: '产品名称',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
-          title: '所属咨询师',
-          dataIndex: 'consId',
-          key: 'consId',
+        title: '产品编号',
+        dataIndex: 'code',
+        key: 'code',
       },
       {
-          title: '备注',
-          dataIndex: 'remark',
-          key: 'remark',
+        title: '服务模式',
+        dataIndex: 'modesId',
+        key: 'modesId',
       },
       {
-          title: '服务模式',
-          dataIndex: 'modesId',
-          key: 'modesId',
+        title: '咨询定价id',
+        dataIndex: 'advisId',
+        key: 'advisId',
       },
       {
-          title: '状态',
-          dataIndex: 'status',
-          key: 'status',
+        title: '有效期',
+        dataIndex: 'validityStartTime',
+        key: 'validityStartTime',
+        render: (text, record, index) => {
+          return record.validityStartTime + "-" + record.validityEndTime
+        }
       },
       {
-          title: '咨询定价id',
-          dataIndex: 'advisId',
-          key: 'advisId',
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
       },
       {
-          title: '开始时间',
-          dataIndex: 'validityStartTime',
-          key: 'validityStartTime',
+        title: '状态',
+        dataIndex: 'status',
+        key: 'status',
       },
       {
-          title: '结束时间',
-          dataIndex: 'validityEndTime',
-          key: 'validityEndTime',
-      },
-       {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/advisoryproduct/edit/'+record.id+'?read=true'}>查看</Link>
-              <Divider type="vertical" />
-              <Link to={'/advisoryproduct/edit/'+record.id}>编辑</Link>
-              <Divider type="vertical" />
-              <a onClick={this.deleteHandle(record, index)}>删除</a>
+            <Link to={'/advisory/advisoryproduct/edit/' + record.id + '?read=true'}>查看</Link>
+            <Divider type="vertical"/>
+            <Link to={'/advisory/advisoryproduct/edit/' + record.id}>编辑</Link>
+            <Divider type="vertical"/>
+            <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>
         ),
       },];
@@ -139,7 +139,7 @@ class StandardTable extends PureComponent {
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
-      total:total,
+      total: total,
     };
 
     const rowSelection = {
@@ -156,9 +156,9 @@ class StandardTable extends PureComponent {
           <Alert
             message={(
               <div>
-                已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
-                <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
+                已选择 <a style={{fontWeight: 600}}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
+
+                <a onClick={this.cleanSelectedKeys} style={{marginLeft: 24}}>清空</a>
               </div>
             )}
             type="info"

@@ -13,6 +13,9 @@ export default {
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
+    apps:[],
+    status:[],
+    modes:[],
   },
 
   effects: {
