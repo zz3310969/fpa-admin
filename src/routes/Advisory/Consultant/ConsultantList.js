@@ -6,7 +6,7 @@ import ConsultantTable from './ConsultantTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import ApplicationRemoteSelect from '../common/ApplicationRemoteSelect'
 import styles from '../defaultTableList.less';
-
+import AreaCascader from '../common/AreaCascader'
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
@@ -131,10 +131,22 @@ export default class TableList extends PureComponent {
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
+      let areas = {};
+
+      if(fieldsValue.areas && fieldsValue.areas.length != 0){
+        if(fieldsValue.areas.length == 1){
+          areas.province = fieldsValue.areas[0];
+        }else if(fieldsValue.areas.length == 2){
+          areas.province = fieldsValue.areas[0];
+          areas.city = fieldsValue.areas[1];
+        }
+      }
 
       const values = {
         ...fieldsValue,
+        ...areas,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        areas:'',
       };
 
       this.setState({
@@ -196,8 +208,8 @@ export default class TableList extends PureComponent {
               </Col>
               <Col md={8} sm={24}>
               <FormItem label="所在地区">
-                  {getFieldDecorator('areaId')(
-                  <Input placeholder="" />
+                  {getFieldDecorator('areas')(
+                  <AreaCascader placeholder="" />
                   )}
               </FormItem>
               </Col>
