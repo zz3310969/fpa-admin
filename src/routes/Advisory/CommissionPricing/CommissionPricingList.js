@@ -187,7 +187,7 @@ export default class TableList extends PureComponent {
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="状态">
+              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
                   {getFieldDecorator('status')(
                   <Select>
                     {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
