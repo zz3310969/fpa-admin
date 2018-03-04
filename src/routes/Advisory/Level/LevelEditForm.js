@@ -103,10 +103,10 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('appId', {
                     initialValue:formdate.appId!== undefined ?formdate.appId+'':'',
                     rules: [{
-                      required: true, message: '请输入所属系统',
+                      required: true, message: '请选择所属系统',
                     }],
                   })(
-                    <Select disabled={this.state.onlyread}  showSearch
+                    <Select placeholder="请选择所属系统" disabled={this.state.onlyread}  showSearch
                       filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >
                       {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
@@ -123,7 +123,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入咨询师等级',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder="请输入咨询师等级" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -136,7 +136,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入等级编码',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder="请输入等级编码" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -146,15 +146,15 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('status', {
                     initialValue:formdate.status!== undefined ?formdate.status+'':'',
                     rules: [{
-                      required: true, message: '请输入状态',
+                      required: true, message: '请选择状态',
                     }],
                   })(
-                    <Select disabled={this.state.onlyread}>
+                    <Select placeholder="请选择状态" disabled={this.state.onlyread}>
                       {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
                     </Select>
                   )}
               </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
                 this.state.onlyread ?'':(
