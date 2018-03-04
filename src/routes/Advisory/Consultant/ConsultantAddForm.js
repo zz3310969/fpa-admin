@@ -53,7 +53,7 @@ export default class BasicForms extends PureComponent {
     let allLevels = this.props.consultant.levels;
     let advisoryThemes = new Array();
     let levels = new Array();
-    
+
       for (var i = 0; i < allThems.length; i++) {
         if(allThems[i].appId +"" == value){
           advisoryThemes.push(allThems[i]);
@@ -72,7 +72,7 @@ export default class BasicForms extends PureComponent {
         levels,
       })
     };
-  
+
   render() {
     const { consultant: { regularFormSubmitting:submitting ,apps,status,advisoryThemes,levels,genders} } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
@@ -95,7 +95,7 @@ export default class BasicForms extends PureComponent {
         sm: { span: 10, offset: 7 },
       },
     };
-    
+
 
 
     return (
@@ -128,6 +128,18 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="头像"
+            >
+              {getFieldDecorator('headImageUrl', {
+                rules: [{
+                  required: true, message: '请输入头像',
+                }],
+              })(
+                <AvatarUpload placeholder="" />
+              )}
+            </FormItem>
                 <FormItem
                         {...formItemLayout}
                         label="咨询师姓名"
@@ -142,23 +154,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="头像"
-                >
-                    {getFieldDecorator('headImageUrl', {
-                    rules: [{
-                      required: true, message: '请输入头像',
-                    }],
-                    })(
-                    <AvatarUpload placeholder="" />
-                    )}
-                </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="用户名"
+                        label="账号"
                 >
                     {getFieldDecorator('username', {
                     rules: [{
-                      required: true, message: '请输入用户名',
+                      required: true, message: '请输入账号',
                     }],
                     })(
                     <Input placeholder="" />
@@ -178,11 +178,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="等级"
+                        label="咨询师等级"
                 >
                     {getFieldDecorator('levelId', {
                     rules: [{
-                      required: true, message: '请输入等级',
+                      required: true, message: '请选择咨询师等级',
                     }],
                     })(
                     <Select>
@@ -196,7 +196,7 @@ export default class BasicForms extends PureComponent {
                 >
                     {getFieldDecorator('themeId', {
                     rules: [{
-                      required: true, message: '请输入服务主题',
+                      required: true, message: '请选择服务主题',
                     }],
                     })(
                     <Select>
@@ -256,7 +256,7 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交

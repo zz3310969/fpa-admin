@@ -115,12 +115,12 @@ export default class BasicForms extends PureComponent {
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="模式"
+                  label="服务模式"
               >
                   {getFieldDecorator('modeName', {
                     initialValue:formdate.modeName,
                     rules: [{
-                      required: true, message: '请输入模式',
+                      required: true, message: '请输入服务模式',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
@@ -141,7 +141,7 @@ export default class BasicForms extends PureComponent {
                     </Select>
                   )}
               </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
                 this.state.onlyread ?'':(

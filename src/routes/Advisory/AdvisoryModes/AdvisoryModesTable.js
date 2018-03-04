@@ -79,7 +79,7 @@ class StandardTable extends PureComponent {
           key: 'appName',
       },
       {
-          title: '模式',
+          title: '服务模式',
           dataIndex: 'modeName',
           key: 'modeName',
       },
@@ -125,7 +125,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}

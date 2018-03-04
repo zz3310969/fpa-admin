@@ -170,40 +170,7 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="所属行业">
-                  {getFieldDecorator('industry')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="联系人">
-                  {getFieldDecorator('contact')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="联系电话">
-                  {getFieldDecorator('contactTel')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="邮箱">
-                  {getFieldDecorator('email')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              
-              <Col md={8} sm={24}>
-              <FormItem label="状态">
+              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
                   {getFieldDecorator('status')(
                   <Select>
                     {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
@@ -211,20 +178,18 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
-              <Col md={8} sm={24}>
-              <span className={styles.submitButtons}>
-                    <Button type="primary" htmlType="submit">查询</Button>
-                    <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-                  </span>
-              </Col>
           </Row >
-          
-
+        <div style={{ overflow: 'hidden' }}>
+              <span style={{ float: 'right', marginBottom: 24 }}>
+              <Button type="primary" htmlType="submit">查询</Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+              </span>
+        </div>
       </Form>
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -250,7 +215,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/application/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/application/add')); console.log('添加接入系统')}}>添加接入系统</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -278,7 +243,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

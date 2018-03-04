@@ -81,7 +81,19 @@ export default class BasicForms extends PureComponent {
                     })(
                     <Input type="hidden"/>
                     )}
-                <FormItem
+            <FormItem
+              {...formItemLayout}
+              label="LOGO"
+            >
+              {getFieldDecorator('logoImageUrl', {
+                rules: [{
+                  required: true, message: '请输入logo',
+                }],
+              })(
+                <AvatarUpload placeholder="" />
+              )}
+            </FormItem>
+            <FormItem
                         {...formItemLayout}
                         label="系统名称"
                 >
@@ -93,19 +105,8 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" />
                     )}
                 </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="LOGO"
-                >
-                    {getFieldDecorator('logoImageUrl', {
-                    rules: [{
-                      required: true, message: '请输入logo',
-                    }],
-                    })(
-                    <AvatarUpload placeholder="" />
-                    )}
-                </FormItem>
-                
+
+
                 <FormItem
                         {...formItemLayout}
                         label="所属行业"
@@ -154,7 +155,7 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" />
                     )}
                 </FormItem>
-                
+
                 <FormItem
                         {...formItemLayout}
                         label="状态"
@@ -169,7 +170,7 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交

@@ -167,7 +167,7 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="模式">
+              <FormItem label="服务模式">
                   {getFieldDecorator('modeName')(
                   <Input placeholder="" />
                   )}
@@ -194,7 +194,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -213,14 +213,14 @@ export default class TableList extends PureComponent {
 
 
     return (
-      <PageHeaderLayout title="咨询模式列表">
+      <PageHeaderLayout title="咨询服务模式列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/advisorymodes/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/advisorymodes/add')); console.log('添加咨询服务模式')}}>添加咨询服务模式</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -248,7 +248,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

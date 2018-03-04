@@ -167,14 +167,14 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="姓名">
+              <FormItem label="用户姓名">
                   {getFieldDecorator('name')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="用户名">
+              <FormItem label="用户账号">
                   {getFieldDecorator('username')(
                   <Input placeholder="" />
                   )}
@@ -182,23 +182,23 @@ export default class TableList extends PureComponent {
               </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              
+
               <Col md={8} sm={24}>
-              <FormItem label="手机">
+              <FormItem label="联系电话">
                   {getFieldDecorator('moblie')(
                   <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
-              <Col md={8} sm={24}>
+              {/*<Col md={8} sm={24}>
               <FormItem label="邮箱">
                   {getFieldDecorator('email')(
                   <Input placeholder="" />
                   )}
               </FormItem>
-              </Col>
+              </Col>*/}
               <Col md={8} sm={24}>
-              <FormItem label="状态">
+              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
                   {getFieldDecorator('status')(
                   <Select>
                     {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
@@ -206,19 +206,19 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
-           </Row >
-          <div style={{ overflow: 'hidden' }}>
+              <div style={{ overflow: 'hidden' }}>
               <span style={{ float: 'right', marginBottom: 24 }}>
               <Button type="primary" htmlType="submit">查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
               </span>
-          </div>
+              </div>
+           </Row >
 
       </Form>
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -244,7 +244,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/applicationuser/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/applicationuser/add')); console.log('添加用户')}}>添加用户</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -272,7 +272,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

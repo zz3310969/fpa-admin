@@ -186,7 +186,7 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="等级">
+              <FormItem label="咨询师等级">
                   {getFieldDecorator('levelId')(
                   <Select>
                       {levels.map(d => <Select.Option key={d.id}>{d.levelName}</Select.Option>)}
@@ -195,8 +195,8 @@ export default class TableList extends PureComponent {
               </FormItem>
               </Col>
            </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              
+            {/*<Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+
               <Col md={8} sm={24}>
               <FormItem label="服务主题">
                   {getFieldDecorator('themeId')(
@@ -222,12 +222,12 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
-           </Row >
+           </Row >*/}
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              
-              
+
+
               <Col md={8} sm={24}>
-              <FormItem label="状态">
+              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
                   {getFieldDecorator('status')(
                   <Select>
                     {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
@@ -242,13 +242,13 @@ export default class TableList extends PureComponent {
                   </span>
               </Col>
           </Row >
-          
+
 
       </Form>
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -274,7 +274,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/consultant/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/consultant/add')); console.log('添加咨询师')}}>添加咨询师</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -302,7 +302,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

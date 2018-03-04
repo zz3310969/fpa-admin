@@ -112,11 +112,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="姓名"
+                        label="用户姓名"
                 >
                     {getFieldDecorator('name', {
                     rules: [{
-                      required: true, message: '请输入姓名',
+                      required: true, message: '请输入用户姓名',
                     }],
                     })(
                     <Input placeholder="" />
@@ -124,11 +124,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="用户名"
+                        label="用户账号"
                 >
                     {getFieldDecorator('username', {
                     rules: [{
-                      required: true, message: '请输入用户名',
+                      required: true, message: '请输入用户账号',
                     }],
                     })(
                     <Input placeholder="" />
@@ -136,11 +136,11 @@ export default class BasicForms extends PureComponent {
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="手机"
+                        label="联系电话"
                 >
                     {getFieldDecorator('moblie', {
                     rules: [{
-                      required: true, message: '请输入手机',
+                      required: true, message: '请输入联系电话',
                     }],
                     })(
                     <Input placeholder="" />
@@ -172,7 +172,7 @@ export default class BasicForms extends PureComponent {
                   </Select>
                     )}
                 </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交

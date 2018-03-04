@@ -117,11 +117,11 @@ class StandardTable extends PureComponent {
           dataIndex: 'currentPrice',
           key: 'currentPrice',
       },
-      {
+      /*{
           title: '简介',
           dataIndex: 'introduction',
           key: 'introduction',
-      },
+      },*/
       {
           title: '有效期',
           dataIndex: 'validityStartTime',
@@ -172,7 +172,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}
