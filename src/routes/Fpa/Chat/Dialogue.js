@@ -5,90 +5,22 @@ import { routerRedux, Link } from 'dva/router';
 import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dropdown  } from 'antd';
 
 import styles from "./Dialogue.less";
-console.log(styles)
-const columns = [{
-  title: 'Name',
-  dataIndex: 'name',
-  key: 'name',
-  render: (text,record) => {
-    return (
-      <div> 
-        <Badge count={record.count} overflowCount={99} style={{ backgroundColor: '#87d068'}}>
-          <a href="#" className={styles.badge} style={{backgroundColor:"#123456"}}/>
-        </Badge>
-        <a href="#" style={{marginLeft:5 }}>{text}</a>
-      </div>
-      
-    );
-  },
-}];
 
-const data = [{
-  key: '1',
-  name: 'John Brown',
-  count:39
-}, {
-  key: '2',
-  name: 'Jim Green',
-  count:69
-}, {
-  key: '3',
-  name: 'Joe Black',
-  count:49
-}];
 
-const _currentChat = {
-  messages:[{
-    date:'2018-03-01',
-    content:'你好',
-    self:0,
-    img:'',
-    type:'TXT'
-  },{
-    date:'2018-03-01',
-    content:'我也好',
-    self:1,
-    type:'TXT'
-  },{
-    date:'2018-03-02',
-    content:'你在哪儿',
-    self:0,
-    type:'AUDIO',
-    length:5
-  },{
-    date:'2018-03-01',
-    content:'我在上海',
-    self:1,
-    type:'AUDIO',
-    length:2
-  },{
-    date:'2018-03-05',
-    content:'呼叫总部',
-    self:0,
-    type:'TXT'
-  },{
-    date:'2018-03-01',
-    content:'我是莱德',
-    self:1,
-    type:'TXT'
-  },],
-  //聊天对象头像
-  user:{
-    img:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
-  }
-
-}
 
 //我的头像
 const _user = {
   img:'https://dummyimage.com/200x200/474fcb/FFF&text=Job'
 }
 
-
+@connect(state => ({
+  websocket: state.websocket,
+}))
 export default class Dialogue extends Component {
   state = {
     count: 0,
     type: 'account',
+    user_id:'zlt',
   }
 
   componentWillReceiveProps(nextProps) {
@@ -113,9 +45,10 @@ export default class Dialogue extends Component {
   }
   link (str){
     var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/ig
-    return str.replace(reg,'<a className="link" target="_bank" href="$1$2">$1$2</a>')
-  }
+    return str.replace(reg,'<a className="link" target="_bank" href="$1$2">$1$2</a>');
+  };
   render() {
+    const { websocket: { _currentChat,} } = this.props;
     return (
       <div className="message-w">
         <header className="group-name">
@@ -131,9 +64,9 @@ export default class Dialogue extends Component {
                       return (
                         <li key={i}>
                           {
-                          i!=0&&this.time(item.date,_currentChat.messages[i-1].date)!=''?(
+                          i!=0&&this.time(item.createTime,_currentChat.messages[i-1].createTime)!=''?(
                             <p className={styles.time}>
-                                  <span>{this.time(item.date,_currentChat.messages[i-1].date)}</span>
+                                  <span>{this.time(item.createTime,_currentChat.messages[i-1].createTime)}</span>
                               </p>
                           ):(
                           null
@@ -146,7 +79,7 @@ export default class Dialogue extends Component {
                                   item.type=='AUDIO'?
                                   <div className={styles['audio-msg']} style={{width:(item.length*5+30)+"px"}}><Icon type="audio1" className={styles.audio1} /></div>
                                   :
-                                  <div className={styles.text} >item.content</div>
+                                  <div className={styles.text} >{item.payload}</div>
                                 }
                             </div>
                         </li>

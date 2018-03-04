@@ -6,7 +6,9 @@ import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dr
 
 import styles from "./Send.less";
 
-
+@connect(state => ({
+  websocket: state.websocket,
+}))
 export default class Send extends Component {
   constructor(props){
     super(props);
@@ -54,13 +56,14 @@ export default class Send extends Component {
 
   }
   save(){
-    let {ACTIONS,_user,_currentId} = this.props;
+    //let {ACTIONS,_user,_currentId} = this.props;
+    const { dispatch } = this.props;
     let {content} = this.state;
     if(this.flag){
       return false;
     };
     this.flag = true;
-    ACTIONS.send_message({
+    /*ACTIONS.send_message({
       user:_user,id:_currentId,content:content,
       success:(req)=>{
         this.flag = false;
@@ -68,6 +71,25 @@ export default class Send extends Component {
       error:()=>{
         this.flag = false;
       }
+    });*/
+    let payload = {
+      "clientType":"h5",
+      "createTime":new Date().getTime(),
+      'seq':new Date().getTime(),
+      "payload":content,
+      "receiver":"cde",
+      "requestType":"message",
+      "token":"zlt",
+      "type":"TXT"
+    };
+
+
+    dispatch({
+      type: 'websocket/send',
+      payload:payload,
+      callback: () => {
+            this.flag = false;
+          },
     });
     this.setState({
       content:""
