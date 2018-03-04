@@ -363,7 +363,7 @@ const data = [{
       component: AdvisoryProductList,
       children: [{
         breadname: '新增',
-        path: 'add/:id',
+        path: 'add',
         component: AdvisoryProductAddForm,
       }, {
         breadname: '编辑',
