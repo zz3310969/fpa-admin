@@ -33,6 +33,12 @@ export default class BasicForms extends PureComponent {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const values = {
+          ...fieldsValue,
+          validityStartTime:fieldsValue.validityTime && fieldsValue.validityTime[0].format('YYYY-MM-DD HH:mm:ss'),
+          validityEndTime:fieldsValue.validityTime && fieldsValue.validityTime[1].format('YYYY-MM-DD HH:mm:ss'),
+          validityTime:'',
+        };
         this.props.dispatch({
           type: 'advisoryproduct/add',
           payload: values,
@@ -160,26 +166,17 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="开始时间"
+              label="有效期"
             >
-              {getFieldDecorator('validityStartTime', {
+              {getFieldDecorator('validityTime', {
                 rules: [{
-                  required: true, message: '请输入开始时间',
+                  required: true, message: '请输入有效期',
                 }],
               })(
-                <Input placeholder=""/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="结束时间"
-            >
-              {getFieldDecorator('validityEndTime', {
-                rules: [{
-                  required: true, message: '请输入结束时间',
-                }],
-              })(
-                <Input placeholder=""/>
+                <RangePicker showTime={{ format: 'HH:mm:ss' }}
+                             format="YYYY-MM-DD HH:mm:ss"
+                             placeholder={['开始日期', '结束日期']}
+                              style={{ width: '100%' }}/>
               )}
             </FormItem>
             <FormItem
