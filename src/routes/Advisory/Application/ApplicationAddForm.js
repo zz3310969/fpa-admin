@@ -87,7 +87,7 @@ export default class BasicForms extends PureComponent {
             >
               {getFieldDecorator('logoImageUrl', {
                 rules: [{
-                  required: true, message: '请输入logo',
+                  required: true, message: '请上传logo',
                 }],
               })(
                 <AvatarUpload placeholder="" />
@@ -137,7 +137,7 @@ export default class BasicForms extends PureComponent {
                 >
                     {getFieldDecorator('contactTel', {
                     rules: [{
-                      required: true, message: '请输入联系电话',
+                      required: true, message: '请输入手机号码',
                     }],
                     })(
                     <Input placeholder="请输入手机号码" />
@@ -149,7 +149,9 @@ export default class BasicForms extends PureComponent {
                 >
                     {getFieldDecorator('email', {
                     rules: [{
-                      required: true, message: '请输入邮箱',type:'email',
+                      type: 'email', message: '邮箱格式输入不正确',
+                    },{
+                      required: true, message: '请输入邮箱'
                     }],
                     })(
                     <Input placeholder="请输入邮箱" />
