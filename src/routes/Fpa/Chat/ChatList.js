@@ -37,6 +37,9 @@ const data = [{
 }];
 
 
+@connect(state => ({
+  websocket: state.websocket,
+}))
 export default class ChatList extends Component {
   state = {
     count: 0,
@@ -49,11 +52,16 @@ export default class ChatList extends Component {
     // }
   }
 
+  componentDidMount() {
+    
+  }
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
   chatItemClick(event){
+    alert("click")
     console.log(event)
     //pull 消息
   }

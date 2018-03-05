@@ -212,7 +212,7 @@ export default class TableList extends PureComponent {
             </div>
             <div className={styles.tableListOperator}>
               <Button icon="plus" type="primary" onClick={() => {
-                this.props.dispatch(routerRedux.push('/commenttemplate/add'));
+                this.props.dispatch(routerRedux.push('/advisory/commenttemplate/add'));
                 console.log('新建')
               }}>新建</Button>
               {
