@@ -60,9 +60,10 @@ export default class ChatList extends Component {
     clearInterval(this.interval);
   }
 
-  chatItemClick(event){
+  chatItemClick(event,clickKey){
     alert("click")
-    console.log(event)
+    console.log(event);
+    console.log(clickKey)
     //pull 消息
   }
 
@@ -75,11 +76,11 @@ export default class ChatList extends Component {
           renderItem={item => (
             <List.Item
               style={{paddingLeft:20}}
-              onClick={this.chatItemClick}
-              
+              onClick={(event)=>this.chatItemClick(event,item.key)}
             >
               <List.Item.Meta
-                avatar={<Badge count={item.count} style={{ backgroundColor: '#52c41a' }}><Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /></Badge>}
+                avatar={<Badge count={item.count} style={{ backgroundColor: '#52c41a' }}>
+                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /></Badge>}
                 title={<span>{item.name}</span>}
               />
             </List.Item>
