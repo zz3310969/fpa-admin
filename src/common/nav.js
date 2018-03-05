@@ -144,6 +144,26 @@ import CommissionPricingList from '../routes/Advisory/CommissionPricing/Commissi
 import CommissionPricingAddForm from '../routes/Advisory/CommissionPricing/CommissionPricingAddForm';
 import CommissionPricingEditForm from '../routes/Advisory/CommissionPricing/CommissionPricingEditForm';
 
+import CommentItemsList from '../routes/Advisory/CommentItems/CommentItemsList';
+import CommentItemsAddForm from '../routes/Advisory/CommentItems/CommentItemsAddForm';
+import CommentItemsEditForm from '../routes/Advisory/CommentItems/CommentItemsEditForm';
+
+import CommentRecordList from '../routes/Advisory/CommentRecord/CommentRecordList';
+import CommentRecordAddForm from '../routes/Advisory/CommentRecord/CommentRecordAddForm';
+import CommentRecordEditForm from '../routes/Advisory/CommentRecord/CommentRecordEditForm';
+
+import CommentTemplateList from '../routes/Advisory/Commenttemplate/CommentTemplateList';
+import CommentTemplateAddForm from '../routes/Advisory/Commenttemplate/CommentTemplateAddForm';
+import CommentTemplateEditForm from '../routes/Advisory/Commenttemplate/CommentTemplateEditForm';
+
+import AdvisoryOrderList from '../routes/Advisory/AdvisoryOrder/AdvisoryOrderList';
+import AdvisoryOrderAddForm from '../routes/Advisory/AdvisoryOrder/AdvisoryOrderAddForm';
+import AdvisoryOrderEditForm from '../routes/Advisory/AdvisoryOrder/AdvisoryOrderEditForm';
+
+import AdvisoryProductList from '../routes/Advisory/AdvisoryProduct/AdvisoryProductList';
+import AdvisoryProductAddForm from '../routes/Advisory/AdvisoryProduct/AdvisoryProductAddForm';
+import AdvisoryProductEditForm from '../routes/Advisory/AdvisoryProduct/AdvisoryProductEditForm';
+
 import AdvisoryPricingList from '../routes/Advisory/AdvisoryPricing/AdvisoryPricingList';
 import AdvisoryPricingAddForm from '../routes/Advisory/AdvisoryPricing/AdvisoryPricingAddForm';
 import AdvisoryPricingEditForm from '../routes/Advisory/AdvisoryPricing/AdvisoryPricingEditForm';
@@ -178,10 +198,10 @@ const data = [{
     path: 'advisory',
     icon: 'solution',
     children: [{
-      name:'在线咨询服务台',
+      name: '在线咨询服务台',
       path: 'chat',
       component: ChatIndex
-    },{
+    }, {
       name: '接入系统管理',
       path: 'application',
       component: ApplicationList,
@@ -189,12 +209,12 @@ const data = [{
         breadname: '添加接入系统',
         path: 'add',
         component: ApplicationAddForm,
-      },{
+      }, {
         breadname: '编辑接入系统',
         path: 'edit/:id',
         component: ApplicationEditForm,
       }]
-    },{
+    }, {
       name: '接入系统用户管理',
       path: 'applicationuser',
       component: ApplicationUserList,
@@ -202,12 +222,12 @@ const data = [{
         breadname: '添加接入系统用户',
         path: 'add',
         component: ApplicationUserAddForm,
-      },{
+      }, {
         breadname: '编辑接入系统用户',
         path: 'edit/:id',
         component: ApplicationUserEditForm,
       }]
-    },{
+    }, {
       name: '咨询师等级管理',
       path: 'level',
       component: LevelList,
@@ -215,12 +235,12 @@ const data = [{
         breadname: '添加咨询师等级',
         path: 'add',
         component: LevelAddForm,
-      },{
+      }, {
         breadname: '编辑咨询师等级',
         path: 'edit/:id',
         component: LevelEditForm,
       }]
-    },{
+    }, {
       name: '咨询服务主题管理',
       path: 'advisorytheme',
       component: AdvisoryThemeList,
@@ -228,12 +248,12 @@ const data = [{
         breadname: '添加咨询服务主题',
         path: 'add',
         component: AdvisoryThemeAddForm,
-      },{
+      }, {
         breadname: '编辑咨询服务主题',
         path: 'edit/:id',
         component: AdvisoryThemeEditForm,
       }]
-    },{
+    }, {
       name: '咨询服务模式管理',
       path: 'advisorymodes',
       component: AdvisoryModesList,
@@ -241,12 +261,12 @@ const data = [{
         breadname: '添加咨询服务模式',
         path: 'add',
         component: AdvisoryModesAddForm,
-      },{
+      }, {
         breadname: '编辑咨询服务模式',
         path: 'edit/:id',
         component: AdvisoryModesEditForm,
       }]
-    },{
+    }, {
       name: '咨询师管理',
       path: 'consultant',
       component: ConsultantList,
@@ -254,12 +274,25 @@ const data = [{
         breadname: '添加咨询师',
         path: 'add',
         component: ConsultantAddForm,
-      },{
+      }, {
         breadname: '编辑咨询师信息',
         path: 'edit/:id',
         component: ConsultantEditForm,
       }]
-    },{
+    }, {
+      name: '服务产品管理',
+      path: 'advisoryProduct',
+      component: AdvisoryProductList,
+      children: [{
+        breadname: '新增',
+        path: 'add',
+        component: AdvisoryProductAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AdvisoryProductEditForm,
+      }]
+    }, {
       name: '知识管理',
       path: 'quickreply',
       component: QuickReplyList,
@@ -267,12 +300,12 @@ const data = [{
         breadname: '添加知识',
         path: 'add',
         component: QuickReplyAddForm,
-      },{
+      }, {
         breadname: '编辑知识',
         path: 'edit/:id',
         component: QuickReplyEditForm,
       }]
-    },{
+    }, {
       name: '咨询定价',
       path: 'advisorypricing',
       component: AdvisoryPricingList,
@@ -280,12 +313,12 @@ const data = [{
         breadname: '新增',
         path: 'add/:id',
         component: AdvisoryPricingAddForm,
-      },{
+      }, {
         breadname: '编辑',
         path: 'edit/:id',
         component: AdvisoryPricingEditForm,
       }]
-    },{
+    }, {
       name: '佣金定价',
       path: 'commissionpricing',
       component: CommissionPricingList,
@@ -293,13 +326,65 @@ const data = [{
         breadname: '新增',
         path: 'add/:id',
         component: CommissionPricingAddForm,
-      },{
+      }, {
         breadname: '编辑',
         path: 'edit/:id',
         component: CommissionPricingEditForm,
       }]
+    }, {
+      name: '评价模版管理',
+      path: 'commentTemplate',
+      component: CommentTemplateList,
+      children: [{
+        breadname: '新增',
+        path: 'add/:id',
+        component: CommentTemplateAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CommentTemplateEditForm,
+      }]
+    }, {
+      name: '评价项管理',
+      path: 'commentitems',
+      component: CommentItemsList,
+      children: [{
+        breadname: '新增',
+        path: 'add/:id',
+        component: CommentItemsAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CommentItemsEditForm,
+      }]
+    }, {
+      name: '评价记录',
+      path: 'commentrecord',
+      component: CommentRecordList,
+      children: [{
+        breadname: '新增',
+        path: 'add/:id',
+        component: CommentRecordAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: CommentRecordEditForm,
+      }]
+    }, {
+      name: '咨询订单管理',
+      path: 'advisoryOrder',
+      component: AdvisoryOrderList,
+      children: [{
+        breadname: '新增',
+        path: 'add/:id',
+        component: AdvisoryOrderAddForm,
+      }, {
+        breadname: '编辑',
+        path: 'edit/:id',
+        component: AdvisoryOrderEditForm,
+      }]
     }],
-  },{
+  }, {
     name: '卡牌测试管理',
     path: 'test',
     icon: 'credit-card',
@@ -307,7 +392,7 @@ const data = [{
       name: '测试场景',
       path: 'scene',
       component: SceneList,
-    },{
+    }, {
       name: '卡牌管理',
       path: 'cardgroup',
       component: CardGroupList,
@@ -316,7 +401,7 @@ const data = [{
         path: 'add',
         component: CardGroupAddForm,
       }]
-    },{
+    }, {
       name: '测试结果',
       path: 'result',
       component: CardTestResultList,
@@ -326,7 +411,7 @@ const data = [{
         component: CardTestResultProfile,
       },],
     },],
-  },{
+  }, {
     name: '性格管理',
     path: 'character',
     icon: 'pie-chart',
@@ -343,7 +428,7 @@ const data = [{
         path: 'edit/:id',
         component: CharacterColorEditForm,
       },],
-    },{
+    }, {
       name: '主题列表',
       path: 'theme',
       component: ThemeList,
@@ -356,7 +441,7 @@ const data = [{
         path: 'edit/:id',
         component: ThemeEditForm,
       },],
-    },{
+    }, {
       name: '性格主题配置',
       path: 'charactertheme',
       component: CharacterList,
@@ -378,7 +463,7 @@ const data = [{
       name: '客户资料',
       path: 'info',
       component: CustomerList,
-    },{
+    }, {
       name: '客户订单',
       path: 'order',
       component: OrderList,
@@ -388,7 +473,7 @@ const data = [{
         component: OrderProfile,
       },],
     },],
-  },{
+  }, {
     name: '营销管理',
     path: 'scheme',
     icon: 'notification',
@@ -396,7 +481,7 @@ const data = [{
       name: '分享记录',
       path: 'share',
       component: ShareList,
-    },{
+    }, {
       name: '分享模板管理',
       path: 'transmittemplate',
       component: TransmitTemplateList,
@@ -427,7 +512,7 @@ const data = [{
         path: 'edit/:id',
         component: CounselorRankEditForm,
       },],
-    },{
+    }, {
       name: '咨询师管理',
       path: 'counselor',
       component: CounselorList,
@@ -440,7 +525,7 @@ const data = [{
         path: 'edit/:id',
         component: CounselorEditForm,
       },],
-    },{
+    }, {
       name: '客户留言管理',
       path: 'words',
       component: CustomerWordsList,
@@ -450,7 +535,7 @@ const data = [{
         component: CustomerWordsEditForm,
       },],
     },],
-  },{
+  }, {
     name: '财务',
     path: 'finance',
     icon: 'pay-circle',
@@ -463,7 +548,7 @@ const data = [{
         path: 'edit/:id',
         component: AccountEditForm,
       }],
-    },{
+    }, {
       name: '提现申请',
       path: 'withdraw/apply',
       component: WithdrawList,
@@ -476,7 +561,7 @@ const data = [{
         path: 'edit/:id',
         component: WithdrawEditForm,
       }],
-    },{
+    }, {
       name: '提现审核',
       path: 'withdraw/audit',
       component: WithdrawList,
@@ -485,16 +570,16 @@ const data = [{
         path: 'edit/:id',
         component: WithdrawEditForm,
       }],
-    },{
+    }, {
       name: '提现记录',
       path: 'withdraw/list',
       component: WithdrawList,
-      children: [ {
+      children: [{
         breadname: '编辑',
         path: 'edit/:id',
         component: WithdrawEditForm,
       }],
-    },{
+    }, {
       name: '退款申请',
       path: 'refund/apply',
       component: RefundList,
@@ -507,16 +592,16 @@ const data = [{
         path: 'edit/:id',
         component: RefundEditForm,
       }],
-    },{
+    }, {
       name: '退款审核',
       path: 'refund/audit',
       component: RefundList,
-      children: [ {
+      children: [{
         breadname: '编辑',
         path: 'edit/:id',
         component: RefundEditForm,
       }],
-    },{
+    }, {
       name: '退款记录',
       path: 'refund/list',
       component: RefundList,
@@ -526,31 +611,31 @@ const data = [{
         component: RefundEditForm,
       }],
     },],
-  },{
-    name:'系统管理',
-    path:'sysm',
-    icon:'windows-o',
+  }, {
+    name: '系统管理',
+    path: 'sysm',
+    icon: 'windows-o',
     children: [{
       name: '缓存列表',
       path: 'cache-list',
       component: CacheList,
-    },{
+    }, {
       name: '菜单',
       path: 'menu-tree',
       component: MenuTree,
-    },{
+    }, {
       name: '字典',
       path: 'dictionary-tree',
       component: DictionaryTree,
-    },{
+    }, {
       name: '资源',
       path: 'resource-tree',
-      component:ResourceTree,
-    },{
+      component: ResourceTree,
+    }, {
       name: '组织架构',
       path: 'org-tree',
-      component:OrganizationTree,
-    },{
+      component: OrganizationTree,
+    }, {
       name: '用户列表',
       path: 'user-list',
       component: UserList,
@@ -561,23 +646,23 @@ const data = [{
       }]
     }],
   }, {
-      name: 'Dashboard',
-      icon: 'dashboard',
-      path: 'dashboard',
-      children: [{
-        name: '分析页',
-        path: 'analysis',
-        component: Analysis,
-      }, {
-        name: '监控页',
-        path: 'monitor',
-        component: Monitor,
-      }, {
-        name: '工作台',
-        path: 'workplace',
-        component: Workplace,
-      }],
-    },],
+    name: 'Dashboard',
+    icon: 'dashboard',
+    path: 'dashboard',
+    children: [{
+      name: '分析页',
+      path: 'analysis',
+      component: Analysis,
+    }, {
+      name: '监控页',
+      path: 'monitor',
+      component: Monitor,
+    }, {
+      name: '工作台',
+      path: 'workplace',
+      component: Workplace,
+    }],
+  },],
 }, {
   component: UserLayout,
   layout: 'UserLayout',

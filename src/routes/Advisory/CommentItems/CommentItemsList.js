@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,Table } from 'antd';
-import CommissionPricingTable from './CommissionPricingTable';
+import CommentItemsTable from './CommentItemsTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
 import styles from '../defaultTableList.less';
@@ -15,7 +15,7 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 
 @connect(state => ({
-  commissionpricing: state.commissionpricing,
+  commentitems: state.commentitems,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -30,10 +30,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'commissionpricing/base',
-    });
-    dispatch({
-      type: 'commissionpricing/fetch',
+      type: 'commentitems/fetch',
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -64,7 +61,7 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'commissionpricing/fetch',
+      type: 'commentitems/fetch',
       payload: params,
     });
   }
@@ -73,7 +70,7 @@ export default class TableList extends PureComponent {
     const { form, dispatch } = this.props;
     form.resetFields();
     dispatch({
-      type: 'commissionpricing/fetch',
+      type: 'commentitems/fetch',
       payload: {},
     });
   }
@@ -88,7 +85,7 @@ export default class TableList extends PureComponent {
       ...formValues,
     };
     dispatch({
-      type: 'commissionpricing/fetch',
+      type: 'commentitems/fetch',
       payload: params,
     });
   }
@@ -102,7 +99,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'commissionpricing/remove',
+          type: 'commentitems/remove',
           payload: {
             ids: selectedRows.map(row => row.id).join(','),
           },
@@ -142,7 +139,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'commissionpricing/fetch',
+        type: 'commentitems/fetch',
         payload: values,
       });
     });
@@ -151,70 +148,73 @@ export default class TableList extends PureComponent {
 
   renderAdvancedForm() {
     const { getFieldDecorator } = this.props.form;
-    const { commissionpricing: {apps,status,advisoryModes,fix_types, } } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="所属系统">
-                {getFieldDecorator('appId')(
-                  <Select showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
+              <FormItem label="评价项">
+                  {getFieldDecorator('name')(
+                  <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="定价类型">
-                  {getFieldDecorator('fixType')(
-                    <Select>
-                      {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
-                    </Select>
+              <FormItem label="评价方式">
+                  {getFieldDecorator('evalMode')(
+                  <Input placeholder="" />
                   )}
-                </FormItem>
+              </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="咨询模式">
-                  {getFieldDecorator('moldeId')(
-                  <Select>
-                    {advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
-                  </Select>
+              <FormItem label="总分">
+                  {getFieldDecorator('totalScore')(
+                  <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-              <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
-                  {getFieldDecorator('status')(
-                  <Select>
-                    {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
-                  </Select>
+              <FormItem label="展现方式">
+                  {getFieldDecorator('prosetaionType')(
+                  <Input placeholder="" />
                   )}
               </FormItem>
               </Col>
-              <div style={{ overflow: 'hidden' }}>
+              <Col md={8} sm={24}>
+              <FormItem label="状态">
+                  {getFieldDecorator('status')(
+                  <Input placeholder="" />
+                  )}
+              </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+              <FormItem label="评价模版id">
+                  {getFieldDecorator('commentTemplate')(
+                  <Input placeholder="" />
+                  )}
+              </FormItem>
+              </Col>
+          </Row >
+          <div style={{ overflow: 'hidden' }}>
               <span style={{ float: 'right', marginBottom: 24 }}>
               <Button type="primary" htmlType="submit">查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
               </span>
-              </div>
-          </Row >
+          </div>
 
       </Form>
     );
   }
 
-
+  
 
   renderForm() {
     return this.renderAdvancedForm();
   }
 
   render() {
-    const { commissionpricing: { loading: commissionpricingLoading, data } } = this.props;
+    const { commentitems: { loading: commentitemsLoading, data } } = this.props;
     const { selectedRows } = this.state;
 
     const menu = (
@@ -226,13 +226,14 @@ export default class TableList extends PureComponent {
 
 
     return (
-      <PageHeaderLayout title="咨询佣金定价列表">
+      <PageHeaderLayout title="评价项表列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
+              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/commentitems/add')); console.log('新建')}}>新建</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -248,9 +249,9 @@ export default class TableList extends PureComponent {
 
 
 
-            <CommissionPricingTable
+            <CommentItemsTable
               selectedRows={selectedRows}
-              loading={commissionpricingLoading}
+              loading={commentitemsLoading}
               data={data}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
@@ -260,7 +261,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-
+        
       </PageHeaderLayout>
     );
   }

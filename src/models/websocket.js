@@ -96,12 +96,24 @@ export default {
                     case 'login':
                     case 'online':
                         console.log('上线');
+                        yield put({
+                            type: 'changeUserState',
+                            payload: 'online',
+                          });
                         break;
                     case 'offline':
                         console.log('下线');
+                        yield put({
+                            type: 'changeUserState',
+                            payload: 'offline',
+                          });
                         break;
                     case 'hide':
                         console.log('隐身');
+                        yield put({
+                            type: 'changeUserState',
+                            payload: 'hide',
+                          });
                         break;
                     case 'openSession':
                         break;
@@ -212,6 +224,11 @@ export default {
             service.listen((data) => {
               dispatch({ type: 'websocket/message', payload: data });
             });
+          }else if(parms.requestType == 'offline'){
+            yield put({
+              type: 'changeUserState',
+              payload: 'offline',
+            });
           }
 
           yield call(service.online, parms);
@@ -243,6 +260,12 @@ export default {
           return {
             ...state,
             sendMap:payload,
+          };
+        },
+        changeUserState(state, { payload }){
+          return {
+            ...state,
+            userState:payload,
           };
         },
     },
