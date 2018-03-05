@@ -80,16 +80,16 @@ class StandardTable extends PureComponent {
       },
       {
           title: '所属系统',
-          dataIndex: 'appId',
-          key: 'appId',
+          dataIndex: 'appName',
+          key: 'appName',
       },
        {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/commenttemplate/edit/'+record.id+'?read=true'}>查看</Link>
+              <Link to={'/advisory/commenttemplate/edit/'+record.id+'?read=true'}>查看</Link>
               <Divider type="vertical" />
-              <Link to={'/commenttemplate/edit/'+record.id}>编辑</Link>
+              <Link to={'/advisory/commenttemplate/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
               <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>
@@ -117,7 +117,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}

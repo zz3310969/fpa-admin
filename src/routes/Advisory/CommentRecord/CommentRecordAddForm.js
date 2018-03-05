@@ -23,7 +23,9 @@ export default class BasicForms extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-
+    dispatch({
+      type: 'commentrecord/base',
+    })
   }
 
 
@@ -36,14 +38,14 @@ export default class BasicForms extends PureComponent {
           type: 'commentrecord/add',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/commentrecord'));
+            this.props.dispatch(routerRedux.push('/advisory/commentrecord'));
           },
         });
       }
     });
   }
   render() {
-    const { commentrecord: { regularFormSubmitting:submitting } } = this.props;
+    const { commentrecord: { regularFormSubmitting:submitting ,items, apps, status, consultants} } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -82,31 +84,43 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入所属系统',
                     }],
                     })(
-                    <Input placeholder="" />
+                      <Select showSearch
+                              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      >
+                        {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                      </Select>
                     )}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="评价项id"
+                        label="评价项"
                 >
                     {getFieldDecorator('itemId', {
                     rules: [{
-                      required: true, message: '请输入评价项id',
+                      required: true, message: '请输入评价项',
                     }],
                     })(
-                    <Input placeholder="" />
+                      <Select showSearch
+                              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      >
+                        {items.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                      </Select>
                     )}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="咨询师id"
+                        label="咨询师"
                 >
                     {getFieldDecorator('consultantId', {
                     rules: [{
-                      required: true, message: '请输入咨询师id',
+                      required: true, message: '请输入咨询师',
                     }],
                     })(
-                    <Input placeholder="" />
+                      <Select showSearch
+                              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      >
+                        {consultants.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                      </Select>
                     )}
                 </FormItem>
                 <FormItem
@@ -154,7 +168,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入评价时间',
                     }],
                     })(
-                    <Input placeholder="" />
+                    <DatePicker/>
                     )}
                 </FormItem>
                 <FormItem
@@ -166,7 +180,9 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入状态',
                     }],
                     })(
-                    <Input placeholder="" />
+                      <Select>
+                        {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                      </Select>
                     )}
                 </FormItem>
                     {getFieldDecorator('id', {
@@ -174,12 +190,12 @@ export default class BasicForms extends PureComponent {
                     })(
                     <Input type="hidden"/>
                     )}
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-                <Link to={'/commentrecord'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/advisory/commentrecord'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

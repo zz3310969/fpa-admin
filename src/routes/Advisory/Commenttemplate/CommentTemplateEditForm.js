@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { routerRedux, Link } from 'dva/router';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
+import {routerRedux, Link} from 'dva/router';
 import {
   Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
 } from 'antd';
@@ -8,9 +8,9 @@ import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+const {Option} = Select;
+const {RangePicker} = DatePicker;
+const {TextArea} = Input;
 
 @connect(state => ({
   commenttemplate: state.commenttemplate,
@@ -19,7 +19,7 @@ const { TextArea } = Input;
 export default class BasicForms extends PureComponent {
 
   state = {
-    onlyread:false,
+    onlyread: false,
   };
 
   componentDidMount() {
@@ -27,17 +27,19 @@ export default class BasicForms extends PureComponent {
     const params = new URLSearchParams(search);
     const optype = params.get('read'); // bar
     this.setState({
-      onlyread:optype?true:false,
+      onlyread: optype ? true : false,
     })
-    const { dispatch } = this.props;
-    if(this.props.match.params.id){
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'commenttemplate/base',
+    });
+    if (this.props.match.params.id) {
       dispatch({
         type: 'commenttemplate/fetchBasic',
-        payload:{id:this.props.match.params.id}
+        payload: {id: this.props.match.params.id}
       });
     }
   }
-
 
 
   handleSubmit = (e) => {
@@ -48,32 +50,33 @@ export default class BasicForms extends PureComponent {
           type: 'commenttemplate/update',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/commenttemplate'));
+            this.props.dispatch(routerRedux.push('/advisory/commenttemplate'));
           },
         });
       }
     });
   }
+
   render() {
-    const { commenttemplate: { regularFormSubmitting:submitting, formdate } } = this.props;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const {commenttemplate: {regularFormSubmitting: submitting, formdate,apps}} = this.props;
+    const {getFieldDecorator, getFieldValue} = this.props.form;
 
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
+        xs: {span: 24},
+        sm: {span: 7},
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
+        xs: {span: 24},
+        sm: {span: 12},
+        md: {span: 10},
       },
     };
 
     const submitFormLayout = {
       wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
+        xs: {span: 24, offset: 0},
+        sm: {span: 10, offset: 7},
       },
     };
 
@@ -83,52 +86,56 @@ export default class BasicForms extends PureComponent {
           <Form
             onSubmit={this.handleSubmit}
             hideRequiredMark
-            style={{ marginTop: 8 }}
+            style={{marginTop: 8}}
           >
-                {getFieldDecorator('id', {
-                  initialValue:formdate.id,
-                  rules: [{
-                    required: true, message: '请输入模版id',
-                  }],
-                })(
-                    <Input type="hidden"/>
-                  )}
-              <FormItem
-                  {...formItemLayout}
-                  label="模版名称"
-              >
-                  {getFieldDecorator('name', {
-                    initialValue:formdate.name,
-                    rules: [{
-                      required: true, message: '请输入模版名称',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="所属系统"
-              >
-                  {getFieldDecorator('appId', {
-                    initialValue:formdate.appId,
-                    rules: [{
-                      required: true, message: '请输入所属系统',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-            
-            <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-                {
-                this.state.onlyread ?'':(
-                <Button type="primary" htmlType="submit" loading={submitting}>
+            {getFieldDecorator('id', {
+              initialValue: formdate.id,
+              rules: [{
+                required: true, message: '请输入模版id',
+              }],
+            })(
+              <Input type="hidden"/>
+            )}
+            <FormItem
+              {...formItemLayout}
+              label="模版名称"
+            >
+              {getFieldDecorator('name', {
+                initialValue: formdate.name,
+                rules: [{
+                  required: true, message: '请输入模版名称',
+                }],
+              })(
+                <Input placeholder="" disabled={this.state.onlyread}/>
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="所属系统"
+            >
+              {getFieldDecorator('appId', {
+                initialValue: formdate.appId !== undefined ? formdate.appId + '' : '',
+                rules: [{
+                  required: true, message: '请选择所属系统',
+                }],
+              })(
+                <Select  showSearch
+                        filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                  {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                </Select>
+              )}
+            </FormItem>
+
+            <FormItem {...submitFormLayout} style={{marginTop: 32}}>
+              {
+                this.state.onlyread ? '' : (
+                  <Button type="primary" htmlType="submit" loading={submitting}>
                     提交
-                </Button>
+                  </Button>
                 )
-                }
-                <Link to={'/commenttemplate'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+              }
+              <Link to={'/advisory/commenttemplate'}><Button style={{marginLeft: 8}}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

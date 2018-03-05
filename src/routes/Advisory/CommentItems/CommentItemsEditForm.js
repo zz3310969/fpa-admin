@@ -48,14 +48,14 @@ export default class BasicForms extends PureComponent {
           type: 'commentitems/update',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/commentitems'));
+            this.props.dispatch(routerRedux.push('/advisory/commentitems'));
           },
         });
       }
     });
   }
   render() {
-    const { commentitems: { regularFormSubmitting:submitting, formdate } } = this.props;
+    const { commentitems: { regularFormSubmitting:submitting, formdate, templates, status, eval_modes, prosetaion_types } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -95,7 +95,7 @@ export default class BasicForms extends PureComponent {
                   )}
               <FormItem
                   {...formItemLayout}
-                  label="评价项"
+                  label="评价项名称"
               >
                   {getFieldDecorator('name', {
                     initialValue:formdate.name,
@@ -111,12 +111,17 @@ export default class BasicForms extends PureComponent {
                   label="评价方式"
               >
                   {getFieldDecorator('evalMode', {
-                    initialValue:formdate.evalMode,
+                    initialValue:formdate.evalMode!== undefined ?formdate.evalMode+'':'',
+
                     rules: [{
                       required: true, message: '请输入评价方式',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select  showSearch disabled={this.state.onlyread}
+                             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {eval_modes.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
@@ -137,12 +142,16 @@ export default class BasicForms extends PureComponent {
                   label="展现方式"
               >
                   {getFieldDecorator('prosetaionType', {
-                    initialValue:formdate.prosetaionType,
+                    initialValue:formdate.prosetaionType!== undefined ?formdate.prosetaionType+'':'',
                     rules: [{
                       required: true, message: '请输入展现方式',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select  showSearch disabled={this.state.onlyread}
+                             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {prosetaion_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
@@ -150,28 +159,34 @@ export default class BasicForms extends PureComponent {
                   label="状态"
               >
                   {getFieldDecorator('status', {
-                    initialValue:formdate.status,
+                    initialValue:formdate.status!== undefined ?formdate.status+'':'',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select disabled={this.state.onlyread}>
+                      {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
                   {...formItemLayout}
-                  label="评价模版id"
+                  label="评价模版"
               >
                   {getFieldDecorator('commentTemplate', {
-                    initialValue:formdate.commentTemplate,
+                    initialValue: formdate.commentTemplate !== undefined ? formdate.commentTemplate + '' : '',
                     rules: [{
                       required: true, message: '请输入评价模版id',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select showSearch disabled={this.state.onlyread}
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {templates.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 {
                 this.state.onlyread ?'':(
@@ -180,7 +195,7 @@ export default class BasicForms extends PureComponent {
                 </Button>
                 )
                 }
-                <Link to={'/commentitems'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/advisory/commentitems'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>

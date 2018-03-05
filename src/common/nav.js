@@ -334,11 +334,11 @@ const data = [{
       }]
     }, {
       name: '评价模版管理',
-      path: 'commentTemplate',
+      path: 'commenttemplate',
       component: CommentTemplateList,
       children: [{
         breadname: '新增',
-        path: 'add/:id',
+        path: 'add',
         component: CommentTemplateAddForm,
       }, {
         breadname: '编辑',
@@ -351,7 +351,7 @@ const data = [{
       component: CommentItemsList,
       children: [{
         breadname: '新增',
-        path: 'add/:id',
+        path: 'add',
         component: CommentItemsAddForm,
       }, {
         breadname: '编辑',
@@ -364,7 +364,7 @@ const data = [{
       component: CommentRecordList,
       children: [{
         breadname: '新增',
-        path: 'add/:id',
+        path: 'add',
         component: CommentRecordAddForm,
       }, {
         breadname: '编辑',

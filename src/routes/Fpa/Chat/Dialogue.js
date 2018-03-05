@@ -47,6 +47,17 @@ export default class Dialogue extends Component {
     var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/ig
     return str.replace(reg,'<a className="link" target="_bank" href="$1$2">$1$2</a>');
   };
+
+  getHistory = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'websocket/pullMessage',
+      payload: {},
+    });
+  }
+
+
+
   render() {
     const { websocket: { _currentChat,} } = this.props;
     return (
@@ -57,8 +68,8 @@ export default class Dialogue extends Component {
           <div className={styles.message} >
 
             <div>
-                <ul style={{height:426,overflowY:'scroll'}}>
-                    <li className={styles.first} ><span className={styles.history}>查看更多历史消息</span></li>
+                <ul style={{height: 426,overflowY: "scroll"}}>
+                    <li className={styles.first} ><span onClick={(e)=>this.getHistory()} className={styles.history}>查看更多历史消息</span></li>
                     {
                     _currentChat.messages.map((item,i)=>{
                       return (

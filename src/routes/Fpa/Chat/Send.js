@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import classnames from "classnames";
 import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dropdown  } from 'antd';
-
+import dia from '../../../utils/dia'
 import styles from "./Send.less";
 
 @connect(state => ({
@@ -17,11 +17,10 @@ export default class Send extends Component {
       this.state = {
         content:"",
         tips:false,
-        online:false
       };
   }
   componentDidMount(){
-    // dia(this);
+     dia(this);
 
   }
   isTisp(){
@@ -138,8 +137,9 @@ export default class Send extends Component {
     });
   }
   render(){
-    let {tips,online,content}=this.state;
-    let sendBtnDisplay = online?"inline":'none';//签入后更改状态
+    let {tips,content}=this.state;
+    const {websocket:{userState} } = this.props;
+    let sendBtnDisplay = userState != 'offline' ?"inline":'none';//签入后更改状态
     return ( 
       <div className={styles.send}>
           <div className={styles.toolbars}>
@@ -148,7 +148,7 @@ export default class Send extends Component {
             <Icon type="image" className={styles['tool-icon']} />
           </div>
             {
-              online?(<textarea placeholder="按 Enter 发送, Ctrl + Enter 可换行" ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea> )
+              userState != 'offline'?(<textarea placeholder="按 Enter 发送, Ctrl + Enter 可换行" ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea> )
                 :(<textarea placeholder="你还没有上线，不能发送消息" disabled ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea>)
             }
           <p className={classnames(styles.hadler,styles.clearfix)}>
