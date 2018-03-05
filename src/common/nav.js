@@ -200,7 +200,8 @@ const data = [{
     children: [{
       name: '在线咨询服务台',
       path: 'chat',
-      component: ChatIndex
+      component: ChatIndex,
+      target: '_blank'
     }, {
       name: '接入系统管理',
       path: 'application',
