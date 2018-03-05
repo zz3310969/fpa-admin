@@ -54,6 +54,7 @@ export default class ChatList extends Component {
   }
 
   chatItemClick(event){
+    alert("click")
     console.log(event)
     //pull 消息
   }

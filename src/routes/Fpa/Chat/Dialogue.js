@@ -57,7 +57,7 @@ export default class Dialogue extends Component {
           <div className={styles.message} >
 
             <div>
-                <ul>
+                <ul style={{height:426,overflowY:'scroll'}}>
                     <li className={styles.first} ><span className={styles.history}>查看更多历史消息</span></li>
                     {
                     _currentChat.messages.map((item,i)=>{

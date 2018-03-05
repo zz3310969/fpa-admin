@@ -16,7 +16,8 @@ export default class Send extends Component {
     this.flag = false;
       this.state = {
         content:"",
-        tips:false
+        tips:false,
+        online:false
       };
   }
   componentDidMount(){
@@ -137,7 +138,8 @@ export default class Send extends Component {
     });
   }
   render(){
-    let {tips,content}=this.state;
+    let {tips,online,content}=this.state;
+    let sendBtnDisplay = online?"inline":'none';//签入后更改状态
     return ( 
       <div className={styles.send}>
           <div className={styles.toolbars}>
@@ -145,10 +147,13 @@ export default class Send extends Component {
             <Icon type="audio" className={styles['tool-icon']} />
             <Icon type="image" className={styles['tool-icon']} />
           </div>
-          <textarea placeholder="按 Enter 发送, Ctrl + Enter 可换行" ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea>
+            {
+              online?(<textarea placeholder="按 Enter 发送, Ctrl + Enter 可换行" ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea> )
+                :(<textarea placeholder="你还没有上线，不能发送消息" disabled ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea>)
+            }
           <p className={classnames(styles.hadler,styles.clearfix)}>
               {/*<button className={classnames(styles.fl,styles.hide)} onClick={()=>this.destroy()}>送客</button>*/}
-              <button style={{float:"right"}} onClick={(e)=>this.sends(e,"enter")}>发送</button>
+              <button style={{float:"right",display:sendBtnDisplay}} onClick={(e)=>this.sends(e,"enter")}>发送</button>
               <span className={classnames(styles.tips,tips?styles.show:"")} >不能发送空白信息或特殊字符</span>
           </p>
       </div>
