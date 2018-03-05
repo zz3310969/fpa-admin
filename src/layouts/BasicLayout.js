@@ -240,8 +240,7 @@ class BasicLayout extends React.PureComponent {
     }
   }
   render() {
-    const { currentUser, collapsed, fetchingNotices } = this.props;
-
+    const { currentUser, collapsed, fetchingNotices,location} = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         <Menu.Item disabled><Icon type="user" />个人中心</Menu.Item>
@@ -379,10 +378,44 @@ class BasicLayout extends React.PureComponent {
       </Layout>
     );
 
+    
+    //纯净的Layout 没有Head及Menu
+    const pureLayout = (
+      <Layout>
+        <Content style={{ margin: '24px 24px 0', height: '100%' }}>
+            <Switch>
+              {
+                getRouteData('BasicLayout').map(item =>
+                  (
+                    <Route
+                      exact={item.exact}
+                      key={item.path}
+                      path={item.path}
+                      component={item.component}
+                    />
+                  )
+                )
+              }
+              <Redirect exact from="/" to="/dashboard/analysis" />
+              <Route component={NotFound} />
+            </Switch>
+            <GlobalFooter
+              links={[]}
+              copyright={
+                <div>
+                  Copyright <Icon type="copyright" /> 2017 上海乐嘉性格色彩管理咨询有限公司出品
+                </div>
+              }
+            />
+          </Content>
+
+      </Layout>
+    );
+    let myLayout = (location.pathname=="/advisory/chat")?pureLayout:layout;
     return (
       <DocumentTitle title={this.getPageTitle()}>
         <ContainerQuery query={query}>
-          {params => <div className={classNames(params)}>{layout}</div>}
+          {params => <div className={classNames(params)}>{myLayout}</div>}
         </ContainerQuery>
       </DocumentTitle>
     );
