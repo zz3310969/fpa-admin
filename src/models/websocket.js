@@ -5,8 +5,10 @@ export default {
     state: {
         messages: undefined,
         client_id: undefined,
+        other_id:undefined,
         dddd:['1','2'],
         sendMap:new Map(),
+        userState:'offline',
         _currentChat:{
           messages:[{
             createTime:'2018-03-01',
@@ -59,7 +61,16 @@ export default {
           return service.listen((data) => {
             dispatch({ type: 'message', payload: data });
           });
-        }
+        },
+        /*socketStatus({ dispatch }) {
+          const status = service.getSocketStatus();
+          console.log('status:'+status);
+          if(status == 'opened'){
+            return service.listen((data) => {
+                dispatch({ type: 'message', payload: data });
+              });
+          }
+        },*/
     },
     effects: {
         * open({payload}, {put, call}) {
@@ -70,14 +81,15 @@ export default {
             //     dispatch({type: data.type, payload: data});
             // });
 
-            const data = yield call(service.watchList, config);
-            console.log('result', data);
+            yield call(service.watchList, config);
         },
         * message({payload}, {put, call,select}) {
             console.log('message', payload);
             const data = JSON.parse(payload);
             if (data) {
+                const result = data.result;
                 switch (data.requestType) {
+                    
                     case 'ping':
                         // cb(data);
                         break;
@@ -98,7 +110,7 @@ export default {
                     case 'message':
                         // cb(data);
                         
-                        const result = data.result;
+                        
                         const _currentChat = yield select(state => state.websocket._currentChat );
                         if(data.message == 'sendSuccess' || data.message == 'receiverOffline'){
 
@@ -121,7 +133,7 @@ export default {
 
                         }else if(data.message == 'messageRequestTransformSuccess'){
                           const _currentChat = yield select(state => state.websocket._currentChat );
-                          
+                          debugger
                           result.self = 0;
                           _currentChat.messages.push(result);
                           console.log('state', _currentChat);
@@ -134,6 +146,38 @@ export default {
                         
                         break;
                     // 用户退出 更新用户列表
+                    case 'pullNotReceivedMessage':
+                        if(result && Array.isArray(result)){
+                          if (result.length >= 20) {
+                            yield call(service.pullNotReceivedMessage, result[0].receiver);
+                          }
+                          const _currentChat = yield select(state => state.websocket._currentChat );
+                          for (var i = 0; i < result.length; i++) {
+                            result[i].self = 0;
+                            _currentChat.messages.push(result[i]);
+                          }              
+                          yield put({
+                            type: 'receiveMessage',
+                            payload: _currentChat,
+                          });
+                        }
+                      
+                      break;
+                    case 'pullMessage':
+                        if(result && Array.isArray(result)){
+                          
+                          const _currentChat = yield select(state => state.websocket._currentChat );
+                          for (var i = 0; i < result.length; i++) {
+                            result[i].self = 0;
+                            _currentChat.messages.unshift(result[i]);
+                          }              
+                          yield put({
+                            type: 'receiveMessage',
+                            payload: _currentChat,
+                          });
+                        }
+                      
+                      break;
                     case 'logout':
                         break;
                 }
@@ -157,11 +201,27 @@ export default {
           if (callback) callback();
         },
         * pullMessage({ payload, callback }, { call, put,select }) {
+          yield call(service.pullMessage, payload);
+        },
+        * changeState({ payload, callback ,dispatch}, { call, put,select }) {
+          let parms = {...payload};
+          parms.clientType='h5';
+          if(parms.requestType == 'online'){
+            service.watchList();
+            //service.listen(callback);
+            service.listen((data) => {
+              dispatch({ type: 'websocket/message', payload: data });
+            });
+          }
 
+          yield call(service.online, parms);
+          if (callback) callback();
         },
         * pullNotReceivedMessage({ payload, callback }, { call, put,select }) {
-          
+          yield call(service.pullNotReceivedMessage, payload);
         },
+
+
     },
 
     reducers: {

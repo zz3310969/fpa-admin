@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import classnames from "classnames";
 import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dropdown  } from 'antd';
-
+import dia from '../../../utils/dia'
 import styles from "./Send.less";
 
 @connect(state => ({
@@ -20,7 +20,7 @@ export default class Send extends Component {
       };
   }
   componentDidMount(){
-    // dia(this);
+     dia(this);
 
   }
   isTisp(){

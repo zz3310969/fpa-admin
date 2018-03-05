@@ -37,6 +37,9 @@ const data = [{
 }];
 
 
+@connect(state => ({
+  websocket: state.websocket,
+}))
 export default class ChatList extends Component {
   state = {
     count: 0,
@@ -47,6 +50,10 @@ export default class ChatList extends Component {
     // if (nextProps.login.status === 'ok') {
     //   this.props.dispatch(routerRedux.push('/'));
     // }
+  }
+
+  componentDidMount() {
+    
   }
 
   componentWillUnmount() {

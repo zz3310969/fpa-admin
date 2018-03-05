@@ -7,35 +7,21 @@ import styles from "./Header.less";
 import '../../../common.less'; // 引入字体样式文件
 
 
-console.log("iconfont")
-console.log(styles)
-
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
 
 
 
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="none" rel="noopener noreferrer" href="javascript:void(0)"><Icon type="login" style={{marginRight:10}}/>签入</a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="none" rel="noopener noreferrer" href="javascript:void(0)"><Icon type="logout" style={{marginRight:10}}/>&nbsp;签出</a>
-    </Menu.Item>
-  </Menu>
-);
+
 
 @connect(state => ({
-
+  websocket: state.websocket,
 }))
-
-// @Form.create()
-
 export default class Header extends Component {
   state = {
     count: 0,
     type: 'account',
+    token:'zlt',
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,8 +34,43 @@ export default class Header extends Component {
     clearInterval(this.interval);
   }
 
+  changeState = (stateType) => {
+    const {dispatch } = this.props;
+    switch (stateType) {
+      case 'online':
+        // cb(data);
+        dispatch({
+          type: 'websocket/changeState',
+          payload: {'requestType':stateType,'token':this.state.token},
+          callback: (data) => {
+            dispatch({ type: 'websocket/pullNotReceivedMessage', payload: data });
+          },
+          dispatch:dispatch,
+        });
+        break;
+      case 'offline':
+        dispatch({
+          type: 'websocket/changeState',
+          payload: {'requestType':stateType,'token':this.state.token},
+        });
+        break;
+
+    }
+    
+  }
+
 
   render() {
+    const menu = (
+        <Menu>
+          <Menu.Item onClick={(e)=>this.changeState('online')} >
+            <a target="none" rel="noopener noreferrer" href="javascript:void(0)" onClick={(e)=>this.changeState('online')}><Icon type="login" style={{marginRight:10}}/>上线</a>
+          </Menu.Item>
+          <Menu.Item onClick={(e)=>this.changeState('offline')} >
+            <a target="none" rel="noopener noreferrer" href="javascript:void(0)" onClick={(e)=>this.changeState('offline')}><Icon type="logout" style={{marginRight:10}}/>&nbsp;下线</a>
+          </Menu.Item>
+        </Menu>
+      );
     return (
       <div className={styles.header}>
         <Avatar shape="circle" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{backgroundColor:"#FFFFFF"}}/>

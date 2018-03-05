@@ -1,21 +1,44 @@
 import { stringify } from 'qs';
 
 let websocket = undefined;
+let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
+var socketOpen = false;
+var socketMsgQueue = [];
 function getWebsocket(url) {
-    console.log('websocket client', websocket);
     if (!websocket) {
         websocket = new WebSocket(url);
         websocket.onerror = OnSocketError;
+        websocket.onclose = event => {
+		    console.log('通道被关闭');
+		    websocket = undefined;
+		    socketOpen = false;
+		};
+		websocket.onopen = () => {
+	      socketOpen = true
+		  for (var i = 0; i < socketMsgQueue.length; i++){
+		     sendSocketMessage(socketMsgQueue[i])
+		  }
+		  socketMsgQueue = []
+	    };
+	    
     }
     return websocket;
 }
 
+function sendSocketMessage(msg) {
+	
+  if (socketOpen) {
+
+    websocket.send(JSON.stringify(msg));
+  } else {
+     socketMsgQueue.push(msg)
+  }
+}
+
+
 export async function watchList(config, cb) {
-    const client = getWebsocket(config.url+`?token=zlt`);
-    client.onopen = () => {
-    	online('zlt');
-        //client.send(JSON.stringify({type: 'login', ...config}));
-    };
+    const client = getWebsocket(url+`?token=zlt`);
+    
     // return client.onmessage = (data) => {
     //     cb(data);
     // };
@@ -23,22 +46,24 @@ export async function watchList(config, cb) {
     
 }
 
+
+
 function OnSocketError(ev){
 	  console.log('Socket error:', data);
 }
 
 export async function send(data) {
     console.log('send', data);
-    const websocket = getWebsocket('');
-    websocket.send(JSON.stringify(data));
+    //websocket.send(JSON.stringify(data));
+    sendSocketMessage(data);
 }
 
 
-export async function online(token) {
-    console.log('online', token);
-    let parms = {"clientType":"h5","requestType":"online","token":token};
-    const websocket = getWebsocket('');
-    websocket.send(JSON.stringify(parms));
+export async function online(data) {
+    console.log('online', data);
+    //const websocket = getWebsocket(url+`?token=`+data.token);
+    //websocket.send(JSON.stringify(data));
+    sendSocketMessage(data);
 }
 
 export async function logout(config, code, reason) {
@@ -49,15 +74,26 @@ export async function logout(config, code, reason) {
 export async function pullNotReceivedMessage(data) {
     console.log('pullNotReceivedMessage', data);
     const websocket = getWebsocket('');
-    websocket.send(JSON.stringify(data));
+    //websocket.send(JSON.stringify({"clientType":"h5","requestType":"pullNotReceivedMessage","token":"zlt", "seq" : "1"}));
+    sendSocketMessage({"clientType":"h5","requestType":"pullNotReceivedMessage","token":"zlt", "seq" : "1"});
+}
+
+export async function pullMessage(data) {
+    console.log('pullMessage', data);
+    const websocket = getWebsocket('');
+    sendSocketMessage({"clientType":"h5","requestType":"pullMessage","sender":'cde',"offset" : 0,"token":"zlt", "seq" : "1"});
 }
 
 
 export function listen(action) {
+	console.log('listen', action);
 	websocket.onmessage = (event) => {
 	    action(event.data);
   };
 }
+
+
+
 
 export function listen1(cb) {
   ws.onopen = event => {
