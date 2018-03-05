@@ -1,7 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
-import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,Table } from 'antd';
+import {
+  Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,
+  Table
+} from 'antd';
+const { MonthPicker, RangePicker } = DatePicker;
 import CommentRecordTable from './CommentRecordTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
@@ -29,6 +33,9 @@ export default class TableList extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
+    dispatch({
+      type: 'commentrecord/base',
+    })
     dispatch({
       type: 'commentrecord/fetch',
     });
@@ -132,6 +139,9 @@ export default class TableList extends PureComponent {
       const values = {
         ...fieldsValue,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        evalTimeStart:fieldsValue.evalTime && fieldsValue.evalTime[0].format('YYYY-MM-DD'),
+        evalTimeEnd:fieldsValue.evalTime && fieldsValue.evalTime[1].format('YYYY-MM-DD'),
+        evalTime:'',
       };
 
       this.setState({
@@ -148,39 +158,45 @@ export default class TableList extends PureComponent {
 
   renderAdvancedForm() {
     const { getFieldDecorator } = this.props.form;
+    const {commentrecord: {items, apps, status, consultants,}} = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
               <FormItem label="所属系统">
                   {getFieldDecorator('appId')(
-                  <Input placeholder="" />
+                    <Select showSearch
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="评价项id">
+              <FormItem label="评价项">
                   {getFieldDecorator('itemId')(
-                  <Input placeholder="" />
+                    <Select showSearch
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {items.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               </Col>
               <Col md={8} sm={24}>
-              <FormItem label="咨询师id">
+              <FormItem label="咨询师">
                   {getFieldDecorator('consultantId')(
-                  <Input placeholder="" />
+                    <Select showSearch
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {consultants.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="评价结果">
-                  {getFieldDecorator('evalResult')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
               <Col md={8} sm={24}>
               <FormItem label="订单编号">
                   {getFieldDecorator('orderNumber')(
@@ -195,19 +211,21 @@ export default class TableList extends PureComponent {
                   )}
               </FormItem>
               </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="状态">
+                  {getFieldDecorator('status')(
+                    <Select>
+                      {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
            </Row >
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
               <FormItem label="评价时间">
                   {getFieldDecorator('evalTime')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="状态">
-                  {getFieldDecorator('status')(
-                  <Input placeholder="" />
+                    <RangePicker style={{ width: '100%' }}/>
                   )}
               </FormItem>
               </Col>
@@ -223,7 +241,7 @@ export default class TableList extends PureComponent {
     );
   }
 
-  
+
 
   renderForm() {
     return this.renderAdvancedForm();
@@ -249,7 +267,7 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/commentrecord/add')); console.log('新建')}}>新建</Button>
+              {/*<Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/advisory/commentrecord/add')); console.log('新建')}}>新建</Button>*/}
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -277,7 +295,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }

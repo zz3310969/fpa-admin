@@ -1,17 +1,31 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { routerRedux, Link } from 'dva/router';
-import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message,Table } from 'antd';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
+import {routerRedux, Link} from 'dva/router';
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Input,
+  Select,
+  Icon,
+  Button,
+  Dropdown,
+  Menu,
+  InputNumber,
+  DatePicker,
+  Modal,
+  message,
+  Table
+} from 'antd';
 import CommentItemsTable from './CommentItemsTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
 import styles from '../defaultTableList.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
+const {Option} = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-
-
 
 
 @connect(state => ({
@@ -23,26 +37,30 @@ export default class TableList extends PureComponent {
     addInputValue: '',
     selectedRows: [],
     formValues: {},
-    limit:10,
-    currentPage:1,
+    limit: 10,
+    currentPage: 1,
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'commentitems/base',
+    })
     dispatch({
       type: 'commentitems/fetch',
     });
   }
+
   componentWillReceiveProps(nextProps) {
 
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
+    const {dispatch} = this.props;
+    const {formValues} = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
+      const newObj = {...obj};
       newObj[key] = getValue(filtersArg[key]);
       return newObj;
     }, {});
@@ -67,7 +85,7 @@ export default class TableList extends PureComponent {
   }
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const {form, dispatch} = this.props;
     form.resetFields();
     dispatch({
       type: 'commentitems/fetch',
@@ -77,8 +95,8 @@ export default class TableList extends PureComponent {
 
 
   reLoadList = () => {
-    const { form, dispatch } = this.props;
-    const { formValues,currentPage,limit } = this.state;
+    const {form, dispatch} = this.props;
+    const {formValues, currentPage, limit} = this.state;
     const params = {
       currentPage: currentPage,
       limit: limit,
@@ -91,8 +109,8 @@ export default class TableList extends PureComponent {
   }
 
   handleMenuClick = (e) => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
+    const {dispatch} = this.props;
+    const {selectedRows} = this.state;
 
     if (!selectedRows) return;
 
@@ -124,7 +142,7 @@ export default class TableList extends PureComponent {
   handleSearch = (e) => {
     e.preventDefault();
 
-    const { dispatch, form } = this.props;
+    const {dispatch, form} = this.props;
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -147,82 +165,86 @@ export default class TableList extends PureComponent {
 
 
   renderAdvancedForm() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
+    const {commentitems: {templates, status, eval_modes, prosetaion_types,}} = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="评价项">
-                  {getFieldDecorator('name')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="评价方式">
-                  {getFieldDecorator('evalMode')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="总分">
-                  {getFieldDecorator('totalScore')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="展现方式">
-                  {getFieldDecorator('prosetaionType')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="状态">
-                  {getFieldDecorator('status')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="评价模版id">
-                  {getFieldDecorator('commentTemplate')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-          </Row >
-          <div style={{ overflow: 'hidden' }}>
-              <span style={{ float: 'right', marginBottom: 24 }}>
+        <Row gutter={{md: 8, lg: 24, xl: 48}}>
+          <Col md={8} sm={24}>
+            <FormItem label="评价项">
+              {getFieldDecorator('name')(
+                <Input placeholder=""/>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="评价方式">
+              {getFieldDecorator('evalMode')(
+                <Select showSearch
+                        filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                  {eval_modes.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
+              {getFieldDecorator('status')(
+                <Select>
+                  {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={{md: 8, lg: 24, xl: 48}}>
+          <Col md={8} sm={24}>
+            <FormItem label="展现方式">
+              {getFieldDecorator('prosetaionType')(
+                <Select showSearch
+                        filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                  {prosetaion_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="评价模版">
+              {getFieldDecorator('commentTemplate')(
+                <Select>
+                  {templates.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <div style={{overflow: 'hidden'}}>
+              <span style={{float: 'right', marginBottom: 24}}>
               <Button type="primary" htmlType="submit">查询</Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+              <Button style={{marginLeft: 8}} onClick={this.handleFormReset}>重置</Button>
               </span>
-          </div>
+        </div>
 
       </Form>
     );
   }
 
-  
 
   renderForm() {
     return this.renderAdvancedForm();
   }
 
   render() {
-    const { commentitems: { loading: commentitemsLoading, data } } = this.props;
-    const { selectedRows } = this.state;
+    const {commentitems: {loading: commentitemsLoading, data}} = this.props;
+    const {selectedRows} = this.state;
 
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
         <Menu.Item key="remove">批量刷新</Menu.Item>
       </Menu>
     );
-
 
 
     return (
@@ -233,20 +255,22 @@ export default class TableList extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => {this.props.dispatch(routerRedux.push('/commentitems/add')); console.log('新建')}}>新建</Button>
+              <Button icon="plus" type="primary" onClick={() => {
+                this.props.dispatch(routerRedux.push('/advisory/commentitems/add'));
+                console.log('新建')
+              }}>新建</Button>
               {
                 selectedRows.length > 0 && (
                   <span>
                     <Dropdown overlay={menu}>
                       <Button>
-                        更多操作 <Icon type="down" />
+                        更多操作 <Icon type="down"/>
                       </Button>
                     </Dropdown>
                   </span>
                 )
               }
             </div>
-
 
 
             <CommentItemsTable
@@ -261,7 +285,7 @@ export default class TableList extends PureComponent {
 
           </div>
         </Card>
-        
+
       </PageHeaderLayout>
     );
   }
