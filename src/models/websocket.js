@@ -1,16 +1,26 @@
 import * as service from '../services/websocket';
 
+/*const newUser = {
+  messages:[],
+  const:0,
+};*/
+
+function newUser() {
+  return {
+  messages:[],
+  const:0,
+};
+}
+
 export default {
     namespace: 'websocket',
     state: {
-        messages: undefined,
-        client_id: undefined,
-        other_id:undefined,
-        dddd:['1','2'],
+        user_id:'zlt',
         sendMap:new Map(),
         userState:'offline',
+        allChat:new Map(),
         _currentChat:{
-          messages:[{
+          messages:[/*{
             createTime:'2018-03-01',
             payload:'你好',
             self:0,
@@ -43,10 +53,10 @@ export default {
             payload:'我是莱德',
             self:'1',
             type:'TXT'
-          },],
+          },*/],
           //聊天对象头像
-          user:{
-            img:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
+          otherUser:{
+            head_image_url:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
           }
 
         }
@@ -121,17 +131,26 @@ export default {
                         break;
                     case 'message':
                         // cb(data);
-                        
-                        
                         const _currentChat = yield select(state => state.websocket._currentChat );
-                        if(data.message == 'sendSuccess' || data.message == 'receiverOffline'){
-
+                        if(data.message == 'sendSuccess' || data.message == 'receiverOffline'){//接收自己发送的消息
                           const seq = parseInt(data.seq);
+                          const allChat = yield select(state => state.websocket.allChat );
                           const sendMap = yield select(state => state.websocket.sendMap );
                           const message = sendMap.get(seq);
                           if(message){
+                            
+                            let receiver = allChat.get(message.receiver);
+                            if (!receiver) {
+                              allChat.set(message.receiver,newUser());
+                              receiver = allChat.get(message.receiver);
+                            }
                             message.self = 1;
-                            _currentChat.messages.push(message);
+                            receiver.messages.push(message);
+                            allChat.set(message.receiver,receiver);
+                            if(_currentChat.otherUser.username == message.receiver){
+                              _currentChat.messages.push(message);
+
+                            }
                           }
                           sendMap.delete(seq);
                           yield put({
@@ -140,52 +159,88 @@ export default {
                           });
                           yield put({
                             type: 'receiveMessage',
-                            payload: _currentChat,
+                            payload: {_currentChat,allChat},
                           });
 
-                        }else if(data.message == 'messageRequestTransformSuccess'){
+                        }else if(data.message == 'messageRequestTransformSuccess'){//接收别人发送的消息
                           const _currentChat = yield select(state => state.websocket._currentChat );
-                          debugger
+                          const allChat = yield select(state => state.websocket.allChat );
+                          let sender = allChat.get(result.sender);
+                            if (!sender) {
+                              allChat.set(result.sender,newUser());
+                              sender = allChat.get(result.sender);
+                            }
                           result.self = 0;
-                          _currentChat.messages.push(result);
-                          console.log('state', _currentChat);
+                          //debugger
+                          sender.messages.push(result);
+                          allChat.set(result.sender,sender);
+                          if(_currentChat.otherUser.username == result.sender){
+                              _currentChat.messages.push(result);
+                              debugger
+                            }
                           yield put({
                             type: 'receiveMessage',
-                            payload: _currentChat,
+                            payload: {_currentChat,allChat},
                           });
                         }
                         
                         
                         break;
-                    // 用户退出 更新用户列表
+                    // 拉取未读
                     case 'pullNotReceivedMessage':
                         if(result && Array.isArray(result)){
                           if (result.length >= 20) {
-                            yield call(service.pullNotReceivedMessage, result[0].receiver);
+                            yield call(service.pullNotReceivedMessage, result[0].sender);
                           }
                           const _currentChat = yield select(state => state.websocket._currentChat );
+                          const allChat = yield select(state => state.websocket.allChat );
+
                           for (var i = 0; i < result.length; i++) {
+                            let sender = allChat.get(result[i].sender);
+                            if (!sender) {
+                              allChat.set(result[i].sender,newUser());
+                              sender = allChat.get(result[i].sender);
+                            }
+                            /*if(!sender.messages){
+                              sender.messages = new Array();
+                            }*/
                             result[i].self = 0;
-                            _currentChat.messages.push(result[i]);
+                            sender.messages.push(result[i]);
+                            allChat.set(result[i].sender,sender);
+                            if(_currentChat.otherUser.username == result[i].sender){
+                              _currentChat.messages.push(result);
+                            }
                           }              
                           yield put({
                             type: 'receiveMessage',
-                            payload: _currentChat,
+                            payload: {_currentChat,allChat},
                           });
                         }
                       
                       break;
                     case 'pullMessage':
                         if(result && Array.isArray(result)){
-                          
                           const _currentChat = yield select(state => state.websocket._currentChat );
+                          const allChat = yield select(state => state.websocket.allChat );
                           for (var i = 0; i < result.length; i++) {
+
+                            let sender = allChat.get(result[i].sender);
+                            
+                            if (!sender) {
+                              allChat.set(result[i].sender,newUser());
+                              sender = allChat.get(result[i].sender);
+                            }
                             result[i].self = 0;
-                            _currentChat.messages.unshift(result[i]);
-                          }              
+                            sender.messages.unshift(result[i]);
+                            allChat.set(result[i].sender,sender);
+                            if(_currentChat.otherUser.username == result[i].receiver || _currentChat.otherUser.username == result[i].sender){
+                              _currentChat.messages.unshift(result[i]);
+                            }
+                          } 
+
                           yield put({
                             type: 'receiveMessage',
-                            payload: _currentChat,
+                            payload: {_currentChat,allChat},
                           });
                         }
                       
@@ -238,6 +293,25 @@ export default {
           yield call(service.pullNotReceivedMessage, payload);
         },
 
+        * changeUser({ payload, callback }, { call, put,select }) {
+          const allChat = yield select(state => state.websocket.allChat );
+          let receiver = allChat.get(payload.username);
+          if (!receiver) {
+            
+            allChat.set(payload.username,newUser());
+            receiver = allChat.get(payload.username);
+          }
+          
+          let currentChat = {};
+          currentChat.otherUser = payload;
+          currentChat.messages = receiver.messages;
+
+          yield put({
+              type: 'changeUserSuccess',
+              payload: {_currentChat:currentChat},
+            });
+        },
+
 
     },
 
@@ -251,9 +325,10 @@ export default {
             return {...state, ... action.payload}
         },
         receiveMessage(state, { payload }) {
+          
           return {
             ...state,
-            _currentChat:payload,
+            ...payload,
           };
         },
         sendMessage(state, { payload }) {
@@ -266,6 +341,12 @@ export default {
           return {
             ...state,
             userState:payload,
+          };
+        },
+        changeUserSuccess(state, { payload }){
+          return {
+            ...state,
+            ...payload,
           };
         },
     },

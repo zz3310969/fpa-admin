@@ -81,7 +81,7 @@ export async function pullNotReceivedMessage(data) {
 export async function pullMessage(data) {
     console.log('pullMessage', data);
     const websocket = getWebsocket('');
-    sendSocketMessage({"clientType":"h5","requestType":"pullMessage","sender":'cde',"offset" : 0,"token":"zlt", "seq" : "1"});
+    sendSocketMessage({"clientType":"h5","requestType":"pullMessage","offset" : 0, "seq" : "1",...data});
 }
 
 

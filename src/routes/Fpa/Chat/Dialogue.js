@@ -10,7 +10,7 @@ import styles from "./Dialogue.less";
 
 //我的头像
 const _user = {
-  img:'https://dummyimage.com/200x200/474fcb/FFF&text=Job'
+  head_image_url:'https://dummyimage.com/200x200/474fcb/FFF&text=Job'
 }
 
 @connect(state => ({
@@ -48,11 +48,11 @@ export default class Dialogue extends Component {
     return str.replace(reg,'<a className="link" target="_bank" href="$1$2">$1$2</a>');
   };
 
-  getHistory = () => {
+  getHistory = (otherUser) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'websocket/pullMessage',
-      payload: {},
+      payload: {'sender':otherUser.username,'token':this.state.user_id},
     });
   }
 
@@ -63,13 +63,13 @@ export default class Dialogue extends Component {
     return (
       <div className="message-w">
         <header className="group-name">
-          <h3>测试用户</h3>
+          <h3>{_currentChat.otherUser.name}</h3>
         </header>
           <div className={styles.message} >
 
             <div>
                 <ul style={{height: 426,overflowY: "scroll"}}>
-                    <li className={styles.first} ><span onClick={(e)=>this.getHistory()} className={styles.history}>查看更多历史消息</span></li>
+                    <li className={styles.first} ><span onClick={(e)=>this.getHistory(_currentChat.otherUser)} className={styles.history}>查看更多历史消息</span></li>
                     {
                     _currentChat.messages.map((item,i)=>{
                       return (
@@ -85,7 +85,7 @@ export default class Dialogue extends Component {
                           }
                             
                             <div className={classnames(styles.main,item.self?styles.self:'')}>
-                                <img className={styles.avatar} width="35" height="35"src={item.self ? _user.img:_currentChat.user.img}/>
+                                <img className={styles.avatar} width="35" height="35"src={item.self ? _user.head_image_url:_currentChat.otherUser.head_image_url}/>
                                 {
                                   item.type=='AUDIO'?
                                   <div className={styles['audio-msg']} style={{width:(item.length*5+30)+"px"}}><Icon type="audio1" className={styles.audio1} /></div>
