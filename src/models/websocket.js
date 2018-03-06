@@ -171,12 +171,12 @@ export default {
                               sender = allChat.get(result.sender);
                             }
                           result.self = 0;
-                          //debugger
+                          //
                           sender.messages.push(result);
                           allChat.set(result.sender,sender);
                           if(_currentChat.otherUser.username == result.sender){
                               _currentChat.messages.push(result);
-                              debugger
+                              
                             }
                           yield put({
                             type: 'receiveMessage',
@@ -208,7 +208,7 @@ export default {
                             sender.messages.push(result[i]);
                             allChat.set(result[i].sender,sender);
                             if(_currentChat.otherUser.username == result[i].sender){
-                              _currentChat.messages.push(result);
+                              _currentChat.messages.push(result[i]);
                             }
                           }              
                           yield put({
@@ -303,8 +303,9 @@ export default {
           }
           
           let currentChat = {};
-          currentChat.otherUser = payload;
-          currentChat.messages = receiver.messages;
+          currentChat.otherUser = Object.assign({}, payload);
+          currentChat.messages = Object.assign([], receiver.messages);
+          
 
           yield put({
               type: 'changeUserSuccess',
