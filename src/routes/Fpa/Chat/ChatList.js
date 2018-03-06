@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import { Layout,Form, Input, Tabs, Button, List, Icon, Badge, Row, Col, Menu,Dropdown ,Avatar } from 'antd';
+import classnames from "classnames";
 
 import styles from "./ChatList.less";
 
@@ -59,6 +60,7 @@ export default class ChatList extends Component {
   state = {
     count: 0,
     type: 'account',
+    curChatUserKey:'-1'
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,6 +85,7 @@ export default class ChatList extends Component {
       type: 'websocket/changeUser',
       payload:user,
     });
+    this.setState({curChatUserKey:user.key})
 
   }
 
@@ -94,7 +97,7 @@ export default class ChatList extends Component {
           dataSource={data}
           renderItem={item => (
             <List.Item
-              style={{paddingLeft:20}}
+              className={classnames(this.state.curChatUserKey==item.key?styles.cur_chat:"",styles.chatItem)}
               onClick={(event)=>this.chatItemClick(event,item)}
             >
               <List.Item.Meta

@@ -60,61 +60,61 @@ export default class Dialogue extends Component {
 
   render() {
     const { websocket: { _currentChat,} } = this.props;
-    return (
-      <div className="message-w">
-        <header className="group-name">
+    console.log(_currentChat)
+
+    let  chatDialogue = (
+      <div>
+        <header className="group-name" style={{textAlign:'center',paddingTop:10}}>
           <h3>{_currentChat.otherUser.name}</h3>
         </header>
-          <div className={styles.message} >
+        <div className={styles.message} >
+          <div>
+              <ul style={{height: 416,overflowY: "scroll"}}>
+                  <li className={styles.first} ><span onClick={(e)=>this.getHistory(_currentChat.otherUser)} className={styles.history}>查看更多历史消息</span></li>
+                  {
+                  _currentChat.messages.map((item,i)=>{
+                    return (
+                      <li key={i}>
+                        {
+                        i!=0&&this.time(item.createTime,_currentChat.messages[i-1].createTime)!=''?(
+                          <p className={styles.time}>
+                                <span>{this.time(item.createTime,_currentChat.messages[i-1].createTime)}</span>
+                            </p>
+                        ):(
+                        null
+                        )
+                        }
+                          
+                          <div className={classnames(styles.main,item.self?styles.self:'')}>
+                              <img className={styles.avatar} width="35" height="35"src={item.self ? _user.head_image_url:_currentChat.otherUser.head_image_url}/>
+                              {
+                                item.type=='AUDIO'?
+                                <div className={styles['audio-msg']} style={{width:(item.length*5+30)+"px"}}><Icon type="audio1" className={styles.audio1} /></div>
+                                :
+                                <div className={styles.text} >{item.payload}</div>
+                              }
+                          </div>
+                      </li>
+                    );
+                  })
+                }
+              </ul>
+          </div>
+        </div>
+      </div>
+    )
 
-            <div>
-                <ul style={{height: 426,overflowY: "scroll"}}>
-                    <li className={styles.first} ><span onClick={(e)=>this.getHistory(_currentChat.otherUser)} className={styles.history}>查看更多历史消息</span></li>
-                    {
-                    _currentChat.messages.map((item,i)=>{
-                      return (
-                        <li key={i}>
-                          {
-                          i!=0&&this.time(item.createTime,_currentChat.messages[i-1].createTime)!=''?(
-                            <p className={styles.time}>
-                                  <span>{this.time(item.createTime,_currentChat.messages[i-1].createTime)}</span>
-                              </p>
-                          ):(
-                          null
-                          )
-                          }
-                            
-                            <div className={classnames(styles.main,item.self?styles.self:'')}>
-                                <img className={styles.avatar} width="35" height="35"src={item.self ? _user.head_image_url:_currentChat.otherUser.head_image_url}/>
-                                {
-                                  item.type=='AUDIO'?
-                                  <div className={styles['audio-msg']} style={{width:(item.length*5+30)+"px"}}><Icon type="audio1" className={styles.audio1} /></div>
-                                  :
-                                  <div className={styles.text} >{item.payload}</div>
-                                }
-                            </div>
-                        </li>
-                      );
-                    })
-                  }
-                </ul>
-            </div>
-          </div>
-          {/* 
-          <div className="dialog">
-              <p className="mask"></p>
-              <div className="dia-cont">
-                  <div className="clearfix">
-                      <p className="avatar"><img src="https://ps.ssl.qhimg.com/t01531c2d8bd3dbe644.jpg" alt=""/></p>
-                      <p className="nickname fl">测试的</p>
-                  </div>
-                  <p className="remark">
-                      <label htmlFor=""> 备注  </label>
-                      <input className="input" maxLength="10"  placeholder="点击添加备注" type="text" />
-                  </p>
-              </div>
-          </div>
-        */}
+    const emptyDialogue = (
+      <div className={styles.emptyDialogue} >
+        <div className={styles.emptyChat}></div>
+      </div>
+    )
+
+    return (
+      <div className="message-w">
+          {
+            _currentChat.otherUser.key?chatDialogue:emptyDialogue
+          }
       </div>
     );
   }

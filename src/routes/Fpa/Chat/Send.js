@@ -138,24 +138,35 @@ export default class Send extends Component {
   }
   render(){
     let {tips,content}=this.state;
-    const {websocket:{userState} } = this.props;
+    const {websocket:{userState,_currentChat} } = this.props;
     let sendBtnDisplay = userState != 'offline' ?"inline":'none';//签入后更改状态
+    console.log(1234567)
+    console.log(_currentChat)
     return ( 
-      <div className={styles.send}>
-          <div className={styles.toolbars}>
-            <Icon type="emoji" className={styles['tool-icon']} />
-            <Icon type="audio" className={styles['tool-icon']} />
-            <Icon type="image" className={styles['tool-icon']} />
+      <div>
+      {
+        _currentChat.otherUser.key?
+        (
+          <div className={styles.send}>
+              <div className={styles.toolbars}>
+                <Icon type="emoji" className={styles['tool-icon']} />
+                <Icon type="audio" className={styles['tool-icon']} />
+                <Icon type="image" className={styles['tool-icon']} />
+              </div>
+                {
+                  userState != 'offline'?(<textarea placeholder="按 Enter 发送, Ctrl + Enter 可换行" ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea> )
+                    :(<textarea placeholder="你还没有上线，不能发送消息" disabled ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea>)
+                }
+              <p className={classnames(styles.hadler,styles.clearfix)}>
+                  {/*<button className={classnames(styles.fl,styles.hide)} onClick={()=>this.destroy()}>送客</button>*/}
+                  <button style={{float:"right",display:sendBtnDisplay}} onClick={(e)=>this.sends(e,"enter")}>发送</button>
+                  <span className={classnames(styles.tips,tips?styles.show:"")} >不能发送空白信息或特殊字符</span>
+              </p>
           </div>
-            {
-              userState != 'offline'?(<textarea placeholder="按 Enter 发送, Ctrl + Enter 可换行" ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea> )
-                :(<textarea placeholder="你还没有上线，不能发送消息" disabled ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea>)
-            }
-          <p className={classnames(styles.hadler,styles.clearfix)}>
-              {/*<button className={classnames(styles.fl,styles.hide)} onClick={()=>this.destroy()}>送客</button>*/}
-              <button style={{float:"right",display:sendBtnDisplay}} onClick={(e)=>this.sends(e,"enter")}>发送</button>
-              <span className={classnames(styles.tips,tips?styles.show:"")} >不能发送空白信息或特殊字符</span>
-          </p>
+        )
+        :
+        <div className={styles.emptyDialogue}></div>
+      }
       </div>
     );
   }
