@@ -25,7 +25,7 @@ import styles from "./ChatList.less";
 const data = [{
   key: '1',
   name: 'Max',
-  count:39,
+  count:0,
   username:'om2wi0SSeiULnLSiMPHBCwTtVZL0',
   head_image_url:'https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIAylcYibrV4WyCDSnGawKnrNofRiaZUkdX0lICCDZYdthrvOIITERG1WT5Fk3IFmVPu8RQ48qNROsw/0',
   messages:[{
@@ -45,7 +45,7 @@ const data = [{
 }, {
   key: '3',
   name: '唯独你是不可替代',
-  count:49,
+  count:0,
   username:'om2wi0V58LqtkmsRHf_oa3bbX8fc',
   head_image_url:'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLDiaUut0JTArDs2LFNkPwLWssvsJ3YCl4zuKnoAwxAAjhCEgrnVXgtZiaYD1KiccQ7zXVfv3xgeqRFA/0',
   messages:[],

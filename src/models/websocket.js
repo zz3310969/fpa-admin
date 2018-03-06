@@ -8,7 +8,7 @@ import * as service from '../services/websocket';
 function newUser() {
   return {
   messages:[],
-  const:0,
+  count:0,
 };
 }
 
@@ -304,6 +304,7 @@ export default {
           
           let currentChat = {};
           currentChat.otherUser = Object.assign({}, payload);
+
           currentChat.messages = Object.assign([], receiver.messages);
           
 
