@@ -1,6 +1,13 @@
-import { message } from 'antd';
+import {message} from 'antd';
 
-import {queryAdvisoryOrder,addAdvisoryOrder,loadAdvisoryOrder,updateAdvisoryOrder,removeAdvisoryOrder,queryAdvisoryOrderBase } from '../../services/Advisory/advisoryorder';
+import {
+  queryAdvisoryOrder,
+  addAdvisoryOrder,
+  loadAdvisoryOrder,
+  updateAdvisoryOrder,
+  removeAdvisoryOrder,
+  queryAdvisoryOrderBase
+} from '../../services/Advisory/advisoryorder';
 
 export default {
   namespace: 'advisoryorder',
@@ -10,24 +17,27 @@ export default {
       list: [],
       pagination: {},
     },
-    formdate:{},
+    formdate: {},
+    orderStatus: [],
+    customers: [],
+    products: [],
     loading: true,
     regularFormSubmitting: false,
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
+    * fetch({payload}, {call, put}) {
       yield put({
         type: 'changeLoading',
         payload: true,
       });
       const response = yield call(queryAdvisoryOrder, payload);
-      if(response.state == 'success'){
+      if (response.state == 'success') {
         yield put({
           type: 'save',
           payload: response.data,
         });
-      }else{
+      } else {
         throw response;
       }
       yield put({
@@ -35,7 +45,7 @@ export default {
         payload: false,
       });
     },
-    *remove({ payload, callback }, { call, put }) {
+    * remove({payload, callback}, {call, put}) {
       yield put({
         type: 'changeLoading',
         payload: true,
@@ -52,7 +62,7 @@ export default {
 
       if (callback) callback();
     },
-    *add({ payload, callback }, { call, put }) {
+    * add({payload, callback}, {call, put}) {
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: true,
@@ -62,16 +72,16 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: false,
       });
-      if(response.state == 'success'){
+      if (response.state == 'success') {
         message.success(response.message);
         if (callback) callback();
-      }else if(response.message){
+      } else if (response.message) {
         message.error(response.message);
-      }else{
+      } else {
         message.error('提交失败');
       }
     },
-    *update({ payload, callback }, { call, put }) {
+    * update({payload, callback}, {call, put}) {
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: true,
@@ -81,29 +91,29 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: false,
       });
-      if(response.state == 'success'){
+      if (response.state == 'success') {
         message.success(response.message);
         if (callback) callback();
-      }else if(response.message){
+      } else if (response.message) {
         message.error(response.message);
-      }else{
+      } else {
         message.error('提交失败');
       }
     },
-    *fetchBasic({payload}, { call, put }) {
+    * fetchBasic({payload}, {call, put}) {
       yield put({
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadAdvisoryOrder,payload);
-      if(response.state == 'success'){
+      const response = yield call(loadAdvisoryOrder, payload);
+      if (response.state == 'success') {
         yield put({
           type: 'show',
           payload: response.data,
         });
-      }else if(response.message){
+      } else if (response.message) {
         message.error(response.message);
-      }else{
+      } else {
         message.error('提交失败');
       }
       yield put({
@@ -111,18 +121,18 @@ export default {
         payload: {},
       });
     },
-    *base({ payload }, { call, put }) {
+    * base({payload}, {call, put}) {
       const response = yield call(queryAdvisoryOrderBase, payload);
-      if(response.state == 'success'){
+      if (response.state == 'success') {
         yield put({
           type: 'load',
           payload: response.data,
         });
-      }else{
+      } else {
         throw response;
       }
     },
-    *clean({ payload }, { call, put }){
+    * clean({payload}, {call, put}) {
       yield put({
         type: 'show',
         payload: {formdate: {},},
@@ -143,10 +153,10 @@ export default {
         ...action.payload,
       };
     },
-    show(state, { payload }) {
+    show(state, {payload}) {
       return {
         ...state,
-        formdate:payload,
+        formdate: payload,
       };
     },
     changeLoading(state, action) {
@@ -155,7 +165,7 @@ export default {
         loading: action.payload,
       };
     },
-    changeRegularFormSubmitting(state, { payload }) {
+    changeRegularFormSubmitting(state, {payload}) {
       return {
         ...state,
         regularFormSubmitting: payload,

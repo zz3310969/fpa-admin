@@ -6,7 +6,7 @@ import { Table, Alert, Badge, Divider,Modal } from 'antd';
 import styles from '../defaultTable.less';
 const confirm = Modal.confirm;
 
-const statusMap = ['error','success'];
+const statusMap = ['submitted','payed','completed','canceled'];
 
 @connect(state => ({
   advisoryorder: state.advisoryorder,
@@ -69,7 +69,9 @@ class StandardTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { dataList, total }, loading } = this.props;
-    const status = ['不可用', '可用'];
+    const {advisoryorder: {orderStatus}} = this.props;
+
+    const status = ['提交订单', '已付款','已完成','已取消'];
 
 
     const columns = [
@@ -79,14 +81,14 @@ class StandardTable extends PureComponent {
           key: 'orderNum',
       },
       {
-          title: '客户编号',
-          dataIndex: 'customId',
-          key: 'customId',
+          title: '客户名称',
+          dataIndex: 'customName',
+          key: 'customName',
       },
       {
-          title: '服务产品id',
-          dataIndex: 'productIdId',
-          key: 'productIdId',
+          title: '服务产品',
+          dataIndex: 'productName',
+          key: 'productName',
       },
       {
           title: '客户电话',
@@ -117,14 +119,27 @@ class StandardTable extends PureComponent {
           title: '订单状态',
           dataIndex: 'orderStatus',
           key: 'orderStatus',
+          render(val) {
+            // return val;
+            var valStr = "";
+            console.log(orderStatus);
+            orderStatus.map(function (data) {
+                if(data.code == val){
+                  valStr = data.display;
+                  return false;
+              }
+            })
+            return valStr;
+            // return <Badge status={statusMap[val]} text={status[val]}/>;
+          }
       },
        {
         title: '操作',
         render: (text, record, index) => (
           <div>
-              <Link to={'/advisoryorder/edit/'+record.id+'?read=true'}>查看</Link>
+              <Link to={'/advisory/advisoryorder/edit/'+record.id+'?read=true'}>查看</Link>
               <Divider type="vertical" />
-              <Link to={'/advisoryorder/edit/'+record.id}>编辑</Link>
+              <Link to={'/advisory/advisoryorder/edit/'+record.id}>编辑</Link>
               <Divider type="vertical" />
               <a onClick={this.deleteHandle(record, index)}>删除</a>
           </div>
@@ -152,7 +167,7 @@ class StandardTable extends PureComponent {
             message={(
               <div>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-                
+
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
             )}

@@ -23,7 +23,9 @@ export default class BasicForms extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-
+    dispatch({
+      type: 'advisoryorder/base',
+    });
   }
 
 
@@ -36,14 +38,14 @@ export default class BasicForms extends PureComponent {
           type: 'advisoryorder/add',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/advisoryorder'));
+            this.props.dispatch(routerRedux.push('/advisory/advisoryorder'));
           },
         });
       }
     });
   }
   render() {
-    const { advisoryorder: { regularFormSubmitting:submitting } } = this.props;
+    const { advisoryorder: { regularFormSubmitting:submitting,orderStatus, customers, products } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -99,20 +101,26 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入客户编号',
                     }],
                     })(
-                    <Input placeholder="" />
-                    )}
+                      <Select showSearch
+                              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      >
+                        {customers.map(d => <Select.Option key={d.id}>{d.nickName}</Select.Option>)}
+                      </Select>)}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
-                        label="服务产品id"
+                        label="服务产品"
                 >
-                    {getFieldDecorator('productIdId', {
+                    {getFieldDecorator('productId', {
                     rules: [{
-                      required: true, message: '请输入服务产品id',
+                      required: true, message: '请输入服务产品',
                     }],
                     })(
-                    <Input placeholder="" />
-                    )}
+                      <Select showSearch
+                              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      >
+                        {products.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                      </Select>                    )}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}
@@ -171,7 +179,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入下单时间',
                     }],
                     })(
-                    <Input placeholder="" />
+                      <DatePicker/>
                     )}
                 </FormItem>
                 <FormItem
@@ -183,15 +191,18 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入订单状态',
                     }],
                     })(
-                    <Input placeholder="" />
-                    )}
+                      <Select showSearch
+                              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      >
+                        {orderStatus.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                      </Select>                    )}
                 </FormItem>
-            
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-                <Link to={'/advisoryorder'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+                <Link to={'/advisory/advisoryorder'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
             </FormItem>
           </Form>
         </Card>
