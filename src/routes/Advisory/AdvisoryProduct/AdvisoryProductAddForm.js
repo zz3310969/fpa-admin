@@ -32,19 +32,20 @@ export default class BasicForms extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
       if (!err) {
+        debugger;
         const values = {
           ...fieldsValue,
-          validityStartTime: fieldsValue.validityTime && fieldsValue.validityTime[0].format('YYYY-MM-DD'),
-          validityEndTime: fieldsValue.validityTime && fieldsValue.validityTime[1].format('YYYY-MM-DD'),
+          validityStartTime: fieldsValue.validityTime && fieldsValue.validityTime[0].format('YYYY-MM-DD HH:mm:ss'),
+          validityEndTime: fieldsValue.validityTime && fieldsValue.validityTime[1].format('YYYY-MM-DD HH:mm:ss'),
           validityTime: '',
         };
         this.props.dispatch({
           type: 'advisoryproduct/add',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/advisoryproduct'));
+            this.props.dispatch(routerRedux.push('/advisory/advisoryproduct'));
           },
         });
       }
@@ -52,7 +53,7 @@ export default class BasicForms extends PureComponent {
   }
 
   render() {
-    const {advisoryproduct: {regularFormSubmitting: submitting, apps, modes, status}} = this.props;
+    const {advisoryproduct: {regularFormSubmitting: submitting, apps, modes, status,consultants,pricings}} = this.props;
     const {getFieldDecorator, getFieldValue} = this.props.form;
 
     const formItemLayout = {
@@ -76,11 +77,11 @@ export default class BasicForms extends PureComponent {
 
     return (
       <PageHeaderLayout title="" content="" wrapperClassName={styles.advancedForm}>
-        <Card title="服务产品基本信息" className={styles.card} bordered={false}>
-          <Form
-            onSubmit={this.handleSubmit}
-            layout="vertical" hideRequiredMark
-          >
+        <Form
+          onSubmit={this.handleSubmit}
+          layout="vertical" hideRequiredMark
+        >
+          <Card title="服务产品基本信息" className={styles.card} bordered={false}>
             {getFieldDecorator('id', {})(
               <Input type="hidden"/>
             )}
@@ -100,18 +101,22 @@ export default class BasicForms extends PureComponent {
                   )}
                 </Form.Item>
               </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+              <Col xl={{span: 6, offset: 2}} lg={{span: 8}} md={{span: 12}} sm={24}>
                 <Form.Item label="所属咨询师">
                   {getFieldDecorator('consId', {
                     rules: [{
                       required: true, message: '请输入所属咨询师',
                     }],
                   })(
-                    <Input placeholder=""/>
+                    <Select showSearch
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {consultants.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
                 </Form.Item>
               </Col>
-                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+              <Col xl={{span: 8, offset: 2}} lg={{span: 10}} md={{span: 24}} sm={24}>
 
                 <Form.Item label="产品名称">
                   {getFieldDecorator('name', {
@@ -136,7 +141,7 @@ export default class BasicForms extends PureComponent {
                   )}
                 </Form.Item>
               </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+              <Col xl={{span: 6, offset: 2}} lg={{span: 8}} md={{span: 12}} sm={24}>
                 <Form.Item label="服务模式">
                   {getFieldDecorator('modesId', {
                     rules: [{
@@ -151,7 +156,7 @@ export default class BasicForms extends PureComponent {
                   )}
                 </Form.Item>
               </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+              <Col xl={{span: 8, offset: 2}} lg={{span: 10}} md={{span: 24}} sm={24}>
                 <Form.Item label="有效期">
                   {getFieldDecorator('validityTime', {
                     rules: [{
@@ -177,7 +182,7 @@ export default class BasicForms extends PureComponent {
                   )}
                 </Form.Item>
               </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+              <Col xl={{span: 6, offset: 2}} lg={{span: 8}} md={{span: 12}} sm={24}>
                 <Form.Item label="备注">
                   {getFieldDecorator('remark', {
                     rules: [{
@@ -188,28 +193,39 @@ export default class BasicForms extends PureComponent {
                   )}
                 </Form.Item>
               </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item label="咨询定价id">
+              <Col xl={{span: 8, offset: 2}} lg={{span: 10}} md={{span: 24}} sm={24}>
+                <Form.Item label="咨询定价">
                   {getFieldDecorator('advisId', {
                     rules: [{
-                      required: true, message: '请输入咨询定价id',
+                      required: true, message: '请输入咨询定价',
                     }],
                   })(
-                    <Input placeholder=""/>
+                    <Select showSearch
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                  {pricings.map(d => <Select.Option key={d.id}>{d.fixType}</Select.Option>)}
+                    </Select>
                   )}
                 </Form.Item>
               </Col>
             </Row>
-          </Form>
-        </Card>
-        <Card title="定价管理" className={styles.card} bordered={false}>
-        </Card>
-        <FooterToolbar>
-          <Button type="primary" htmlType="submit" loading={submitting}>
-            提交
-          </Button>
-          <Link to={'/advisory/advisoryproduct'}><Button style={{marginLeft: 8}}>取消</Button></Link>
-        </FooterToolbar>
+
+          </Card>
+          <Card title="定价管理" className={styles.card} bordered={false}>
+          </Card>
+          <FooterToolbar>
+            <FormItem style={{marginTop: 5}}>
+              {
+                this.state.onlyread ? '' : (
+                  <Button type="primary" htmlType="submit" loading={submitting}>
+                    提交
+                  </Button>
+                )
+              }
+              <Link to={'/advisory/advisoryproduct'}><Button style={{marginLeft: 8}}>取消</Button></Link>
+            </FormItem>
+          </FooterToolbar>
+        </Form>
       </PageHeaderLayout>
     );
   }

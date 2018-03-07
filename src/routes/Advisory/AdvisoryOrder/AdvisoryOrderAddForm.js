@@ -69,7 +69,7 @@ export default class BasicForms extends PureComponent {
 
     return (
       <PageHeaderLayout title="" content="">
-        <Card bordered={false}>
+        <Card title="订单基本信息" className={styles.card} bordered={false}>
           <Form
             onSubmit={this.handleSubmit}
             hideRequiredMark

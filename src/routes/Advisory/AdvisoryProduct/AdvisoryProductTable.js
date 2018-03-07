@@ -77,13 +77,13 @@ class StandardTable extends PureComponent {
     const columns = [
       {
         title: '所属应用',
-        dataIndex: 'appId',
-        key: 'appId',
+        dataIndex: 'appName',
+        key: 'appName',
       },
       {
         title: '所属咨询师',
-        dataIndex: 'consId',
-        key: 'consId',
+        dataIndex: 'consultantName',
+        key: 'consultantName',
       },
       {
         title: '产品名称',
@@ -97,34 +97,34 @@ class StandardTable extends PureComponent {
       },
       {
         title: '服务模式',
-        dataIndex: 'modesId',
-        key: 'modesId',
+        dataIndex: 'modelName',
+        key: 'modelName',
       },
       {
-        title: '咨询定价id',
-        dataIndex: 'advisId',
-        key: 'advisId',
+        title: '咨询定价',
+        dataIndex: 'advisName',
+        key: 'advisName',
       },
       {
         title: '有效期',
         dataIndex: 'validityStartTime',
         key: 'validityStartTime',
         render: (text, record, index) => {
-          return record.validityStartTime + "-" + record.validityEndTime
+          return record.validityStartTime + "至" + record.validityEndTime
         }
-      },
-      {
-        title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
       },
       {
         title: '状态',
         dataIndex: 'status',
         key: 'status',
+        render(val) {
+          return <Badge status={statusMap[val]} text={status[val]}/>;
+        }
       },
       {
         title: '操作',
+        fixed: 'right',
+        width: 150,
         render: (text, record, index) => (
           <div>
             <Link to={'/advisory/advisoryproduct/edit/' + record.id + '?read=true'}>查看</Link>
@@ -173,6 +173,7 @@ class StandardTable extends PureComponent {
           columns={columns}
           pagination={paginationProps}
           onChange={this.handleTableChange}
+          scroll={{x: 1500}}
         />
       </div>
     );

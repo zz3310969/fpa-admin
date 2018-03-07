@@ -199,54 +199,8 @@ export default class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          {/*<Col md={8} sm={24}>
-              <FormItem label="产品编号">
-                  {getFieldDecorator('code')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>*/}
         </Row>
-        {/*<Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="所属咨询师">
-                  {getFieldDecorator('consId')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="备注">
-                  {getFieldDecorator('remark')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="咨询定价id">
-                  {getFieldDecorator('advisId')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="开始时间">
-                  {getFieldDecorator('validityStartTime')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>
-           </Row >*/}
         <Row gutter={{md: 8, lg: 24, xl: 48}}>
-          {/*<Col md={8} sm={24}>
-              <FormItem label="结束时间">
-                  {getFieldDecorator('validityEndTime')(
-                  <Input placeholder="" />
-                  )}
-              </FormItem>
-              </Col>*/}
           <Col md={8} sm={24}>
             <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
               {getFieldDecorator('status')(

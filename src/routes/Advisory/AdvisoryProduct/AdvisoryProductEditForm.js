@@ -1,16 +1,19 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { routerRedux, Link } from 'dva/router';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
+import {routerRedux, Link} from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip, Row, Col,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
+import moment from "moment/moment";
+import FooterToolbar from '../../../components/FooterToolbar';
+
 
 const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+const {Option} = Select;
+const {RangePicker} = DatePicker;
+const {TextArea} = Input;
 
 @connect(state => ({
   advisoryproduct: state.advisoryproduct,
@@ -19,7 +22,7 @@ const { TextArea } = Input;
 export default class BasicForms extends PureComponent {
 
   state = {
-    onlyread:false,
+    onlyread: false,
   };
 
   componentDidMount() {
@@ -27,215 +30,228 @@ export default class BasicForms extends PureComponent {
     const params = new URLSearchParams(search);
     const optype = params.get('read'); // bar
     this.setState({
-      onlyread:optype?true:false,
+      onlyread: optype ? true : false,
     })
-    const { dispatch } = this.props;
-    if(this.props.match.params.id){
+    const {dispatch} = this.props;
+    if (this.props.match.params.id) {
       dispatch({
         type: 'advisoryproduct/fetchBasic',
-        payload:{id:this.props.match.params.id}
+        payload: {id: this.props.match.params.id}
       });
     }
   }
 
 
-
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
       if (!err) {
+        const values = {
+          ...fieldsValue,
+          validityStartTime: fieldsValue.validityTime && fieldsValue.validityTime[0].format('YYYY-MM-DD HH:mm:ss'),
+          validityEndTime: fieldsValue.validityTime && fieldsValue.validityTime[1].format('YYYY-MM-DD HH:mm:ss'),
+          validityTime: '',
+        };
+
         this.props.dispatch({
           type: 'advisoryproduct/update',
           payload: values,
           callback: () => {
-            this.props.dispatch(routerRedux.push('/advisoryproduct'));
+            this.props.dispatch(routerRedux.push('/advisory/advisoryproduct'));
           },
         });
       }
     });
   }
+
   render() {
-    const { advisoryproduct: { regularFormSubmitting:submitting, formdate } } = this.props;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const {advisoryproduct: {regularFormSubmitting: submitting, formdate, apps, modes, status, consultants, pricings}} = this.props;
+    const {getFieldDecorator, getFieldValue} = this.props.form;
 
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
+        xs: {span: 24},
+        sm: {span: 7},
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
+        xs: {span: 24},
+        sm: {span: 12},
+        md: {span: 10},
       },
     };
 
     const submitFormLayout = {
       wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
+        xs: {span: 24, offset: 0},
+        sm: {span: 10, offset: 7},
       },
     };
 
     return (
       <PageHeaderLayout title="" content="">
-        <Card bordered={false}>
-          <Form
-            onSubmit={this.handleSubmit}
-            hideRequiredMark
-            style={{ marginTop: 8 }}
-          >
-                {getFieldDecorator('id', {
-                  initialValue:formdate.id,
-                  rules: [{
-                    required: true, message: '请输入主键',
-                  }],
-                })(
-                    <Input type="hidden"/>
-                  )}
-              <FormItem
-                  {...formItemLayout}
-                  label="产品名称"
-              >
-                  {getFieldDecorator('name', {
-                    initialValue:formdate.name,
-                    rules: [{
-                      required: true, message: '请输入产品名称',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="产品编号"
-              >
-                  {getFieldDecorator('code', {
-                    initialValue:formdate.code,
-                    rules: [{
-                      required: true, message: '请输入产品编号',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="所属应用"
-              >
+        <Form
+          onSubmit={this.handleSubmit}
+          hideRequiredMark
+          style={{marginTop: 8}}
+        >
+          <Card title="服务产品基本信息" className={styles.card} bordered={false}>
+            {getFieldDecorator('id', {
+              initialValue: formdate.id,
+              rules: [{
+                required: true, message: '请输入主键',
+              }],
+            })(
+              <Input type="hidden"/>
+            )}
+            <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+                <Form.Item label="所属应用">
                   {getFieldDecorator('appId', {
-                    initialValue:formdate.appId,
+                    initialValue: formdate.appId !== undefined ? formdate.appId + '' : '',
                     rules: [{
-                      required: true, message: '请输入所属应用',
+                      required: true, message: '请选择所属应用',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select showSearch
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="所属咨询师"
-              >
+                </Form.Item>
+              </Col>
+              <Col xl={{span: 6, offset: 2}} lg={{span: 8}} md={{span: 12}} sm={24}>
+                <Form.Item label="所属咨询师">
                   {getFieldDecorator('consId', {
-                    initialValue:formdate.consId,
+                    initialValue: formdate.consId !== undefined ? formdate.consId + '' : '',
                     rules: [{
                       required: true, message: '请输入所属咨询师',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select showSearch
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {consultants.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="备注"
-              >
-                  {getFieldDecorator('remark', {
-                    initialValue:formdate.remark,
+                </Form.Item>
+              </Col>
+              <Col xl={{span: 8, offset: 2}} lg={{span: 10}} md={{span: 24}} sm={24}>
+
+                <Form.Item label="产品名称">
+                  {getFieldDecorator('name', {
+                    initialValue: formdate.name,
                     rules: [{
-                      required: true, message: '请输入备注',
+                      required: true, message: '请输入产品名称',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Input placeholder=""/>
                   )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="服务模式"
-              >
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+                <Form.Item label="产品编号">
+                  {getFieldDecorator('code', {
+                    initialValue: formdate.code,
+                    rules: [{
+                      required: true, message: '请输入产品编号',
+                    }],
+                  })(
+                    <Input placeholder=""/>
+                  )}
+                </Form.Item>
+              </Col>
+              <Col xl={{span: 6, offset: 2}} lg={{span: 8}} md={{span: 12}} sm={24}>
+                <Form.Item label="服务模式">
                   {getFieldDecorator('modesId', {
-                    initialValue:formdate.modesId,
+                    initialValue: formdate.modesId !== undefined ? formdate.modesId + '' : '',
                     rules: [{
-                      required: true, message: '请输入服务模式',
+                      required: true, message: '请选择服务模式',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select showSearch
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {modes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
+                    </Select>
                   )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="状态"
-              >
+                </Form.Item>
+              </Col>
+              <Col xl={{span: 8, offset: 2}} lg={{span: 10}} md={{span: 24}} sm={24}>
+                <Form.Item label="有效期">
+                  {getFieldDecorator('validityTime', {
+                    initialValue: [moment(formdate.validityStartTime),moment(formdate.validityEndTime)],
+                    rules: [{
+                      required: true, message: '请输入有效期',
+                    }],
+                  })(
+                    <RangePicker style={{width: '100%'}}/>
+                  )}
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+                <Form.Item label="状态">
                   {getFieldDecorator('status', {
-                    initialValue:formdate.status,
+                    initialValue: formdate.status !== undefined ? formdate.status + '' : '',
                     rules: [{
                       required: true, message: '请输入状态',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select>
+                      {status.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                   )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="咨询定价id"
-              >
+                </Form.Item>
+              </Col>
+              <Col xl={{span: 6, offset: 2}} lg={{span: 8}} md={{span: 12}} sm={24}>
+                <Form.Item label="备注">
+                  {getFieldDecorator('remark', {
+                    initialValue: formdate.remark,
+                    rules: [{
+                      required: true, message: '请输入备注',
+                    }],
+                  })(
+                    <Input placeholder=""/>
+                  )}
+                </Form.Item>
+              </Col>
+              <Col xl={{span: 8, offset: 2}} lg={{span: 10}} md={{span: 24}} sm={24}>
+                <Form.Item label="咨询定价">
                   {getFieldDecorator('advisId', {
-                    initialValue:formdate.advisId,
+                    initialValue: formdate.advisId !== undefined ? formdate.advisId + '' : '',
                     rules: [{
-                      required: true, message: '请输入咨询定价id',
+                      required: true, message: '请输入咨询定价',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select showSearch
+                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      {pricings.map(d => <Select.Option key={d.id}>{d.fixType}</Select.Option>)}
+                    </Select>
                   )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="开始时间"
-              >
-                  {getFieldDecorator('validityStartTime', {
-                    initialValue:formdate.validityStartTime,
-                    rules: [{
-                      required: true, message: '请输入开始时间',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="结束时间"
-              >
-                  {getFieldDecorator('validityEndTime', {
-                    initialValue:formdate.validityEndTime,
-                    rules: [{
-                      required: true, message: '请输入结束时间',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-            
-            <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-                {
-                this.state.onlyread ?'':(
-                <Button type="primary" htmlType="submit" loading={submitting}>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+          <Card title="定价管理" className={styles.card} bordered={false}>
+          </Card>
+          <FooterToolbar>
+            <FormItem style={{marginTop: 5}}>
+              {
+                this.state.onlyread ? '' : (
+                  <Button type="primary" htmlType="submit" loading={submitting}>
                     提交
-                </Button>
+                  </Button>
                 )
-                }
-                <Link to={'/advisoryproduct'}><Button style={{ marginLeft: 8 }}>取消</Button></Link>
+              }
+              <Link to={'/advisory/advisoryproduct'}><Button style={{marginLeft: 8}}>取消</Button></Link>
             </FormItem>
-          </Form>
-        </Card>
+          </FooterToolbar>
+        </Form>
       </PageHeaderLayout>
     );
   }

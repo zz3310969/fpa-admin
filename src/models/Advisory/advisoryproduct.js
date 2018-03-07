@@ -15,6 +15,8 @@ export default {
     regularFormSubmitting: false,
     apps:[],
     status:[],
+    consultants:[],
+    pricings:[],
     modes:[],
   },
 
