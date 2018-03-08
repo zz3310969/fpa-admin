@@ -38,3 +38,7 @@ export async function queryCustomerBase(params) {
   return request(`/api/fpa/customer/base`);
 }
 
+
+export function loadCustomerByopenid(params) {
+  return request(`/api/fpa/customer/openid/`+params['openid']);
+}

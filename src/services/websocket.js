@@ -1,7 +1,8 @@
 import { stringify } from 'qs';
 
 let websocket = undefined;
-let url = 'ws://121.40.222.30:8282/roof-im/connect.ws';
+//let url = 'ws://121.40.222.30:8282/roof-im/connect.ws';
+let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
 var socketOpen = false;
 var socketMsgQueue = [];
 function getWebsocket(url) {
@@ -90,6 +91,12 @@ export function listen(action) {
 	websocket.onmessage = (event) => {
 	    action(event.data);
   };
+}
+
+export async function querySession(data) {
+    console.log('querySession', data);
+    const websocket = getWebsocket('');
+    sendSocketMessage({"clientType":"h5","requestType":"querySession","token":"zlt", "seq" : "1"});
 }
 
 

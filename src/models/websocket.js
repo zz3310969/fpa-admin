@@ -1,4 +1,6 @@
 import * as service from '../services/websocket';
+import {loadCustomerByopenid}  from '../services/customer';
+
 
 /*const newUser = {
   messages:[],
@@ -16,6 +18,7 @@ export default {
     namespace: 'websocket',
     state: {
         user_id:'zlt',
+        sessionUser:new Map(),
         sendMap:new Map(),
         userState:'offline',
         allChat:new Map(),
@@ -125,18 +128,40 @@ export default {
                             payload: 'hide',
                           });
                         break;
+                    case 'querySession':
+                        console.log('querySession');
+                        let sessionUser = yield select(state => state.websocket.sessionUser );
+
+                        for (var i = 0; i < result.length; i++) {
+                          let receiver = sessionUser.get(result[i].receiver);
+                          if (!receiver) {
+                            const response = yield call(loadCustomerByopenid, {openid:result[i].receiver});
+                            if(response.state == 'success'){
+                              let u = Object.assign({},response.data);
+                              u.username = u.weixinOpenId;
+                              u.head_image_url = u.weixinHeadImage;
+                              u.key = i+'';
+                              sessionUser.set(result[i].receiver,u);
+                            }
+                          }
+                        }
+                        yield put({
+                          type: 'save',
+                          payload: sessionUser,
+                        });
+                        break;
                     case 'openSession':
                         break;
                     case 'closeSession':
                         break;
                     case 'message':
                         // cb(data);
-                        const _currentChat = yield select(state => state.websocket._currentChat );
+                        let _currentChat = yield select(state => state.websocket._currentChat );
                         if(data.message == 'sendSuccess' || data.message == 'receiverOffline'){//接收自己发送的消息
-                          const seq = parseInt(data.seq);
-                          const allChat = yield select(state => state.websocket.allChat );
-                          const sendMap = yield select(state => state.websocket.sendMap );
-                          const message = sendMap.get(seq);
+                          let seq = parseInt(data.seq);
+                          let allChat = yield select(state => state.websocket.allChat );
+                          let sendMap = yield select(state => state.websocket.sendMap );
+                          let message = sendMap.get(seq);
                           if(message){
                             
                             let receiver = allChat.get(message.receiver);
@@ -163,24 +188,26 @@ export default {
                           });
 
                         }else if(data.message == 'messageRequestTransformSuccess'){//接收别人发送的消息
-                          const _currentChat = yield select(state => state.websocket._currentChat );
-                          const allChat = yield select(state => state.websocket.allChat );
-                          let sender = allChat.get(result.sender);
+                          //let websocket = yield select(state => state.websocket );
+                          let _currentChat = yield select(state => state.websocket._currentChat );
+                          let allChat_ =  yield select(state => state.websocket.allChat);
+                          
+                          let sender = allChat_.get(result.sender);
                             if (!sender) {
-                              allChat.set(result.sender,newUser());
-                              sender = allChat.get(result.sender);
+                              allChat_.set(result.sender,newUser());
+                              sender = allChat_.get(result.sender);
                             }
                           result.self = 0;
                           //
                           sender.messages.push(result);
-                          allChat.set(result.sender,sender);
+                          allChat_.set(result.sender,sender);
                           if(_currentChat.otherUser.username == result.sender){
                               _currentChat.messages.push(result);
                               
                             }
                           yield put({
                             type: 'receiveMessage',
-                            payload: {_currentChat,allChat},
+                            payload: {_currentChat,allChat:allChat_},
                           });
                         }
                         
@@ -221,7 +248,8 @@ export default {
                     case 'pullMessage':
                         if(result && Array.isArray(result)){
                           const _currentChat = yield select(state => state.websocket._currentChat );
-                          const allChat = yield select(state => state.websocket.allChat );
+                          const allChat = yield select(state => state.websocket.allChat);
+                          
                           for (var i = 0; i < result.length; i++) {
 
                             let sender = allChat.get(result[i].sender);
@@ -271,6 +299,7 @@ export default {
           yield call(service.pullMessage, payload);
         },
         * changeState({ payload, callback ,dispatch}, { call, put,select }) {
+          debugger
           let parms = {...payload};
           parms.clientType='h5';
           if(parms.requestType == 'online'){
@@ -297,29 +326,30 @@ export default {
           const allChat = yield select(state => state.websocket.allChat );
           let receiver = allChat.get(payload.username);
           if (!receiver) {
-            
             allChat.set(payload.username,newUser());
             receiver = allChat.get(payload.username);
           }
-          
           let currentChat = {};
           currentChat.otherUser = Object.assign({}, payload);
-
           currentChat.messages = Object.assign([], receiver.messages);
-          
-
           yield put({
               type: 'changeUserSuccess',
               payload: {_currentChat:currentChat},
             });
+        },
+        * querySession({ payload, callback }, { call, put,select }) {
+          const userState = yield select(state => state.websocket.userState );
+          if(userState != 'offline'){
+            yield call(service.querySession, payload);
+          }
+          
         },
 
 
     },
 
     reducers: {
-        openSuccess(state, action) {
-            //client_id:1
+        save(state, action) {
             return {...state, ... action.payload}
         },
         messageSuccess(state, action) {

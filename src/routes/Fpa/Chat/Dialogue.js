@@ -60,7 +60,6 @@ export default class Dialogue extends Component {
 
   render() {
     const { websocket: { _currentChat,} } = this.props;
-    console.log(_currentChat)
 
     let  chatDialogue = (
       <div>
@@ -88,8 +87,8 @@ export default class Dialogue extends Component {
                           <div className={classnames(styles.main,item.self?styles.self:'')}>
                               <img className={styles.avatar} width="35" height="35"src={item.self ? _user.head_image_url:_currentChat.otherUser.head_image_url}/>
                               {
-                                item.type=='AUDIO'?
-                                <div className={styles['audio-msg']} style={{width:(item.length*5+30)+"px"}}><Icon type="audio1" className={styles.audio1} /></div>
+                                item.type=='AUD'?
+                                <div className={styles['audio-msg']} style={{width:(item.payload.length*5+30)+"px"}}><Icon type="audio1" className={styles.audio1} /></div>
                                 :
                                 <div className={styles.text} >{item.payload}</div>
                               }

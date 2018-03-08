@@ -25,7 +25,7 @@ import styles from "./ChatList.less";
 
 const data = [{
   key: '1',
-  name: 'Max',
+  nickName: 'Max',
   count:0,
   username:'om2wi0SSeiULnLSiMPHBCwTtVZL0',
   head_image_url:'https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEIAylcYibrV4WyCDSnGawKnrNofRiaZUkdX0lICCDZYdthrvOIITERG1WT5Fk3IFmVPu8RQ48qNROsw/0',
@@ -38,14 +38,14 @@ const data = [{
           }],
 }, {
   key: '2',
-  name: '马马虎虎',
+  nickName: '马马虎虎',
   count:0,
   username:'om2wi0Uf3t9ZmP1VaB3QiP5pZ_tA',
   head_image_url:'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLJxqj4LF6Mk8ia1QicOibAQcyS2SWMukdX5jtQehcCXVibxoAXt3SiaVUUxjMBE0ad3eTOaFaDqpI3Wzw/0',
   messages:[],
 }, {
   key: '3',
-  name: '唯独你是不可替代',
+  nickName: '唯独你是不可替代',
   count:0,
   username:'om2wi0V58LqtkmsRHf_oa3bbX8fc',
   head_image_url:'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLDiaUut0JTArDs2LFNkPwLWssvsJ3YCl4zuKnoAwxAAjhCEgrnVXgtZiaYD1KiccQ7zXVfv3xgeqRFA/0',
@@ -70,6 +70,15 @@ export default class ChatList extends Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    const {websocket:{ userState,} } = this.props;
+    this.interval = setInterval(() => {
+        dispatch({
+          type: 'websocket/querySession',
+          payload:{},
+        });
+    },10000);
+    
     
   }
 
@@ -90,11 +99,13 @@ export default class ChatList extends Component {
   }
 
   render() {
+    const { websocket: { sessionUser,} } = this.props;
+
     return (
         <List
           className={styles.chatList}
           itemLayout="horizontal"
-          dataSource={data}
+          dataSource={[...sessionUser.values()]}
           renderItem={item => (
             <List.Item
               className={classnames(this.state.curChatUserKey==item.key?styles.cur_chat:"",styles.chatItem)}
@@ -103,7 +114,7 @@ export default class ChatList extends Component {
               <List.Item.Meta
                 avatar={<Badge count={item.count!=0?item.count:''} style={{ backgroundColor: '#52c41a' }}>
                   <Avatar src={item.head_image_url} /></Badge>}
-                title={<span>{item.name}</span>}
+                title={<span>{item.nickName}</span>}
               />
             </List.Item>
           )}

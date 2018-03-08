@@ -58,6 +58,8 @@ export default class Send extends Component {
   save(){
     //let {ACTIONS,_user,_currentId} = this.props;
     const { dispatch } = this.props;
+    const {websocket:{ userState, _currentChat} } = this.props;
+
     let {content} = this.state;
     if(this.flag){
       return false;
@@ -77,7 +79,7 @@ export default class Send extends Component {
       "createTime":new Date().getTime(),
       'seq':new Date().getTime(),
       "payload":content,
-      "receiver":"cde",
+      "receiver":_currentChat.otherUser.username,
       "requestType":"message",
       "token":"zlt",
       "type":"TXT"
@@ -140,8 +142,6 @@ export default class Send extends Component {
     let {tips,content}=this.state;
     const {websocket:{userState,_currentChat} } = this.props;
     let sendBtnDisplay = userState != 'offline' ?"inline":'none';//签入后更改状态
-    console.log(1234567)
-    console.log(_currentChat)
     return ( 
       <div>
       {
