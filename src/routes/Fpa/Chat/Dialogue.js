@@ -55,9 +55,19 @@ export default class Dialogue extends Component {
       payload: {'sender':otherUser.username,'token':this.state.user_id},
     });
   }
-
-
-
+  playAudio(audioId){
+    let audio = document.getElementById(audioId);
+    console.log(audio)
+    debugger
+    if(audio){
+      if(audio.paused){
+          audio.currentTime = 0;              
+          audio.play();// 这个就是播放  
+      }else{
+          audio.pause();// 这个就是暂停
+      }
+    }
+  }
   render() {
     const { websocket: { _currentChat,} } = this.props;
 
@@ -88,9 +98,13 @@ export default class Dialogue extends Component {
                               <img className={styles.avatar} width="35" height="35"src={item.self ? _user.head_image_url:_currentChat.otherUser.head_image_url}/>
                               {
                                 item.type=='AUD'?
-                                <div className={styles['audio-msg']} style={{width:(item.payload.length*5+30)+"px"}}><Icon type="audio1" className={styles.audio1} /></div>
-                                :
-                                <div className={styles.text} >{item.payload}</div>
+                                <div className={styles['audio-msg']} style={{width:(item.payload.length*5+30)+"px"}} onClick={()=>this.playAudio('myaudio')}><Icon type="audio1" className={styles.audio1} /><audio  controls="controls" hidden id="myaudio" src="http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=4"></audio></div>
+                                :(
+                                  item.type=="IMG"?
+                                  <div className={styles['image-msg']} ><img src={item.payload}/></div>
+                                  :
+                                  <div className={styles.text} >{item.payload}</div>
+                                )
                               }
                           </div>
                       </li>
