@@ -1,6 +1,8 @@
 import { routerRedux } from 'dva/router';
 import { fakeAccountLogin, fakeMobileLogin } from '../services/api';
 import { getLocalStorage } from '../utils/helper';
+import {queryCurrent} from '../services/user';
+import { listen401 } from '../utils/request';
 
 export default {
   namespace: 'login',
@@ -21,6 +23,11 @@ export default {
         response.status = 'ok';
         response.type = 'account';
         sessionStorage.setItem('token',response.value);
+        const data = yield call(queryCurrent, payload);
+        if(data && data.user){
+          sessionStorage.setItem('user',data.user);
+          debugger
+        }
       }else{
         response.status = 'error';
         response.type = 'account';
@@ -82,6 +89,7 @@ export default {
       if (!data){
           dispatch({ type: 'logout', payload: {}, });
       }
-    }
+    },
+
   },
 };

@@ -1,11 +1,8 @@
 import * as service from '../services/websocket';
-import {loadCustomerByopenid}  from '../services/customer';
+import {loadCustomerByopenid,loadCustomerByopenids}  from '../services/customer';
+import pathToRegexp from 'path-to-regexp';
 
 
-/*const newUser = {
-  messages:[],
-  const:0,
-};*/
 
 function newUser() {
   return {
@@ -17,46 +14,14 @@ function newUser() {
 export default {
     namespace: 'websocket',
     state: {
-        user_id:'zlt',
+        token:sessionStorage.getItem('token'),
+        user:sessionStorage.getItem('user'),
         sessionUser:new Map(),
         sendMap:new Map(),
         userState:'offline',
         allChat:new Map(),
         _currentChat:{
-          messages:[/*{
-            createTime:'2018-03-01',
-            payload:'你好',
-            self:0,
-            img:'',
-            type:'TXT'
-          },{
-            createTime:'2018-03-01',
-            payload:'我也好',
-            self:'1',
-            type:'TXT'
-          },{
-            createTime:'2018-03-02',
-            payload:'你在哪儿',
-            self:0,
-            type:'AUDIO',
-            length:5
-          },{
-            createTime:'2018-03-01',
-            payload:'我在上海',
-            self:'1',
-            type:'AUDIO',
-            length:2
-          },{
-            createTime:'2018-03-05',
-            payload:'呼叫总部',
-            self:0,
-            type:'TXT'
-          },{
-            createTime:'2018-03-01',
-            payload:'我是莱德',
-            self:'1',
-            type:'TXT'
-          },*/],
+          messages:[],
           //聊天对象头像
           otherUser:{
             head_image_url:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
@@ -67,13 +32,21 @@ export default {
     subscriptions: {
         watchWebSocket({dispatch, history}) {
             return history.listen(({pathname}) => {
-                dispatch({type: 'open'});
+                const match = pathToRegexp('/advisory/chat').exec(pathname);
+                if(match){
+                  dispatch({type: 'open'});
+                }
             });
         },
-        socketMessage({ dispatch }) {
-          return service.listen((data) => {
-            dispatch({ type: 'message', payload: data });
-          });
+        socketMessage({ dispatch,history }) {
+          return history.listen(({pathname}) => {
+                const match = pathToRegexp('/advisory/chat').exec(pathname);
+                if(match){
+                  service.listen((data) => {
+                  dispatch({ type: 'message', payload: data });
+                });
+                }
+            });
         },
         /*socketStatus({ dispatch }) {
           const status = service.getSocketStatus();
@@ -86,13 +59,15 @@ export default {
         },*/
     },
     effects: {
-        * open({payload}, {put, call}) {
+        * open({payload}, {put, call,select}) {
             //wss://echo.websocket.org
 
-            const config = {url: 'ws://127.0.0.1:8181/roof-im/connect.ws',token:'code', user_name: 'xxx', user_id: 1, room_id: 999};
+            //const config = {url: 'ws://127.0.0.1:8181/roof-im/connect.ws',token:'code', user_name: 'xxx', user_id: 1, room_id: 999};
             // service.watchList(config, (data) => {
             //     dispatch({type: data.type, payload: data});
             // });
+            let token = yield select(state => state.websocket.token );
+            const config = {'token':token}
 
             yield call(service.watchList, config);
         },
@@ -113,6 +88,7 @@ export default {
                             type: 'changeUserState',
                             payload: 'online',
                           });
+                        yield call(service.querySession, {});
                         break;
                     case 'offline':
                         console.log('下线');
@@ -131,20 +107,36 @@ export default {
                     case 'querySession':
                         console.log('querySession');
                         let sessionUser = yield select(state => state.websocket.sessionUser );
-
+                        let openids = [];
                         for (var i = 0; i < result.length; i++) {
                           let receiver = sessionUser.get(result[i].receiver);
                           if (!receiver) {
-                            const response = yield call(loadCustomerByopenid, {openid:result[i].receiver});
+                            openids.push(result[i].receiver);
+                            /*const response = yield call(loadCustomerByopenid, {openid:result[i].receiver});
                             if(response.state == 'success'){
                               let u = Object.assign({},response.data);
                               u.username = u.weixinOpenId;
                               u.head_image_url = u.weixinHeadImage;
                               u.key = i+'';
                               sessionUser.set(result[i].receiver,u);
-                            }
+                            }*/
                           }
                         }
+                        if (openids.length > 0) {
+                          const response_ = yield call(loadCustomerByopenids, {openids:openids.join()});
+                          if(response_.state == 'success'){
+                              let userArray = Object.assign([],response_.data);
+                              
+                              for (var u of userArray) {
+                                u.username = u.weixinOpenId;
+                                u.head_image_url = u.weixinHeadImage;
+                                u.key = u.username;
+                                sessionUser.set(u.username,u);
+                              }
+                            }
+                        }
+
+
                         yield put({
                           type: 'save',
                           payload: sessionUser,
@@ -299,11 +291,11 @@ export default {
           yield call(service.pullMessage, payload);
         },
         * changeState({ payload, callback ,dispatch}, { call, put,select }) {
-          debugger
+          
           let parms = {...payload};
           parms.clientType='h5';
           if(parms.requestType == 'online'){
-            service.watchList();
+            dispatch({ type: 'open'});
             //service.listen(callback);
             service.listen((data) => {
               dispatch({ type: 'websocket/message', payload: data });
@@ -324,6 +316,7 @@ export default {
 
         * changeUser({ payload, callback }, { call, put,select }) {
           const allChat = yield select(state => state.websocket.allChat );
+          
           let receiver = allChat.get(payload.username);
           if (!receiver) {
             allChat.set(payload.username,newUser());

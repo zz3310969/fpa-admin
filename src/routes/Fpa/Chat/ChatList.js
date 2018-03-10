@@ -64,14 +64,13 @@ export default class ChatList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // if (nextProps.login.status === 'ok') {
-    //   this.props.dispatch(routerRedux.push('/'));
-    // }
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
     const {websocket:{ userState,} } = this.props;
+
+
     this.interval = setInterval(() => {
         dispatch({
           type: 'websocket/querySession',
@@ -94,6 +93,7 @@ export default class ChatList extends Component {
       type: 'websocket/changeUser',
       payload:user,
     });
+    
     this.setState({curChatUserKey:user.key})
 
   }

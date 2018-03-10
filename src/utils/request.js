@@ -65,3 +65,8 @@ export default function request(url, options) {
       return error;
     });
 }
+
+export function listen401(action) {
+  action();
+}
+

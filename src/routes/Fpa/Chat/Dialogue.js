@@ -5,6 +5,7 @@ import { routerRedux, Link } from 'dva/router';
 import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dropdown  } from 'antd';
 
 import styles from "./Dialogue.less";
+import {timeCompare } from '../../../utils/dateutil';
 
 
 
@@ -74,7 +75,7 @@ export default class Dialogue extends Component {
     let  chatDialogue = (
       <div>
         <header className="group-name" style={{textAlign:'center',paddingTop:10}}>
-          <h3>{_currentChat.otherUser.name}</h3>
+          <h3>{_currentChat.otherUser.nickName}</h3>
         </header>
         <div className={styles.message} >
           <div>
@@ -85,9 +86,9 @@ export default class Dialogue extends Component {
                     return (
                       <li key={i}>
                         {
-                        i!=0&&this.time(item.createTime,_currentChat.messages[i-1].createTime)!=''?(
+                        i!=0&&timeCompare(item.createTime,_currentChat.messages[i-1].createTime)!=''?(
                           <p className={styles.time}>
-                                <span>{this.time(item.createTime,_currentChat.messages[i-1].createTime)}</span>
+                                <span>{timeCompare(item.createTime,_currentChat.messages[i-1].createTime)}</span>
                             </p>
                         ):(
                         null
@@ -98,7 +99,7 @@ export default class Dialogue extends Component {
                               <img className={styles.avatar} width="35" height="35"src={item.self ? _user.head_image_url:_currentChat.otherUser.head_image_url}/>
                               {
                                 item.type=='AUD'?
-                                <div className={styles['audio-msg']} style={{width:(item.payload.length*5+30)+"px"}} onClick={()=>this.playAudio('myaudio')}><Icon type="audio1" className={styles.audio1} /><audio  controls="controls" hidden id="myaudio" src="http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=4"></audio></div>
+                                <div className={styles['audio-msg']} style={{width:(item.payload.length*2 +5)+"px"}} onClick={()=>this.playAudio('myaudio')}><Icon type="audio1" className={styles.audio1} /><audio  controls="controls" hidden id="myaudio" src={item.payload.url}></audio></div>
                                 :(
                                   item.type=="IMG"?
                                   <div className={styles['image-msg']} ><img src={item.payload}/></div>

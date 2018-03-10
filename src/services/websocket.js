@@ -1,10 +1,11 @@
 import { stringify } from 'qs';
 
 let websocket = undefined;
-//let url = 'ws://121.40.222.30:8282/roof-im/connect.ws';
-let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
+let url = 'ws://118.31.112.51:9292/roof-im/connect.ws';
+//let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
 var socketOpen = false;
 var socketMsgQueue = [];
+let token_ = undefined;
 function getWebsocket(url) {
     if (!websocket) {
         websocket = new WebSocket(url);
@@ -38,13 +39,8 @@ function sendSocketMessage(msg) {
 
 
 export async function watchList(config, cb) {
-    const client = getWebsocket(url+`?token=zlt`);
-    
-    // return client.onmessage = (data) => {
-    //     cb(data);
-    // };
-
-    
+	token_ = config.token
+    const client = getWebsocket(url+`?token=`+token_);
 }
 
 

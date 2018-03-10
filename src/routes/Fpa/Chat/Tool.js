@@ -33,7 +33,9 @@ const data = [{
   name: '请对我评价'
 }];
 
-
+@connect(state => ({
+  websocket: state.websocket,
+}))
 export default class ChatTool extends Component {
   state = {
     count: 0,
@@ -50,8 +52,28 @@ export default class ChatTool extends Component {
     clearInterval(this.interval);
   }
 
-  chatItemClick(event){
-    console.log(event)
+  chatItemClick(event,item){
+    console.log(event);
+    const { dispatch } = this.props;
+    const {websocket:{ userState, _currentChat} } = this.props;
+
+    let payload = {
+      "clientType":"h5",
+      "createTime":new Date().getTime(),
+      'seq':new Date().getTime(),
+      "payload":item.name,
+      "receiver":_currentChat.otherUser.username,
+      "requestType":"message",
+      "token":"zlt",
+      "type":"TXT"
+    };
+
+
+    dispatch({
+      type: 'websocket/send',
+      payload:payload,
+    });
+
     //pull 消息
   }
 
@@ -64,7 +86,7 @@ export default class ChatTool extends Component {
           renderItem={item => (
             <List.Item
               style={{paddingLeft:20}}
-              onClick={this.chatItemClick}
+              onClick={(event)=>this.chatItemClick(event,item)}
               className={styles.list}
             >
               <List.Item.Meta
