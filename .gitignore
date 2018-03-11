@@ -16,3 +16,4 @@ npm-debug.log*
 /.idea
 
 /_MACOSX
+/package-lock.json
