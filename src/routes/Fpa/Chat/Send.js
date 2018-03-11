@@ -2,9 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import classnames from "classnames";
-import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dropdown  } from 'antd';
+import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dropdown,Upload  } from 'antd';
 import dia from '../../../utils/dia'
 import styles from "./Send.less";
+import AudioRecorder from 'react-audio-recorder';
+
+
+const onRecordChage = (data) =>{
+    console.log("onRecordChage")
+    console.log(myRecord)
+    console.log(data)
+}
+
+const myRecord = (
+  <AudioRecorder
+    recordLabel={<Icon type="record" className={styles['tool-icon']} style={{margin:"0"}} />}
+    recordingLabel={<Icon type="recording" className={classnames(styles['tool-icon'],styles.recording)} style={{margin:"0",color:"#1296db" }} >...</Icon>}
+    onChange={onRecordChage}
+    downloadable={true}
+    playLabel="播放"
+    playingLabel="正在播放"
+    removeLabel="重录"
+    downloadLabel="下载"
+  >
+  </AudioRecorder>
+)
 
 @connect(state => ({
   websocket: state.websocket,
@@ -138,6 +160,27 @@ export default class Send extends Component {
       user:_user,id:_currentId
     });
   }
+  imageRequest(file){
+    //图片发送
+    console.log(file);
+
+  }
+  onRecordEnded(data){
+    console.log("end");
+    console.log(data)
+  }
+  onRecordAbort(data){
+    console.log("abort")
+    console.log(data )
+  }
+  onRecordStart(data){
+    console.log("onRecordStart")
+    console.log(data)
+  }
+  onRecordChage(data){
+    console.log("onRecordChage")
+    console.log(data)
+  }
   render(){
     let {tips,content}=this.state;
     const {websocket:{userState,_currentChat} } = this.props;
@@ -149,9 +192,20 @@ export default class Send extends Component {
         (
           <div className={styles.send}>
               <div className={styles.toolbars}>
+                {/*
+                  
                 <Icon type="emoji" className={styles['tool-icon']} />
-                <Icon type="audio" className={styles['tool-icon']} />
-                <Icon type="image" className={styles['tool-icon']} />
+                 <div  style={{display:"inline-block",width:"auto"}}>
+                  {myRecord}
+                 </div>
+                */}
+                <Upload listType='picture' 
+                      customRequest={this.imageRequest}
+                      showUploadList={false}
+                      multiple={true}
+                  >
+                  <Icon type="image" className={styles['tool-icon']} />
+                </Upload>
               </div>
                 {
                   userState != 'offline'?(<textarea placeholder="按 Enter 发送, Ctrl + Enter 可换行" ref="textarea" name="content" onKeyUp={(e)=>this.enter(e)}></textarea> )

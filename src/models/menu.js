@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import {queryMenu,addMenu,loadMenu,updateMenu,removeMenu,queryMenuBase, } from '../services/menu';
+import {queryMenu,addMenu,loadMenu,updateMenu,removeMenu,queryMenuBase,queryMenuTree } from '../services/menu';
 import {loop,loopDelete} from '../utils/helper';
 
 export default {
@@ -13,6 +13,7 @@ export default {
     regularFormSubmitting: false,
     resources:[],
     menuTypes:[],
+    menus:[]
   },
 
   
@@ -150,7 +151,17 @@ export default {
         payload: {formdate: {},data: [],},
       });
     },
+    * queryMenuTree({ payload }, { call, put,select }) {
+      const menus =  yield call(queryMenuTree, payload);
+      console.log("query modle menus");
+      console.log(menus)
+      // let menus2 =menus.reduce((arr, current) => arr.concat(current.children), []);
+      yield put({
+        type:'saveMenus',
+        payload: menus
+      })
 
+    },
   },
 
   reducers: {
@@ -190,5 +201,11 @@ export default {
         currentUser: action.payload,
       };
     },
+    saveMenus(state, { payload }){
+      return {
+        ...state,
+        menus: payload,
+      };
+    }
   },
 };
