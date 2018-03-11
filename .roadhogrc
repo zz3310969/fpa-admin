@@ -9,7 +9,7 @@
   "env": {
     "development": {
       "extraBabelPlugins": [
-        "dva-hmr","syntax-dynamic-import"
+        "dva-hmr"
       ]
     }
   },
