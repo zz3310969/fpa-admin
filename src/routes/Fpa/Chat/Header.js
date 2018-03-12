@@ -22,6 +22,7 @@ export default class Header extends Component {
     count: 0,
     type: 'account',
     token:'zlt',
+    status:'下线'
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,6 +37,7 @@ export default class Header extends Component {
 
   changeState = (stateType) => {
     const {dispatch } = this.props;
+    const self = this;
     switch (stateType) {
       case 'online':
         // cb(data);
@@ -44,6 +46,7 @@ export default class Header extends Component {
           payload: {'requestType':stateType,'token':this.state.token},
           callback: (data) => {
             dispatch({ type: 'websocket/pullNotReceivedMessage', payload: data });
+            self.setState({status:'上线'})
           },
           dispatch:dispatch,
         });
@@ -53,6 +56,7 @@ export default class Header extends Component {
           type: 'websocket/changeState',
           payload: {'requestType':stateType,'token':this.state.token},
         });
+        self.setState({status:'下线'})
         break;
 
     }
@@ -79,7 +83,7 @@ export default class Header extends Component {
         </div>
         <Dropdown overlay={menu}>
           <Button style={{ marginLeft: 8}}>
-            在线咨询<Icon type="down" />
+            {this.state.status}<Icon type="down" />
           </Button>
         </Dropdown>
       </div>
