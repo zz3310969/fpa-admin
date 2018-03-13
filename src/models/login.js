@@ -25,8 +25,7 @@ export default {
         sessionStorage.setItem('token',response.value);
         const data = yield call(queryCurrent, payload);
         if(data && data.user){
-          sessionStorage.setItem('user',data.user);
-          debugger
+          sessionStorage.setItem('user',JSON.stringify(data.user));
         }
       }else{
         response.status = 'error';

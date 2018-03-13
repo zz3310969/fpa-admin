@@ -14,13 +14,8 @@ const FormItem = Form.Item;
 const { TabPane } = Tabs;
 
 @connect(state => ({
-
+  cos: state.cos,
 }))
-
-
-// @Form.create()
-
-
 export default class ChatIndex extends Component {
   state = {
     count: 0,
@@ -36,6 +31,23 @@ export default class ChatIndex extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'cos/config',
+      payload:{},
+      callback: () => {
+        dispatch({
+          type: 'cos/sign',
+          payload:{},
+        });
+      },
+    });
+
+  }
+    
+    
 
 // style={{backgroundColor:"#4b5866",border:'1px solid #FFFFFF',height:'100%'}}
   render() {

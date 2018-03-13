@@ -28,9 +28,7 @@ function getWebsocket(url) {
 }
 
 function sendSocketMessage(msg) {
-	
   if (socketOpen) {
-
     websocket.send(JSON.stringify(msg));
   } else {
      socketMsgQueue.push(msg)
@@ -70,20 +68,22 @@ export async function logout(config, code, reason) {
 
 export async function pullNotReceivedMessage(data) {
     console.log('pullNotReceivedMessage', data);
-    const websocket = getWebsocket('');
+    const websocket = getWebsocket(url+`?token=`+token_);
     //websocket.send(JSON.stringify({"clientType":"h5","requestType":"pullNotReceivedMessage","token":"zlt", "seq" : "1"}));
     sendSocketMessage({"clientType":"h5","requestType":"pullNotReceivedMessage","token":"zlt", "seq" : "1"});
 }
 
 export async function pullMessage(data) {
     console.log('pullMessage', data);
-    const websocket = getWebsocket('');
+    const websocket = getWebsocket(url+`?token=`+token_);
     sendSocketMessage({"clientType":"h5","requestType":"pullMessage","offset" : 0, "seq" : "1",...data});
 }
 
 
 export function listen(action) {
 	console.log('listen', action);
+	getWebsocket(url+`?token=`+token_);
+	
 	websocket.onmessage = (event) => {
 	    action(event.data);
   };
@@ -91,7 +91,7 @@ export function listen(action) {
 
 export async function querySession(data) {
     console.log('querySession', data);
-    const websocket = getWebsocket('');
+    const websocket = getWebsocket(url+`?token=`+token_);
     sendSocketMessage({"clientType":"h5","requestType":"querySession","token":"zlt", "seq" : "1"});
 }
 

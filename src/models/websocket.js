@@ -2,6 +2,7 @@ import * as service from '../services/websocket';
 import {loadCustomerByopenid,loadCustomerByopenids}  from '../services/customer';
 import pathToRegexp from 'path-to-regexp';
 
+import {getLocalStorageJson}  from '../utils/helper';
 
 
 function newUser() {
@@ -15,7 +16,7 @@ export default {
     namespace: 'websocket',
     state: {
         token:sessionStorage.getItem('token'),
-        user:sessionStorage.getItem('user'),
+        user:getLocalStorageJson('user'),
         sessionUser:new Map(),
         sendMap:new Map(),
         userState:'offline',
@@ -24,7 +25,6 @@ export default {
           messages:[],
           //聊天对象头像
           otherUser:{
-            key:'11111',
             head_image_url:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
           }
 
@@ -44,7 +44,7 @@ export default {
                 const match = pathToRegexp('/advisory/chat').exec(pathname);
                 if(match){
                   service.listen((data) => {
-                  dispatch({ type: 'message', payload: data });
+                  dispatch({ type: 'message', payload: data,dispatch:dispatch });
                 });
                 }
             });
@@ -60,19 +60,16 @@ export default {
         },*/
     },
     effects: {
-        * open({payload}, {put, call,select}) {
+        * open({payload,callback}, {put, call,select}) {
             //wss://echo.websocket.org
-
-            //const config = {url: 'ws://127.0.0.1:8181/roof-im/connect.ws',token:'code', user_name: 'xxx', user_id: 1, room_id: 999};
-            // service.watchList(config, (data) => {
-            //     dispatch({type: data.type, payload: data});
-            // });
             let token = yield select(state => state.websocket.token );
             const config = {'token':token}
 
             yield call(service.watchList, config);
+
+            if(callback) callback();
         },
-        * message({payload}, {put, call,select}) {
+        * message({payload, callback ,dispatch}, {put, call,select}) {
             console.log('message', payload);
             const data = JSON.parse(payload);
             if (data) {
@@ -90,6 +87,7 @@ export default {
                             payload: 'online',
                           });
                         yield call(service.querySession, {});
+                        dispatch({ type: 'websocket/pullNotReceivedMessage',});
                         break;
                     case 'offline':
                         console.log('下线');
@@ -297,10 +295,12 @@ export default {
           parms.clientType='h5';
           if(parms.requestType == 'online'){
             dispatch({ type: 'open'});
-            //service.listen(callback);
             service.listen((data) => {
-              dispatch({ type: 'websocket/message', payload: data });
-            });
+                dispatch({ type: 'websocket/message', payload: data,dispatch:dispatch });
+              });
+
+            //service.listen(callback);
+            
           }else if(parms.requestType == 'offline'){
             yield put({
               type: 'changeUserState',
@@ -312,6 +312,7 @@ export default {
           if (callback) callback();
         },
         * pullNotReceivedMessage({ payload, callback }, { call, put,select }) {
+          
           yield call(service.pullNotReceivedMessage, payload);
         },
 

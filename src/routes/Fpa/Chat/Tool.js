@@ -57,23 +57,22 @@ export default class ChatTool extends Component {
     const { dispatch } = this.props;
     const {websocket:{ userState, _currentChat} } = this.props;
 
-    let payload = {
-      "clientType":"h5",
-      "createTime":new Date().getTime(),
-      'seq':new Date().getTime(),
-      "payload":item.name,
-      "receiver":_currentChat.otherUser.username,
-      "requestType":"message",
-      "token":"zlt",
-      "type":"TXT"
-    };
-
-
-    dispatch({
-      type: 'websocket/send',
-      payload:payload,
-    });
-
+    if(_currentChat.otherUser && _currentChat.otherUser.username){
+        let payload = {
+        "clientType":"h5",
+        "createTime":new Date().getTime(),
+        'seq':new Date().getTime(),
+        "payload":item.name,
+        "receiver":_currentChat.otherUser.username,
+        "requestType":"message",
+        "token":"zlt",
+        "type":"TXT"
+      };
+      dispatch({
+        type: 'websocket/send',
+        payload:payload,
+      });
+    }
     //pull 消息
   }
 

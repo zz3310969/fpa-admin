@@ -1,5 +1,11 @@
 export function getLocalStorage(val) {
-  return sessionStorage.getItem(val);
+  var data = sessionStorage.getItem(val);
+  return data;
+}
+
+export function getLocalStorageJson(val) {
+  var data = sessionStorage.getItem(val);
+  return JSON.parse(data);
 }
 
 
