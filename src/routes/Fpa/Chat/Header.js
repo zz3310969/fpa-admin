@@ -43,7 +43,7 @@ export default class Header extends Component {
           type: 'websocket/changeState',
           payload: {'requestType':stateType,'token':this.state.token},
           callback: (data) => {
-            dispatch({ type: 'websocket/pullNotReceivedMessage', payload: data });
+            
           },
           dispatch:dispatch,
         });
@@ -61,21 +61,27 @@ export default class Header extends Component {
 
 
   render() {
+    const {websocket:{ user} } = this.props;
+
     const menu = (
         <Menu>
-          <Menu.Item onClick={(e)=>this.changeState('online')} >
+          <Menu.Item  >
             <a target="none" rel="noopener noreferrer" href="javascript:void(0)" onClick={(e)=>this.changeState('online')}><Icon type="login" style={{marginRight:10}}/>上线</a>
           </Menu.Item>
-          <Menu.Item onClick={(e)=>this.changeState('offline')} >
+          <Menu.Item  >
             <a target="none" rel="noopener noreferrer" href="javascript:void(0)" onClick={(e)=>this.changeState('offline')}><Icon type="logout" style={{marginRight:10}}/>&nbsp;下线</a>
+          </Menu.Item>
+          <Menu.Item  >
+            <a target="none" rel="noopener noreferrer" href="javascript:void(0)" onClick={(e)=>this.changeState('hide')}><Icon type="logout" style={{marginRight:10}}/>&nbsp;隐身</a>
           </Menu.Item>
         </Menu>
       );
     return (
+
       <div className={styles.header}>
         <Avatar shape="circle" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{backgroundColor:"#FFFFFF"}}/>
         <div className={styles.user}>
-          <div>Jobs</div>
+          <div>{user.name}</div>
         </div>
         <Dropdown overlay={menu}>
           <Button style={{ marginLeft: 8}}>
