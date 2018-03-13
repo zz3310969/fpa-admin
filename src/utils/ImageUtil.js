@@ -7,7 +7,7 @@ const drawCanvasImage = (image,_callback) =>{
     let height = image.height
     // 如果图片大于四百万像素，计算压缩比并将大小压至400万以下，大于500k则压缩
     debugger
-    let ratio = width * height / 500000
+    let ratio = width * height / 4000000
     if (ratio > 1) {
         ratio = Math.sqrt(ratio)
         width /= ratio
@@ -16,7 +16,7 @@ const drawCanvasImage = (image,_callback) =>{
         ratio = 1
     }
 
-    _callback(onloadCanvas(image,width,height));
+    _callback(onloadCanvas(image,width,height,ratio));
 }
 
 function onloadCanvas(image,width,height,ratio) {
@@ -36,7 +36,7 @@ function onloadCanvas(image,width,height,ratio) {
     // 绘制
     // 如果图片像素大于100万则使用瓦片绘制
     debugger
-    let count = width * height / 500000
+    let count = width * height / 1000000
     if (count > 1) {
         // 计算要分成多少块瓦片
         count = ~~(Math.sqrt(count) + 1)
@@ -58,7 +58,7 @@ function onloadCanvas(image,width,height,ratio) {
     } else {
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
     }
-    const imgSrcData = canvas.toDataURL('image/jpg',1)
+    const imgSrcData = canvas.toDataURL('image/jpg',0.1)
     // tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0
     debugger
     console.log('压缩前：' + image.src.length);  
