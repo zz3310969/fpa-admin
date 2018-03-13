@@ -8,8 +8,6 @@ import styles from "./Send.less";
 import AudioRecorder from 'react-audio-recorder';
 import ImageUtil from "../../../utils/ImageUtil";
 
-console.log(ImageUtil)
-
 
 const onRecordChage = (data) => {
     console.log("onRecordChage")
@@ -151,10 +149,10 @@ export default class Send extends Component {
            
         }
         imageRequest = (file) => {
+            const self  = this;
             const {dispatch} = this.props;
 
             //图片发送
-            console.log(file);
             // this.readImage(file.file)
             if (file.file.size > 800 * 1000) { //500K以上则去压缩
                 ImageUtil.readImage(file.file, function(newImageSrcData) {
@@ -167,18 +165,25 @@ export default class Send extends Component {
                 });
             } else {
                 //TODO 不压缩上传
-                dispatch({
-                    type: 'cos/upload',
-                    payload: file.file,
-                    
-                });
+                console.log("未压缩")
+                const reader = new FileReader()
+                reader.onload = function(e) {
+                    self.setState({testImg:e.target.result})
+                    dispatch({
+                        type: 'cos/upload',
+                        payload: e.target.result
+                        
+                    });
+                }
+                reader.readAsDataURL(file.file)
+                
             }
 
         }
 
-        handleImgChange(event) {
-            this.readImage(event.target.files[0])
-        }
+        // handleImgChange(event) {
+        //     this.readImage(event.target.files[0])
+        // }
         onRecordEnded(data) {
             console.log("end");
             console.log(data)
@@ -201,6 +206,9 @@ export default class Send extends Component {
             let sendBtnDisplay = userState != 'offline' ? "inline" : 'none'; //签入后更改状态
             return (
                 <div>
+                    <img src={this.state.testImg}/>
+
+
       {
                 _currentChat.otherUser.key ?
                     (<div className={styles.send}>
