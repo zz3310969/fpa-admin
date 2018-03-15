@@ -120,6 +120,7 @@ export default class Send extends Component {
                 content: ""
             }, () => {
                 this.refs.textarea.value = "";
+                document.getElementById("dialogueDom").scrollTop = document.getElementById("dialogueDom").scrollHeight;
             });
         }
         enter(e) {
