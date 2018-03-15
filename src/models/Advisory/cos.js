@@ -50,13 +50,13 @@ export default {
       
     },
 
-    * upload({payload}, { call, put,select }) {
+    * upload({payload,dispatch}, { call, put,select }) {
       
       if(!cos){
       	// 初始化实例
       	let signOptions_ = yield select(state => state.cos.signOptions );
 
-		var cos = new COS({
+		  cos = new COS({
 		    getAuthorization: function (params, callback) {
 		    	/*request(`/api/advisory/cos/sign?${stringify(params)}`).then(response =>{
 		    		debugger
@@ -97,6 +97,9 @@ export default {
         });
 	}
 	let cosOptions = yield select(state => state.cos.cosOptions );
+  let token = yield select(state => state.websocket.token );
+  let _currentChat = yield select(state => state.websocket._currentChat );
+  
 	let key = cosOptions.path + uuidv1()+".jpg";
 	cos.sliceUploadFile({
         Bucket: cosOptions.bucket,
@@ -105,6 +108,21 @@ export default {
         Body: payload,
     }, function (err, data) {
         console.log(err, data);
+        if(!err){
+          let data = {
+              "createTime": new Date().getTime(),
+              'seq': new Date().getTime(),
+              "payload": cosOptions.cosUrl + key,
+              "receiver": _currentChat.otherUser.username,
+              "requestType": "message",
+              "token": token,
+              "type": "IMG"
+            };
+          dispatch({
+              type: 'websocket/send',
+              payload: data,
+          });
+        }
         
     });
 	

@@ -11,7 +11,7 @@ import {timeCompare } from '../../../utils/dateutil';
 
 //我的头像
 const _user = {
-  head_image_url:'https://dummyimage.com/200x200/474fcb/FFF&text=Job'
+  head_image_url:'https://gw.alipayobjects.com/zos/rmsportal/dRFVcIqZOYPcSNrlJsqQ.png'
 }
 
 @connect(state => ({
@@ -21,7 +21,6 @@ export default class Dialogue extends Component {
   state = {
     count: 0,
     type: 'account',
-    user_id:'zlt',
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,10 +49,10 @@ export default class Dialogue extends Component {
   };
 
   getHistory = (otherUser) => {
-    const { dispatch } = this.props;
+    const { dispatch,websocket:{token} } = this.props;
     dispatch({
       type: 'websocket/pullMessage',
-      payload: {'sender':otherUser.username,'token':this.state.user_id},
+      payload: {'sender':otherUser.username,'token':token},
     });
   }
   playAudio(audioId){
@@ -70,7 +69,7 @@ export default class Dialogue extends Component {
     }
   }
   render() {
-    const { websocket: { _currentChat,} } = this.props;
+    const { websocket: { _currentChat,user} } = this.props;
 
     let  chatDialogue = (
       <div>

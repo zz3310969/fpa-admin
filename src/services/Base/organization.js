@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request from '../utils/request';
+import request from '../../utils/request';
 
 export async function queryOrganization(params) {
   return request(`/api/base/org/read?${stringify(params)}`);

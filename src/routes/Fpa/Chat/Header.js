@@ -21,7 +21,7 @@ export default class Header extends Component {
   state = {
     count: 0,
     type: 'account',
-    token:'zlt',
+    token: this.props.websocket.token,
     status:'下线'
   }
 
@@ -83,7 +83,7 @@ export default class Header extends Component {
     return (
 
       <div className={styles.header}>
-        <Avatar shape="circle" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{backgroundColor:"#FFFFFF"}}/>
+        <Avatar shape="circle" src="https://gw.alipayobjects.com/zos/rmsportal/dRFVcIqZOYPcSNrlJsqQ.png" style={{backgroundColor:"#FFFFFF"}}/>
         <div className={styles.user}>
           <div>{user.name}</div>
         </div>

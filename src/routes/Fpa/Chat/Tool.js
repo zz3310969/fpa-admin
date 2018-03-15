@@ -55,7 +55,7 @@ export default class ChatTool extends Component {
   chatItemClick(event,item){
     console.log(event);
     const { dispatch } = this.props;
-    const {websocket:{ userState, _currentChat} } = this.props;
+    const {websocket:{ userState, _currentChat,token} } = this.props;
 
     if(_currentChat.otherUser && _currentChat.otherUser.username){
         let payload = {
@@ -65,7 +65,7 @@ export default class ChatTool extends Component {
         "payload":item.name,
         "receiver":_currentChat.otherUser.username,
         "requestType":"message",
-        "token":"zlt",
+        "token":token,
         "type":"TXT"
       };
       dispatch({

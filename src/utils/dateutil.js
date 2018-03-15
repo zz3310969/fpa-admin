@@ -53,7 +53,7 @@ function isWeek(date) {
   if (t >= start && t <= end){
     return true;
   }else{
-    return flase;
+    return false;
   }
 }
 

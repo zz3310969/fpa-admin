@@ -8,6 +8,14 @@ import styles from "./Send.less";
 import AudioRecorder from 'react-audio-recorder';
 import ImageUtil from "../../../utils/ImageUtil";
 
+function dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+}
 
 const onRecordChage = (data) => {
     console.log("onRecordChage")
@@ -85,7 +93,7 @@ export default class Send extends Component {
         }
         save() {
             const {dispatch} = this.props;
-            const {websocket: {userState, _currentChat}} = this.props;
+            const {websocket: {userState, _currentChat,token}} = this.props;
             let {content} = this.state;
             if (this.flag) {
                 return false;
@@ -98,7 +106,7 @@ export default class Send extends Component {
                 "payload": content,
                 "receiver": _currentChat.otherUser.username,
                 "requestType": "message",
-                "token": "zlt",
+                "token": token,
                 "type": "TXT"
             };
             dispatch({
@@ -156,27 +164,33 @@ export default class Send extends Component {
             // this.readImage(file.file)
             if (file.file.size > 800 * 1000) { //500K以上则去压缩
                 ImageUtil.readImage(file.file, function(newImageSrcData) {
-                    console.log(newImageSrcData);
+                    //console.log(newImageSrcData);
+                    //self.setState({testImg:newImageSrcData})
+                    let blob = dataURLtoBlob(newImageSrcData);
                     dispatch({
                       type: 'cos/upload',
-                      payload: newImageSrcData,
-                      
+                      payload: blob,
+                      dispatch:dispatch
                   });
                 });
             } else {
                 //TODO 不压缩上传
                 console.log("未压缩")
-                const reader = new FileReader()
+                /*const reader = new FileReader()
                 reader.onload = function(e) {
-                    self.setState({testImg:e.target.result})
+                    //self.setState({testImg:e.target.result})
                     dispatch({
                         type: 'cos/upload',
                         payload: e.target.result
                         
                     });
                 }
-                reader.readAsDataURL(file.file)
-                
+                reader.readAsDataURL(file.file)*/
+                dispatch({
+                    type: 'cos/upload',
+                    payload: file.file,
+                    dispatch:dispatch
+                });
             }
 
         }
@@ -206,9 +220,6 @@ export default class Send extends Component {
             let sendBtnDisplay = userState != 'offline' ? "inline" : 'none'; //签入后更改状态
             return (
                 <div>
-                    <img src={this.state.testImg}/>
-
-
       {
                 _currentChat.otherUser.key ?
                     (<div className={styles.send}>

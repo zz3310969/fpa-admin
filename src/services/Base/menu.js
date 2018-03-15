@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request from '../utils/request';
+import request from '../../utils/request';
 
 export async function queryMenu(params) {
   return request(`/api/base/menu/read?${stringify(params)}`);

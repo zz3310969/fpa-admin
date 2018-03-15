@@ -1,19 +1,19 @@
 import { message } from 'antd';
 
-import {queryMenu,addMenu,loadMenu,updateMenu,removeMenu,queryMenuBase,queryMenuTree } from '../services/menu';
-import {loop,loopDelete} from '../utils/helper';
+import {queryOrganization,addOrganization,loadOrganization,updateOrganization,removeOrganization,queryOrganizationBase, } from '../../services/Base/organization';
+import {loop,loopDelete} from '../../utils/helper';
 
 export default {
-  namespace: 'menu',
+  namespace: 'organization',
 
   state: {
     data: [],
     formdate:{},
     loading: true,
     regularFormSubmitting: false,
-    resources:[],
-    menuTypes:[],
-    menus:[]
+    currentResource: {},
+    roleses:[],
+    orgs:[],
   },
 
   
@@ -24,7 +24,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryMenu, payload);
+      const response = yield call(queryOrganization, payload);
       if(response.state == 'success'){
         if(treeData && treeData.length == 0){
           Object.assign(treeData,response.data);
@@ -49,7 +49,7 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(removeMenu, payload);
+      const response = yield call(removeOrganization, payload);
       debugger;
       if(response.state == 'success'){
         yield put({
@@ -69,7 +69,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(addMenu, payload);
+      const response = yield call(addOrganization, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -88,7 +88,7 @@ export default {
         type: 'changeRegularFormSubmitting',
         payload: true,
       });
-      const response = yield call(updateMenu, payload);
+      const response = yield call(updateOrganization, payload);
       yield put({
         type: 'changeRegularFormSubmitting',
         payload: false,
@@ -107,7 +107,7 @@ export default {
         type: 'changeLoading',
         payload: {},
       });
-      const response = yield call(loadMenu,payload);
+      const response = yield call(loadOrganization,payload);
       if(response.state == 'success'){
         yield put({
           type: 'show',
@@ -124,7 +124,7 @@ export default {
       });
     },
     *base({ payload }, { call, put }) {
-      const response = yield call(queryMenuBase, payload);
+      const response = yield call(queryOrganizationBase, payload);
       if(response.state == 'success'){
         if(response.data.roleses){
           var roles = new Array();
@@ -151,17 +151,7 @@ export default {
         payload: {formdate: {},data: [],},
       });
     },
-    * queryMenuTree({ payload }, { call, put,select }) {
-      const menus =  yield call(queryMenuTree, payload);
-      console.log("query modle menus");
-      console.log(menus)
-      // let menus2 =menus.reduce((arr, current) => arr.concat(current.children), []);
-      yield put({
-        type:'saveMenus',
-        payload: menus
-      })
 
-    },
   },
 
   reducers: {
@@ -201,11 +191,5 @@ export default {
         currentUser: action.payload,
       };
     },
-    saveMenus(state, { payload }){
-      return {
-        ...state,
-        menus: payload,
-      };
-    }
   },
 };

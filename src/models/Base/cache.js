@@ -1,4 +1,4 @@
-import {  removeCache, queryCache } from '../services/api';
+import {  removeCache, queryCache } from '../../services/api';
 
 export default {
   namespace: 'cache',

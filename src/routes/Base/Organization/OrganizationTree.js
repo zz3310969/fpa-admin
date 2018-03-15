@@ -5,7 +5,7 @@ import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, Moda
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../defaultTree.less';
 import request from '../../../utils/request';
-import {queryResource, } from '../../../services/organization';
+import {queryResource, } from '../../../services/Base/organization';
 const FormItem = Form.Item;
 const { Option } = Select;
 const TreeNode = Tree.TreeNode;

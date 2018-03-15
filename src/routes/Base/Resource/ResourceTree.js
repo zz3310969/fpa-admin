@@ -5,7 +5,7 @@ import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, Moda
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../defaultTree.less';
 import request from '../../../utils/request';
-import {queryResource, } from '../../../services/resource';
+import {queryResource, } from '../../../services/Base/resource';
 const FormItem = Form.Item;
 const { Option } = Select;
 const TreeNode = Tree.TreeNode;
@@ -169,6 +169,21 @@ export default class TableList extends PureComponent {
     this.props.form.resetFields();
   }
 
+  handleUpdateSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        this.props.dispatch({
+          type: 'resource/update',
+          payload: values,
+          callback: () => {
+            this.reLoadTree(values['parent_id']);
+          },
+        });
+      }
+    });
+  }
+
   renderUpdateForm() {
     const { getFieldDecorator } = this.props.form;
     const { resource: { regularFormSubmitting: submitting, formdate} } = this.props;
@@ -236,7 +251,7 @@ export default class TableList extends PureComponent {
                     {getFieldDecorator('seq', {
                     initialValue:formdate.seq,
                     rules: [{
-                      required: true, message: '请输入顺序',
+                       message: '请输入顺序',
                     }],
                     })(
                     <Input  placeholder="" />

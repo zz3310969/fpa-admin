@@ -1,8 +1,8 @@
 import { stringify } from 'qs';
 
 let websocket = undefined;
-let url = 'ws://118.31.112.51:9292/roof-im/connect.ws';
-//let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
+//let url = 'ws://118.31.112.51:9292/roof-im/connect.ws';
+let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
 var socketOpen = false;
 var socketMsgQueue = [];
 let token_ = undefined;
@@ -70,7 +70,7 @@ export async function pullNotReceivedMessage(data) {
     console.log('pullNotReceivedMessage', data);
     const websocket = getWebsocket(url+`?token=`+token_);
     //websocket.send(JSON.stringify({"clientType":"h5","requestType":"pullNotReceivedMessage","token":"zlt", "seq" : "1"}));
-    sendSocketMessage({"clientType":"h5","requestType":"pullNotReceivedMessage","token":"zlt", "seq" : "1"});
+    sendSocketMessage({"clientType":"h5","requestType":"pullNotReceivedMessage","token":token_, "seq" : "1"});
 }
 
 export async function pullMessage(data) {
@@ -92,7 +92,7 @@ export function listen(action) {
 export async function querySession(data) {
     console.log('querySession', data);
     const websocket = getWebsocket(url+`?token=`+token_);
-    sendSocketMessage({"clientType":"h5","requestType":"querySession","token":"zlt", "seq" : "1"});
+    sendSocketMessage({"clientType":"h5","requestType":"querySession","token":token_, "seq" : "1"});
 }
 
 

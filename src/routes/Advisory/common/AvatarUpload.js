@@ -54,7 +54,7 @@ export default class Avatar extends React.Component {
       return;
     }
     if (info.file.status === 'done') {
-      var pic_name = '/api/fpa/pic/small/'+info.file.response.data
+      var pic_name = info.file.response.data
       this.triggerChange(pic_name);
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, imageUrl => this.setState({

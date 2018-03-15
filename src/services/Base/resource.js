@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request from '../utils/request';
+import request from '../../utils/request';
 
 export async function queryResource(params) {
   return request(`/api/base/resource/tree?${stringify(params)}`);

@@ -25,7 +25,7 @@ export default {
           messages:[],
           //聊天对象头像
           otherUser:{
-            head_image_url:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
+            //head_image_url:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
           }
 
         }
@@ -107,7 +107,7 @@ export default {
                         console.log('querySession');
                         let sessionUser = yield select(state => state.websocket.sessionUser );
                         let openids = [];
-                        for (var i = 0; i < result.length; i++) {
+                        for (var i = 0; result && i < result.length; i++) {
                           let receiver = sessionUser.get(result[i].receiver);
                           if (!receiver) {
                             openids.push(result[i].receiver);
@@ -242,16 +242,20 @@ export default {
                           const allChat = yield select(state => state.websocket.allChat);
                           
                           for (var i = 0; i < result.length; i++) {
-
                             let sender = allChat.get(result[i].sender);
-                            
                             if (!sender) {
                               allChat.set(result[i].sender,newUser());
                               sender = allChat.get(result[i].sender);
                             }
-                            result[i].self = 0;
+                            if(_currentChat.otherUser.username == result[i].receiver){
+                              result[i].self = 1;
+                            }else{
+                              result[i].self = 0;
+                            }
+                            
                             sender.messages.unshift(result[i]);
                             allChat.set(result[i].sender,sender);
+
                             if(_currentChat.otherUser.username == result[i].receiver || _currentChat.otherUser.username == result[i].sender){
                               _currentChat.messages.unshift(result[i]);
                             }
@@ -287,6 +291,11 @@ export default {
           if (callback) callback();
         },
         * pullMessage({ payload, callback }, { call, put,select }) {
+          const currentChat = yield select(state => state.websocket._currentChat );
+          if (currentChat.messages.length >0 ) {
+            payload.endTime = currentChat.messages[0].createTime;
+          }
+
           yield call(service.pullMessage, payload);
         },
         * changeState({ payload, callback ,dispatch}, { call, put,select }) {
