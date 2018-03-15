@@ -110,6 +110,7 @@ export default {
         console.log(err, data);
         if(!err){
           let data = {
+              "clientType": "h5",
               "createTime": new Date().getTime(),
               'seq': new Date().getTime(),
               "payload": cosOptions.cosUrl + key,

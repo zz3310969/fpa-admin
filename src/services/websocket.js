@@ -1,8 +1,8 @@
 import { stringify } from 'qs';
 
 let websocket = undefined;
-//let url = 'ws://118.31.112.51:9292/roof-im/connect.ws';
-let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
+let url = 'ws://118.31.112.51:9292/roof-im/connect.ws';
+//let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
 var socketOpen = false;
 var socketMsgQueue = [];
 let token_ = undefined;
@@ -29,6 +29,7 @@ function getWebsocket(url) {
 
 function sendSocketMessage(msg) {
   if (socketOpen) {
+    msg.clientType='h5',
     websocket.send(JSON.stringify(msg));
   } else {
      socketMsgQueue.push(msg)
