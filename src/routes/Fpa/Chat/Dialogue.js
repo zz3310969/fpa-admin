@@ -78,7 +78,7 @@ export default class Dialogue extends Component {
         </header>
         <div className={styles.message} >
           <div>
-              <ul style={{height: 416,overflowY: "scroll"}}>
+              <ul style={{height: 416,overflowY: "scroll"}} id="dialogueDom">
                   <li className={styles.first} ><span onClick={(e)=>this.getHistory(_currentChat.otherUser)} className={styles.history}>查看更多历史消息</span></li>
                   {
                   _currentChat.messages.map((item,i)=>{
