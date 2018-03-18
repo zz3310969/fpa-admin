@@ -32,6 +32,10 @@ export default class Dialogue extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+  componentDidUpdate(state){
+    const msgLeb = state.websocket._currentChat.messages.length;
+    document.getElementById("dialogueDom").scrollTop =  msgLeb*80;
+  }
   time(date,prevDate){
     // console.log(date,prevDate)
     let Interval  = 2*60*1000;//区间
