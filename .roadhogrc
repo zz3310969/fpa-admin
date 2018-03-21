@@ -1,5 +1,9 @@
 {
   "entry": "src/index.js",
+  "define": {
+    "testWsUrl": "ws://118.31.112.51:9292/roof-im/connect.ws",
+    "productionWsUrl": "wss://minipro.fpaworld.com/wss/roof-im/connect.ws"
+  },
   "extraBabelPlugins": [
     "transform-runtime",
     "transform-decorators-legacy",
@@ -23,11 +27,12 @@
   "hash":true,
   "proxy": {
     "/api": {
-      "target": "http://localhost:8080/fpa-web",
+      "target": "http://localhost:8081/fpa-web",
       "ws": true,
       "pathRewrite": {
         "/api": "/"
       }
     }
   }
+
 }

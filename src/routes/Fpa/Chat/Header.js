@@ -66,7 +66,6 @@ export default class Header extends Component {
 
   render() {
     const {websocket:{ user} } = this.props;
-
     const menu = (
         <Menu>
           <Menu.Item  >
@@ -83,9 +82,9 @@ export default class Header extends Component {
     return (
 
       <div className={styles.header}>
-        <Avatar shape="circle" src="https://gw.alipayobjects.com/zos/rmsportal/dRFVcIqZOYPcSNrlJsqQ.png" style={{backgroundColor:"#FFFFFF"}}/>
+        <Avatar shape="circle" src={user.avatar} style={{backgroundColor:"#FFFFFF"}}/>
         <div className={styles.user}>
-          <div>{user.name}</div>
+          <div>&nbsp;&nbsp;{user.name}</div>
         </div>
         <Dropdown overlay={menu}>
           <Button style={{ marginLeft: 8}}>

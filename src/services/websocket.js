@@ -1,13 +1,26 @@
 import { stringify } from 'qs';
 
 let websocket = undefined;
-let url = 'ws://118.31.112.51:9292/roof-im/connect.ws';
+let url = undefined;
+if(process.env.NODE_ENV == 'development'){
+  url = testWsUrl;
+}else{
+  url = productionWsUrl;
+}
+
 //let url = 'ws://127.0.0.1:8181/roof-im/connect.ws';
 var socketOpen = false;
 var socketMsgQueue = [];
 let token_ = undefined;
+process.env.webscoketUrl;
+console.log(process);
+console.log();
+console.log(process.env.NODE_ENV);
+
+      
 function getWebsocket(url) {
     if (!websocket) {
+
         websocket = new WebSocket(url);
         websocket.onerror = OnSocketError;
         websocket.onclose = event => {

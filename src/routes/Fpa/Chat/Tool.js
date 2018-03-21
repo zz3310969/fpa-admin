@@ -35,6 +35,7 @@ const data = [{
 
 @connect(state => ({
   websocket: state.websocket,
+  quickreply:state.quickreply,
 }))
 export default class ChatTool extends Component {
   state = {
@@ -46,6 +47,15 @@ export default class ChatTool extends Component {
     // if (nextProps.login.status === 'ok') {
     //   this.props.dispatch(routerRedux.push('/'));
     // }
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+
+    dispatch({
+        type: 'quickreply/fetchMy'
+      });
+
   }
 
   componentWillUnmount() {
@@ -62,7 +72,7 @@ export default class ChatTool extends Component {
         "clientType":"h5",
         "createTime":new Date().getTime(),
         'seq':new Date().getTime(),
-        "payload":item.name,
+        "payload":item.detail,
         "receiver":_currentChat.otherUser.username,
         "requestType":"message",
         "token":token,
@@ -77,11 +87,15 @@ export default class ChatTool extends Component {
   }
 
   render() {
+    
+    const {quickreply: {mylist}} = this.props;
+
+
     return (
         <List
           className={styles.chatList}
           itemLayout="horizontal"
-          dataSource={data}
+          dataSource={mylist}
           renderItem={item => (
             <List.Item
               style={{paddingLeft:20}}
@@ -89,7 +103,7 @@ export default class ChatTool extends Component {
               className={styles.list}
             >
               <List.Item.Meta
-                title={<span>{item.name}</span>}
+                title={<span>{item.title}</span>}
               />
             </List.Item>
           )}

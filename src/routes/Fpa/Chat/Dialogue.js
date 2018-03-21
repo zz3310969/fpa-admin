@@ -101,7 +101,7 @@ export default class Dialogue extends Component {
                         }
                           
                           <div className={classnames(styles.main,item.self?styles.self:'')}>
-                              <img className={styles.avatar} width="35" height="35"src={item.self ? _user.head_image_url:_currentChat.otherUser.head_image_url}/>
+                              <img className={styles.avatar} width="35" height="35"src={item.self ? user.avatar:_currentChat.otherUser.head_image_url}/>
                               {
                                 item.type=='AUD'?
                                 (

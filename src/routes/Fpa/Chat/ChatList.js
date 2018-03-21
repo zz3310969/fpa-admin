@@ -99,7 +99,7 @@ export default class ChatList extends Component {
   }
 
   render() {
-    const { websocket: { sessionUser,} } = this.props;
+    const { websocket: { sessionUser,allChat} } = this.props;
 
     return (
         <List
@@ -112,7 +112,7 @@ export default class ChatList extends Component {
               onClick={(event)=>this.chatItemClick(event,item)}
             >
               <List.Item.Meta
-                avatar={<Badge count={item.count!=0?item.count:''} style={{ backgroundColor: '#52c41a' }}>
+                avatar={<Badge count={(allChat.get(item.username) && allChat.get(item.username).count!=0)?allChat.get(item.username).count:''} style={{ backgroundColor: '#52c41a' }}>
                   <Avatar src={item.head_image_url} /></Badge>}
                 title={<span>{item.nickName}</span>}
               />

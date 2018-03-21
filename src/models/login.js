@@ -25,6 +25,8 @@ export default {
         sessionStorage.setItem('token',response.value);
         const data = yield call(queryCurrent, payload);
         if(data && data.user){
+          debugger
+          data.user.avatar = data.avatar;
           sessionStorage.setItem('user',JSON.stringify(data.user));
         }
       }else{

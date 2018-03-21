@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import {queryQuickReply,addQuickReply,loadQuickReply,updateQuickReply,removeQuickReply,queryQuickReplyBase } from '../../services/Advisory/quickreply';
+import {queryQuickReply,addQuickReply,loadQuickReply,updateQuickReply,removeQuickReply,queryQuickReplyBase,queryMyQuickReply } from '../../services/Advisory/quickreply';
 
 export default {
   namespace: 'quickreply',
@@ -16,6 +16,7 @@ export default {
     apps:[],
     status:[],
     quickreply_types:[],
+    mylist:[],
   },
 
   effects: {
@@ -30,6 +31,27 @@ export default {
           type: 'save',
           payload: response.data,
         });
+      }else{
+        throw response;
+      }
+      yield put({
+        type: 'changeLoading',
+        payload: false,
+      });
+    },
+    *fetchMy({ payload }, { call, put }) {
+      yield put({
+        type: 'changeLoading',
+        payload: true,
+      });
+      const response = yield call(queryMyQuickReply, payload);
+      if(response.state == 'success'){
+
+        yield put({
+          type: 'load',
+          payload: {mylist:response.data},
+        });
+        
       }else{
         throw response;
       }

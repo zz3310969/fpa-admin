@@ -37,3 +37,7 @@ export async function loadQuickReply(params) {
 export async function queryQuickReplyBase(params) {
 return request(`/api/advisory/quickreply/base/`);
 }
+
+export async function queryMyQuickReply(params) {
+  return request(`/api/advisory/quickreply/my?${stringify(params)}`);
+}
