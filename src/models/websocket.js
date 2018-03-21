@@ -154,7 +154,6 @@ export default {
                           let sendMap = yield select(state => state.websocket.sendMap );
                           let message = sendMap.get(seq);
                           if(message){
-                            
                             let receiver = allChat.get(message.receiver);
                             if (!receiver) {
                               allChat.set(message.receiver,newUser());
@@ -162,11 +161,10 @@ export default {
                             }
                             message.self = 1;
                             receiver.messages.push(message);
-                            allChat.set(message.receiver,receiver);
                             if(_currentChat.otherUser.username == message.receiver){
                               _currentChat.messages.push(message);
-
                             }
+                            allChat.set(message.receiver,receiver);
                           }
                           sendMap.delete(seq);
                           yield put({
@@ -191,11 +189,12 @@ export default {
                           result.self = 0;
                           //
                           sender.messages.push(result);
-                          allChat_.set(result.sender,sender);
                           if(_currentChat.otherUser.username == result.sender){
                               _currentChat.messages.push(result);
-                              
+                            }else{
+                              sender.count = sender.count + 1 ;
                             }
+                            allChat_.set(result.sender,sender);
                           yield put({
                             type: 'receiveMessage',
                             payload: {_currentChat,allChat:allChat_},
@@ -224,10 +223,13 @@ export default {
                             }*/
                             result[i].self = 0;
                             sender.messages.push(result[i]);
-                            allChat.set(result[i].sender,sender);
                             if(_currentChat.otherUser.username == result[i].sender){
                               _currentChat.messages.push(result[i]);
+                            }else{
+                              sender.count ++;
                             }
+
+                            allChat.set(result[i].sender,sender);
                           }              
                           yield put({
                             type: 'receiveMessage',
@@ -333,12 +335,15 @@ export default {
             allChat.set(payload.username,newUser());
             receiver = allChat.get(payload.username);
           }
+          receiver.count = 0;
+          allChat.set(payload.username,receiver);
+
           let currentChat = {};
           currentChat.otherUser = Object.assign({}, payload);
           currentChat.messages = Object.assign([], receiver.messages);
           yield put({
               type: 'changeUserSuccess',
-              payload: {_currentChat:currentChat},
+              payload: {_currentChat:currentChat,allChat},
             });
         },
         * querySession({ payload, callback }, { call, put,select }) {
