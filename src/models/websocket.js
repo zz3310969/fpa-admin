@@ -25,6 +25,7 @@ export default {
           messages:[],
           //聊天对象头像
           otherUser:{
+            // key:'1',
             //head_image_url:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
           }
 
@@ -188,6 +189,10 @@ export default {
                             }
                           result.self = 0;
                           //
+
+                          if(result.type=="AUD"){
+                            result.payload = JSON.parse(result.payload);
+                          }
                           sender.messages.push(result);
                           if(_currentChat.otherUser.username == result.sender){
                               _currentChat.messages.push(result);
@@ -222,6 +227,9 @@ export default {
                               sender.messages = new Array();
                             }*/
                             result[i].self = 0;
+                            if(result[i].type=="AUD"){
+                              result[i].payload = JSON.parse(result[i].payload);
+                            }
                             sender.messages.push(result[i]);
                             if(_currentChat.otherUser.username == result[i].sender){
                               _currentChat.messages.push(result[i]);
@@ -254,7 +262,10 @@ export default {
                             }else{
                               result[i].self = 0;
                             }
-                            
+
+                            if(result[i].type=="AUD"){
+                              result[i].payload = JSON.parse(result[i].payload);
+                            }
                             sender.messages.unshift(result[i]);
                             allChat.set(result[i].sender,sender);
 

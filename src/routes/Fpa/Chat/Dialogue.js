@@ -32,6 +32,13 @@ export default class Dialogue extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+  componentDidUpdate(state){
+    const msgLeb = state.websocket._currentChat.messages.length;
+    let dialogueDom = document.getElementById("dialogueDom")
+    if(dialogueDom){
+      dialogueDom.scrollTop =  msgLeb*80;
+    }
+  }
   time(date,prevDate){
     // console.log(date,prevDate)
     let Interval  = 2*60*1000;//区间
@@ -57,8 +64,6 @@ export default class Dialogue extends Component {
   }
   playAudio(audioId){
     let audio = document.getElementById(audioId);
-    console.log(audio)
-    debugger
     if(audio){
       if(audio.paused){
           audio.currentTime = 0;              
@@ -82,6 +87,7 @@ export default class Dialogue extends Component {
                   <li className={styles.first} ><span onClick={(e)=>this.getHistory(_currentChat.otherUser)} className={styles.history}>查看更多历史消息</span></li>
                   {
                   _currentChat.messages.map((item,i)=>{
+                    const audioId = "myaudio"+i;
                     return (
                       <li key={i}>
                         {
@@ -98,7 +104,11 @@ export default class Dialogue extends Component {
                               <img className={styles.avatar} width="35" height="35"src={item.self ? _user.head_image_url:_currentChat.otherUser.head_image_url}/>
                               {
                                 item.type=='AUD'?
-                                <div className={styles['audio-msg']} style={{width:(item.payload.length*2 +5)+"px"}} onClick={()=>this.playAudio('myaudio')}><Icon type="audio1" className={styles.audio1} /><audio  controls="controls" hidden id="myaudio" src={item.payload.url}></audio></div>
+                                (
+                                  <div className={styles['audio-msg']} style={{width:(item.payload.length*20 +5)+"px",maxWidth:'400px'}} onClick={()=>this.playAudio(audioId)}>
+                                    <Icon type="audio1" className={styles.audio1} /><audio  controls="controls" hidden id={audioId} src={item.payload.url}></audio>
+                                </div>
+                                )
                                 :(
                                   item.type=="IMG"?
                                   <div className={styles['image-msg']} ><img src={item.payload}/></div>
