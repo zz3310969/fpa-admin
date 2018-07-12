@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import {queryAdvisoryOrderRecord,addAdvisoryOrderRecord,loadAdvisoryOrderRecord,updateAdvisoryOrderRecord,removeAdvisoryOrderRecord,queryAdvisoryOrderRecordBase } from '../../services/Fpa/advisoryorderrecord';
+import {queryAdvisoryOrderRecord,addAdvisoryOrderRecord,loadAdvisoryOrderRecord,updateAdvisoryOrderRecord,removeAdvisoryOrderRecord,queryAdvisoryOrderRecordBase } from '../../services/Advisory/advisoryorderrecord';
 
 export default {
   namespace: 'advisoryorderrecord',

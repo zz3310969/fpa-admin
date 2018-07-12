@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request from '../../utils/request';
+import request from '../utils/request';
 
 export async function queryBanner(params) {
   return request(`/api/fpa/banner?${stringify(params)}`);

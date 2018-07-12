@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import {queryBanner,addBanner,loadBanner,updateBanner,removeBanner,queryBannerBase } from '../../services/Fpa/banner';
+import {queryBanner,addBanner,loadBanner,updateBanner,removeBanner,queryBannerBase } from '../services/banner';
 
 export default {
   namespace: 'banner',

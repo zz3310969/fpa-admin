@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import {queryAdvisoryPayRecord,addAdvisoryPayRecord,loadAdvisoryPayRecord,updateAdvisoryPayRecord,removeAdvisoryPayRecord,queryAdvisoryPayRecordBase } from '../../services/Fpa/advisorypayrecord';
+import {queryAdvisoryPayRecord,addAdvisoryPayRecord,loadAdvisoryPayRecord,updateAdvisoryPayRecord,removeAdvisoryPayRecord,queryAdvisoryPayRecordBase } from '../../services/Advisory/advisorypayrecord';
 
 export default {
   namespace: 'advisorypayrecord',
