@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import classnames from 'classnames';
 import { routerRedux, Link } from 'dva/router';
-import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dropdown  } from 'antd';
+import { Layout,Form, Input, Tabs, Button, Table, Icon, Badge, Row, Col, Menu,Dropdown,Modal  } from 'antd';
 
 import styles from "./Dialogue.less";
 import {timeCompare } from '../../../utils/dateutil';
 
-
+const confirm = Modal.confirm;
 
 //我的头像
 const _user = {
@@ -73,6 +73,25 @@ export default class Dialogue extends Component {
       }
     }
   }
+  showConfirm(){
+    confirm({
+      title: '接客吗？',
+      content: '你要接客吗？',
+      cancelText:'取消',
+      okText:'接客',
+      onOk() {
+        return new Promise((resolve, reject) => {
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+        }).catch(() => {
+            console.log(121212)
+        });
+      },
+      onCancel() {
+
+      },
+    });
+
+  }
   render() {
     const { websocket: { _currentChat,user} } = this.props;
 
@@ -135,6 +154,10 @@ export default class Dialogue extends Component {
 
     return (
       <div className="message-w">
+
+          <Button onClick={this.showConfirm}>
+            TEST提示接单
+          </Button>
           {
             _currentChat.otherUser.key?chatDialogue:emptyDialogue
           }
