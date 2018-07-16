@@ -17,7 +17,7 @@ console.log(process);
 console.log();
 console.log(process.env.NODE_ENV);
 
-      
+
 function getWebsocket(url) {
     if (!websocket) {
 
@@ -35,7 +35,7 @@ function getWebsocket(url) {
 		  }
 		  socketMsgQueue = []
 	    };
-	    
+
     }
     return websocket;
 }
@@ -97,7 +97,7 @@ export async function pullMessage(data) {
 export function listen(action) {
 	console.log('listen', action);
 	getWebsocket(url+`?token=`+token_);
-	
+
 	websocket.onmessage = (event) => {
 	    action(event.data);
   };
@@ -105,7 +105,9 @@ export function listen(action) {
 
 export async function querySession(data) {
     console.log('querySession', data);
+
     const websocket = getWebsocket(url+`?token=`+token_);
+
     sendSocketMessage({"clientType":"h5","requestType":"querySession","token":token_, "seq" : "1"});
 }
 
