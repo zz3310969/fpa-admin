@@ -15,6 +15,7 @@ import { getNavData } from '../common/nav';
 import { getRouteData } from '../utils/utils';
 import NotFound from '../routes/Exception/404';
 import styles from './BasicLayout.less';
+import {  getAuthority } from '../utils/helper';
 
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
@@ -40,6 +41,24 @@ const query = {
   },
 };
 
+const check = function function_name(authority) {
+  // body...
+  //debugger
+  if(! authority){
+    return true
+  }else {
+    //debugger
+    let my = new Set(getAuthority());
+    let  intersectionSet = new Set(authority.filter(x => my.has(x)));
+    if(intersectionSet.size <=0 ){
+      return false
+    }else{
+      return true
+    }
+  }
+  
+
+}
 class BasicLayout extends React.PureComponent {
   static childContextTypes = {
     location: PropTypes.object,
@@ -48,7 +67,22 @@ class BasicLayout extends React.PureComponent {
   constructor(props) {
     super(props);
     // 把一级 Layout 的 children 作为菜单项
-    this.menus = getNavData().reduce((arr, current) => arr.concat(current.children), []);
+    this.menus = getNavData().reduce((arr, current) => {
+      if (current.layout == 'BasicLayout') {
+        //debugger
+       return arr.concat(current.children)
+     }else{
+      return arr;
+     }
+   }, []);
+    this.menus = this.menus.filter(item =>
+        check(item.authority));
+    for(let menu of this.menus){
+      let children = menu.children.filter(item =>
+        check(item.authority));
+      menu.children = children;
+    }
+    debugger
     this.state = {
       openKeys: this.getDefaultCollapsedSubMenus(props),
     };

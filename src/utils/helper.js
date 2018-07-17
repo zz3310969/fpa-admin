@@ -20,6 +20,14 @@ export function getLocalStatus(val) {
   return states;
 }
 
+export function getAuthority() {
+  return JSON.parse(sessionStorage.getItem('antd-pro-authority')) || [];
+}
+
+export function setAuthority(authority) {
+  return sessionStorage.setItem('antd-pro-authority', JSON.stringify(authority));
+}
+
 
 
 export const loop = (data, id,children) => {

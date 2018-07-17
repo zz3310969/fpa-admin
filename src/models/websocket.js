@@ -1,6 +1,10 @@
 import * as service from '../services/websocket';
 import {loadCustomerByopenid, loadCustomerByopenids} from '../services/customer';
+import {okAdvisoryOrder} from '../services/Advisory/advisoryorder';
+
+
 import pathToRegexp from 'path-to-regexp';
+import { Modal } from 'antd';
 
 import {getLocalStorageJson} from '../utils/helper';
 
@@ -70,6 +74,11 @@ export default {
 
       if (callback) callback();
     },
+    * ok({payload, callback}, {put, call, select}) {
+      yield call(okAdvisoryOrder, payload);
+
+      if (callback) callback();
+    },
     * message({payload, callback, dispatch}, {put, call, select}) {
       console.log('message', payload);
       const data = JSON.parse(payload);
@@ -84,6 +93,7 @@ export default {
           case 'login':
           case 'online':
             console.log('上线');
+
             yield put({
               type: 'changeUserState',
               payload: 'online',
@@ -149,6 +159,23 @@ export default {
             break;
           case 'message':
             // cb(data);
+            result.payload = JSON.parse(result.payload);
+            debugger;
+
+            const modal = Modal.confirm({
+              title: '接客提醒',
+              content: result.payload.viewWord,
+              okText: '接受',
+              cancelText: '拒绝',
+              onOk() {
+                dispatch({type: 'websocket/ok', payload:{orderNum:result.payload.orderNum},});
+
+                console.log('OK');
+              },
+              onCancel() {
+                console.log('Cancel');
+              },
+            });
 
             let _currentChat = yield select(state => state.websocket._currentChat);
             if (data.message == 'sendSuccess' || data.message == 'receiverOffline') {//接收自己发送的消息

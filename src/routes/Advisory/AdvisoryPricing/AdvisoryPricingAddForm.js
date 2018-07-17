@@ -132,20 +132,7 @@ export default class BasicForms extends PureComponent {
                     <Input placeholder="" />
                     )}
                 </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="咨询模式"
-                >
-                    {getFieldDecorator('moldeId', {
-                    rules: [{
-                      required: true, message: '请输入咨询模式',
-                    }],
-                    })(
-                    <Select>
-                      {advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
-                    </Select>
-                    )}
-                </FormItem>
+                
                 <FormItem
                         {...formItemLayout}
                         label="定价类型"

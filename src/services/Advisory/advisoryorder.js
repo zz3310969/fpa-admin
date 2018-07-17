@@ -24,6 +24,15 @@ export async function updateAdvisoryOrder(params) {
 }
 
 
+export async function okAdvisoryOrder(params) {
+  return request('/api/advisory/advisoryorder/ok/'+params['orderNum'], {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function removeAdvisoryOrder(params) {
   return request(`/api/advisory/advisoryorder/`+params['id'], {
     method: 'DELETE'

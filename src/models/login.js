@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { fakeAccountLogin, fakeMobileLogin } from '../services/api';
-import { getLocalStorage } from '../utils/helper';
+import { getLocalStorage, setAuthority } from '../utils/helper';
 import {queryCurrent} from '../services/user';
 import { listen401 } from '../utils/request';
 
@@ -13,6 +13,7 @@ export default {
 
   effects: {
     *accountSubmit({ payload }, { call, put }) {
+      setAuthority([]);
       yield put({
         type: 'changeSubmitting',
         payload: true,
@@ -25,6 +26,7 @@ export default {
         sessionStorage.setItem('token',response.value);
         const data = yield call(queryCurrent, payload);
         if(data && data.user){
+          setAuthority(data.authorities);
           debugger
           data.user.avatar = data.avatar;
           sessionStorage.setItem('user',JSON.stringify(data.user));

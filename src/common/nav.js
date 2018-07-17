@@ -3,7 +3,7 @@ import UserLayout from '../layouts/UserLayout';
 
 import BlankLayout from '../layouts/BlankLayout';
 
-import Analysis from '../routes/Dashboard/Analysis';
+import Analysis from '../routes/Dashboard/hello';
 import Monitor from '../routes/Dashboard/Monitor';
 import Workplace from '../routes/Dashboard/Workplace';
 
@@ -201,11 +201,13 @@ const data = [{
       name: '在线咨询服务台',
       path: 'chat',
       component: ChatIndex,
+      authority: ['ROLE_1454'],
       target: '_blank'
     }, {
       name: '接入系统管理',
       path: 'application',
       component: ApplicationList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加接入系统',
         path: 'add',
@@ -219,6 +221,7 @@ const data = [{
       name: '接入系统用户管理',
       path: 'applicationuser',
       component: ApplicationUserList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加接入系统用户',
         path: 'add',
@@ -232,6 +235,7 @@ const data = [{
       name: '咨询师等级管理',
       path: 'level',
       component: LevelList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加咨询师等级',
         path: 'add',
@@ -245,6 +249,7 @@ const data = [{
       name: '咨询服务主题管理',
       path: 'advisorytheme',
       component: AdvisoryThemeList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加咨询服务主题',
         path: 'add',
@@ -258,6 +263,7 @@ const data = [{
       name: '咨询服务模式管理',
       path: 'advisorymodes',
       component: AdvisoryModesList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加咨询服务模式',
         path: 'add',
@@ -271,6 +277,7 @@ const data = [{
       name: '咨询师管理',
       path: 'consultant',
       component: ConsultantList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加咨询师',
         path: 'add',
@@ -284,6 +291,7 @@ const data = [{
       name: '服务产品管理',
       path: 'advisoryProduct',
       component: AdvisoryProductList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '新增',
         path: 'add',
@@ -336,6 +344,7 @@ const data = [{
       name: '评价模版管理',
       path: 'commenttemplate',
       component: CommentTemplateList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '新增',
         path: 'add',
@@ -349,6 +358,7 @@ const data = [{
       name: '评价项管理',
       path: 'commentitems',
       component: CommentItemsList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '新增',
         path: 'add',
@@ -375,6 +385,7 @@ const data = [{
       name: '咨询订单管理',
       path: 'advisoryOrder',
       component: AdvisoryOrderList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '新增',
         path: 'add',
@@ -391,12 +402,14 @@ const data = [{
     icon: 'credit-card',
     children: [{
       name: '测试场景',
+      authority: ['ROLE_1450'],
       path: 'scene',
       component: SceneList,
     }, {
       name: '卡牌管理',
       path: 'cardgroup',
       component: CardGroupList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '新增',
         path: 'add',
@@ -406,6 +419,7 @@ const data = [{
       name: '测试结果',
       path: 'result',
       component: CardTestResultList,
+      authority: ['ROLE_1454','ROLE_1450'],
       children: [{
         breadname: '详情',
         path: 'profile/:id',
@@ -416,6 +430,7 @@ const data = [{
     name: '性格管理',
     path: 'character',
     icon: 'pie-chart',
+    authority: ['ROLE_1450'],
     children: [{
       name: '性格色彩列表',
       path: 'color',
@@ -460,6 +475,7 @@ const data = [{
     name: '客户管理',
     path: 'customer',
     icon: 'team',
+    authority: ['ROLE_1450'],
     children: [{
       name: '客户资料',
       path: 'info',
@@ -478,6 +494,7 @@ const data = [{
     name: '营销管理',
     path: 'scheme',
     icon: 'notification',
+    authority: ['ROLE_1450'],
     children: [{
       name: '分享记录',
       path: 'share',
@@ -500,6 +517,7 @@ const data = [{
     name: '咨询师服务管理',
     path: 'counsel',
     icon: 'customer-service',
+    authority: ['ROLE_1450'],
     children: [{
       name: '咨询师等级管理',
       path: 'rank',
@@ -540,6 +558,7 @@ const data = [{
     name: '财务',
     path: 'finance',
     icon: 'pay-circle',
+    authority: ['ROLE_1450'],
     children: [{
       name: '咨询师账户管理',
       path: 'account',
@@ -616,6 +635,7 @@ const data = [{
     name: '系统管理',
     path: 'sysm',
     icon: 'windows-o',
+    authority: ['ROLE_1450'],
     children: [{
       name: '缓存列表',
       path: 'cache-list',
@@ -651,18 +671,10 @@ const data = [{
     icon: 'dashboard',
     path: 'dashboard',
     children: [{
-      name: '分析页',
+      name: '首页',
       path: 'analysis',
       component: Analysis,
-    }, {
-      name: '监控页',
-      path: 'monitor',
-      component: Monitor,
-    }, {
-      name: '工作台',
-      path: 'workplace',
-      component: Workplace,
-    }],
+    }, ],
   },],
 }, {
   component: UserLayout,
@@ -685,19 +697,13 @@ const data = [{
       component: RegisterResult,
     }],
   }],
-}, {
-  component: BlankLayout,
-  layout: 'BlankLayout',
-  children: {
-    name: '使用文档',
-    path: 'http://pro.ant.design/docs/getting-started',
-    target: '_blank',
-    icon: 'book',
-  },
-}];
+},];
+
+
 
 export function getNavData() {
   return data;
 }
+
 
 export default data;
