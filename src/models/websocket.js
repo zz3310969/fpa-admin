@@ -159,23 +159,26 @@ export default {
             break;
           case 'message':
             // cb(data);
-            result.payload = JSON.parse(result.payload);
-            debugger;
+            
+            if(result.source == 'system'){
 
-            const modal = Modal.confirm({
-              title: '接客提醒',
-              content: result.payload.viewWord,
-              okText: '接受',
-              cancelText: '拒绝',
-              onOk() {
-                dispatch({type: 'websocket/ok', payload:{orderNum:result.payload.orderNum},});
+              result.payload = JSON.parse(result.payload);
+              const modal = Modal.confirm({
+                title: '提醒',
+                content: result.payload.viewWord,
+                okText: '接受',
+                cancelText: '拒绝',
+                onOk() {
+                  dispatch({type: 'websocket/ok', payload:{orderNum:result.payload.orderNum},});
 
-                console.log('OK');
-              },
-              onCancel() {
-                console.log('Cancel');
-              },
-            });
+                  console.log('OK');
+                },
+                onCancel() {
+                  console.log('Cancel');
+                },
+              });
+            }
+            
 
             let _currentChat = yield select(state => state.websocket._currentChat);
             if (data.message == 'sendSuccess' || data.message == 'receiverOffline') {//接收自己发送的消息
@@ -206,7 +209,7 @@ export default {
                 payload: {_currentChat, allChat},
               });
 
-            } else if (data.message == 'messageRequestTransformSuccess') {//接收别人发送的消息
+            } else if (data.message == 'messageRequestTransformSuccess' && result.source != 'system') {//接收别人发送的消息
               //let websocket = yield select(state => state.websocket );
               let _currentChat = yield select(state => state.websocket._currentChat);
               let allChat_ = yield select(state => state.websocket.allChat);
