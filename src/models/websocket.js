@@ -1,9 +1,9 @@
 import * as service from '../services/websocket';
 import {loadCustomerByopenid,loadCustomerByopenids}  from '../services/customer';
 import pathToRegexp from 'path-to-regexp';
-
+import {okAdvisoryOrder} from '../services/Advisory/advisoryorder';
 import {getLocalStorageJson}  from '../utils/helper';
-
+import { Modal } from 'antd';
 
 function newUser() {
   return {
@@ -69,6 +69,11 @@ export default {
             yield call(service.watchList, config);
 
             if(callback) callback();
+        },
+        * ok({payload, callback}, {put, call, select}) {
+            yield call(okAdvisoryOrder, payload);
+
+            if (callback) callback();
         },
         * message({payload, callback ,dispatch}, {put, call,select}) {
             console.log('message', payload);
@@ -148,6 +153,25 @@ export default {
                         break;
                     case 'message':
                         // cb(data);
+                        if(result.source == 'system'){
+
+                          result.payload = JSON.parse(result.payload);
+                          const modal = Modal.confirm({
+                            title: '提醒',
+                            content: result.payload.viewWord,
+                            okText: '接受',
+                            cancelText: '拒绝',
+                            onOk() {
+                              debugger
+                              dispatch({type: 'websocket/ok', payload:{orderNum:result.payload.orderNum},});
+
+                              console.log('OK');
+                            },
+                            onCancel() {
+                              console.log('Cancel');
+                            },
+                          });
+                        }
                         let _currentChat = yield select(state => state.websocket._currentChat );
                         if(data.message == 'sendSuccess' || data.message == 'receiverOffline'){//接收自己发送的消息
                           let seq = parseInt(data.seq);

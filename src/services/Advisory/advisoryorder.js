@@ -14,6 +14,15 @@ export async function addAdvisoryOrder(params) {
   });
 }
 
+export async function okAdvisoryOrder(params) {
+  return request('/api/advisory/advisoryorder/ok/'+params['orderNum'], {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function updateAdvisoryOrder(params) {
   return request('/api/advisory/advisoryorder/'+params['id'], {
     method: 'PUT',
