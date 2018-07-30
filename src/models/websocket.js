@@ -81,7 +81,6 @@ export default {
             if (data) {
                 const result = data.result;
                 switch (data.requestType) {
-                    
                     case 'ping':
                         // cb(data);
                         break;
@@ -152,6 +151,7 @@ export default {
                     case 'closeSession':
                         break;
                     case 'message':
+
                         // cb(data);
                         if(result.source == 'system'){
 
@@ -240,16 +240,28 @@ export default {
                           }
                           const _currentChat = yield select(state => state.websocket._currentChat );
                           const allChat = yield select(state => state.websocket.allChat );
-
                           for (var i = 0; i < result.length; i++) {
+                            if(result[i].source == 'system'){
+                              const payload = JSON.parse(result[i].payload);
+                              const modal = Modal.confirm({
+                                title: '提醒',
+                                content: payload.viewWord,
+                                okText: '接受',
+                                cancelText: '拒绝',
+                                onOk() {
+                                  dispatch({type: 'websocket/ok', payload:{orderNum:payload.orderNum},});
+                                  console.log('OK');
+                                },
+                                onCancel() {
+                                  console.log('Cancel');
+                                },
+                              });
+                            }
                             let sender = allChat.get(result[i].sender);
                             if (!sender) {
                               allChat.set(result[i].sender,newUser());
                               sender = allChat.get(result[i].sender);
                             }
-                            /*if(!sender.messages){
-                              sender.messages = new Array();
-                            }*/
                             result[i].self = 0;
                             if(result[i].type=="AUD"){
                               result[i].payload = JSON.parse(result[i].payload);
@@ -260,7 +272,6 @@ export default {
                             }else{
                               sender.count ++;
                             }
-
                             allChat.set(result[i].sender,sender);
                           }              
                           yield put({

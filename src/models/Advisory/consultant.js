@@ -102,6 +102,9 @@ export default {
       });
       const response = yield call(loadConsultant,payload);
       if(response.state == 'success'){
+        if (response.data){
+          response.data.area = [response.data.province,response.data.city];
+        }
         yield put({
           type: 'show',
           payload: response.data,

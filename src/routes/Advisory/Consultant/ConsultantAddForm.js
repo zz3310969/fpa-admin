@@ -7,6 +7,7 @@ import {
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
 import AvatarUpload from '../common/AvatarUpload'
+import AreaCascader from '../common/AreaCascader'
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -37,6 +38,13 @@ export default class BasicForms extends PureComponent {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const area = values['area'];
+        if (area.length > 1) {
+          values.province = area[0];
+          values.city = area[1];
+        }else{
+           values.province = area[0];
+        }
         this.props.dispatch({
           type: 'consultant/add',
           payload: values,
@@ -208,12 +216,12 @@ export default class BasicForms extends PureComponent {
                         {...formItemLayout}
                         label="所在地区"
                 >
-                    {getFieldDecorator('areaId', {
+                    {getFieldDecorator('area', {
                     rules: [{
                       required: true, message: '请输入所在地区',
                     }],
                     })(
-                    <Input placeholder="" />
+                      <AreaCascader placeholder="" />
                     )}
                 </FormItem>
                 <FormItem

@@ -7,6 +7,7 @@ import {
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
 import AvatarUpload from '../common/AvatarUpload'
+import AreaCascader from '../common/AreaCascader'
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -48,6 +49,13 @@ export default class BasicForms extends PureComponent {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const area = values['area'];
+        if (area.length > 1) {
+          values.province = area[0];
+          values.city = area[1];
+        }else{
+           values.province = area[0];
+        }
         this.props.dispatch({
           type: 'consultant/update',
           payload: values,
@@ -59,7 +67,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { consultant: { regularFormSubmitting:submitting, formdate,status,apps } } = this.props;
+    const { consultant: { regularFormSubmitting:submitting, formdate,status,apps,advisoryThemes,levels,genders } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -107,7 +115,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入所属系统',
                     }],
                   })(
-                    <Select disabled={this.state.onlyread}  showSearch
+                    <Select disabled={true}  showSearch
                       filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >
                       {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
@@ -171,12 +179,14 @@ export default class BasicForms extends PureComponent {
                   label="咨询师等级"
               >
                   {getFieldDecorator('levelId', {
-                    initialValue:formdate.levelId,
+                    initialValue: formdate.levelId !== undefined ? formdate.levelId + '' : '',
                     rules: [{
                       required: true, message: '请选择咨询师等级',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select disabled={this.state.onlyread} >
+                      {levels.map(d => <Select.Option key={d.id}>{d.levelName}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
@@ -184,25 +194,27 @@ export default class BasicForms extends PureComponent {
                   label="服务主题"
               >
                   {getFieldDecorator('themeId', {
-                    initialValue:formdate.themeId,
+                    initialValue: formdate.themeId !== undefined ? formdate.themeId + '' : '',
                     rules: [{
                       required: true, message: '请选择服务主题',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select disabled={this.state.onlyread}>
+                      {advisoryThemes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
                   {...formItemLayout}
                   label="所在地区"
               >
-                  {getFieldDecorator('areaId', {
-                    initialValue:formdate.areaId,
+                  {getFieldDecorator('area', {
+                    initialValue:formdate.area,
                     rules: [{
                       required: true, message: '请输入所在地区',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <AreaCascader placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
               <FormItem
@@ -210,12 +222,14 @@ export default class BasicForms extends PureComponent {
                   label="性别"
               >
                   {getFieldDecorator('gender', {
-                    initialValue:formdate.gender,
+                    initialValue: formdate.gender !== undefined ? formdate.gender + '' : '',
                     rules: [{
                       required: true, message: '请输入性别',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <Select disabled={this.state.onlyread}>
+                      {genders.map(d => <Select.Option key={d.code}>{d.display}</Select.Option>)}
+                    </Select>
                   )}
               </FormItem>
               <FormItem
@@ -228,7 +242,7 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入简介',
                     }],
                   })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
+                    <TextArea rows={4} placeholder="" disabled={this.state.onlyread}/>
                   )}
               </FormItem>
               <FormItem
