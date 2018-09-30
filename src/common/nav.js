@@ -293,33 +293,36 @@ const data = [{
         path: 'edit/:id',
         component: AdvisoryProductEditForm,
       }]
-    }, {
-      name: '知识管理',
-      path: 'quickreply',
-      component: QuickReplyList,
-      children: [{
-        breadname: '添加知识',
-        path: 'add',
-        component: QuickReplyAddForm,
-      }, {
-        breadname: '编辑知识',
-        path: 'edit/:id',
-        component: QuickReplyEditForm,
-      }]
-    }, {
-      name: '咨询定价',
-      path: 'advisorypricing',
-      component: AdvisoryPricingList,
-      children: [{
-        breadname: '新增',
-        path: 'add/:id',
-        component: AdvisoryPricingAddForm,
-      }, {
-        breadname: '编辑',
-        path: 'edit/:id',
-        component: AdvisoryPricingEditForm,
-      }]
-    }, {
+    },
+    //   {
+    //   name: '知识管理',
+    //   path: 'quickreply',
+    //   component: QuickReplyList,
+    //   children: [{
+    //     breadname: '添加知识',
+    //     path: 'add',
+    //     component: QuickReplyAddForm,
+    //   }, {
+    //     breadname: '编辑知识',
+    //     path: 'edit/:id',
+    //     component: QuickReplyEditForm,
+    //   }]
+    // },
+    //   {
+    //   name: '咨询定价',
+    //   path: 'advisorypricing',
+    //   component: AdvisoryPricingList,
+    //   children: [{
+    //     breadname: '新增',
+    //     path: 'add/:id',
+    //     component: AdvisoryPricingAddForm,
+    //   }, {
+    //     breadname: '编辑',
+    //     path: 'edit/:id',
+    //     component: AdvisoryPricingEditForm,
+    //   }]
+    // },
+      {
       name: '佣金定价',
       path: 'commissionpricing',
       component: CommissionPricingList,

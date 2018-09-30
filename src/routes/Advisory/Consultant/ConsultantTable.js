@@ -158,8 +158,8 @@ class StandardTable extends PureComponent {
               <a onClick={this.deleteHandle(record, index)}>删除</a>
               <Divider type="vertical" />
               <Link to={'/advisory/commissionpricing/add/'+record.id}>佣金定价</Link>
-              <Divider type="vertical" />
-              <Link to={'/advisory/advisorypricing/add/'+record.id}>咨询定价</Link>
+              {/*<Divider type="vertical" />*/}
+              {/*<Link to={'/advisory/advisorypricing/add/'+record.id}>咨询定价</Link>*/}
           </div>
         ),
       },];

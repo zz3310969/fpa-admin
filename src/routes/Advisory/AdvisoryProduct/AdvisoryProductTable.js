@@ -102,8 +102,11 @@ class StandardTable extends PureComponent {
       },
       {
         title: '咨询定价',
-        dataIndex: 'advisName',
-        key: 'advisName',
+        dataIndex: 'advisoryPricing',
+        key: 'advisoryPricing',
+        render: (text, record, index) => {
+          return record.advisoryPricing.unit + "分钟:" + record.advisoryPricing.currentPrice + "元";
+        }
       },
       {
         title: '有效期',

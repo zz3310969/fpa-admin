@@ -151,37 +151,37 @@ export default class TableList extends PureComponent {
     const { advisorypricing: {apps,status,advisoryModes,fix_types, } } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={8} sm={24}>
-              <FormItem label="所属系统">
-                {getFieldDecorator('appId')(
-                  <Select showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-              <FormItem label="咨询模式">
-                  {getFieldDecorator('moldeId')(
-                  <Select>
-                    {advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              </Col>
-              <Col md={8} sm={24}>
-                <FormItem label="定价类型">
-                  {getFieldDecorator('fixType')(
-                    <Select>
-                      {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
-                    </Select>
-                  )}
-                </FormItem>
-              </Col>
-           </Row >
+            {/*<Row gutter={{ md: 8, lg: 24, xl: 48 }}>*/}
+              {/*<Col md={8} sm={24}>*/}
+              {/*<FormItem label="所属系统">*/}
+                {/*{getFieldDecorator('appId')(*/}
+                  {/*<Select showSearch*/}
+                      {/*filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}*/}
+                  {/*>*/}
+                    {/*{apps.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}*/}
+                  {/*</Select>*/}
+                  {/*)}*/}
+              {/*</FormItem>*/}
+              {/*</Col>*/}
+              {/*<Col md={8} sm={24}>*/}
+              {/*<FormItem label="咨询模式">*/}
+                  {/*{getFieldDecorator('moldeId')(*/}
+                  {/*<Select>*/}
+                    {/*{advisoryModes.map(d => <Select.Option key={d.id}>{d.modeName}</Select.Option>)}*/}
+                  {/*</Select>*/}
+                  {/*)}*/}
+              {/*</FormItem>*/}
+              {/*</Col>*/}
+              {/*<Col md={8} sm={24}>*/}
+                {/*<FormItem label="定价类型">*/}
+                  {/*{getFieldDecorator('fixType')(*/}
+                    {/*<Select>*/}
+                      {/*{fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}*/}
+                    {/*</Select>*/}
+                  {/*)}*/}
+                {/*</FormItem>*/}
+              {/*</Col>*/}
+           {/*</Row >*/}
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
                 <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">

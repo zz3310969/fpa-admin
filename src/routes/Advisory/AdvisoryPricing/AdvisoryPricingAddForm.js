@@ -57,7 +57,7 @@ export default class BasicForms extends PureComponent {
       }
     });
 
-    
+
   }
   render() {
     const { advisorypricing: { regularFormSubmitting:submitting,apps,status,fix_types,formdate } } = this.props;
@@ -146,51 +146,51 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
+                {/*<FormItem*/}
+                        {/*{...formItemLayout}*/}
+                        {/*label="定价类型"*/}
+                {/*>*/}
+                    {/*{getFieldDecorator('fixType', {*/}
+                    {/*rules: [{*/}
+                      {/*required: true, message: '请输入定价类型',*/}
+                    {/*}],*/}
+                    {/*})(*/}
+                    {/*<Select>*/}
+                      {/*{fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}*/}
+                    {/*</Select>*/}
+                    {/*)}*/}
+                {/*</FormItem>*/}
                 <FormItem
                         {...formItemLayout}
-                        label="定价类型"
-                >
-                    {getFieldDecorator('fixType', {
-                    rules: [{
-                      required: true, message: '请输入定价类型',
-                    }],
-                    })(
-                    <Select>
-                      {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
-                    </Select>
-                    )}
-                </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="单位"
+                        label="时长（分钟）"
                 >
                     {getFieldDecorator('unit', {
                     rules: [{
-                      required: true, message: '请输入单位',
+                      required: true, message: '请输入时长',
                     }],
                     })(
                     <Input placeholder="" />
                     )}
                 </FormItem>
+                {/*<FormItem*/}
+                        {/*{...formItemLayout}*/}
+                        {/*label="原单价"*/}
+                {/*>*/}
+                    {/*{getFieldDecorator('originalPrice', {*/}
+                    {/*rules: [{*/}
+                      {/*required: true, message: '请输入原单价',*/}
+                    {/*}],*/}
+                    {/*})(*/}
+                    {/*<Input placeholder="" />*/}
+                    {/*)}*/}
+                {/*</FormItem>*/}
                 <FormItem
                         {...formItemLayout}
-                        label="原单价"
-                >
-                    {getFieldDecorator('originalPrice', {
-                    rules: [{
-                      required: true, message: '请输入原单价',
-                    }],
-                    })(
-                    <Input placeholder="" />
-                    )}
-                </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="现单价"
+                        label="价格"
                 >
                     {getFieldDecorator('currentPrice', {
                     rules: [{
-                      required: true, message: '请输入现单价',
+                      required: true, message: '请输入价格',
                     }],
                     })(
                     <Input placeholder="" />
@@ -208,7 +208,7 @@ export default class BasicForms extends PureComponent {
                     <TextArea rows={4} placeholder="" />
                     )}
                 </FormItem>
-                
+
                 <FormItem
                         {...formItemLayout}
                         label="有效期"
@@ -235,8 +235,8 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
-                
-            
+
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交

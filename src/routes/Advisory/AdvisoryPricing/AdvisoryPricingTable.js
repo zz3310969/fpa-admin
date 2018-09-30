@@ -89,31 +89,31 @@ class StandardTable extends PureComponent {
           dataIndex: 'modeName',
           key: 'modeName',
       },
+      // {
+      //     title: '定价类型',
+      //     dataIndex: 'fixType',
+      //     key: 'fixType',
+      //     render(val) {
+      //       for (var i = 0; i < fix_types.length; i++) {
+      //         if(fix_types[i].val == val){
+      //           return fix_types[i].text;
+      //         }
+      //       }
+      //       return val;
+      //     }
+      // },
       {
-          title: '定价类型',
-          dataIndex: 'fixType',
-          key: 'fixType',
-          render(val) {
-            for (var i = 0; i < fix_types.length; i++) {
-              if(fix_types[i].val == val){
-                return fix_types[i].text;
-              }
-            }
-            return val;
-          }
-      },
-      {
-          title: '单位',
+          title: '服务时长',
           dataIndex: 'unit',
           key: 'unit',
       },
+      // {
+      //     title: '原单价',
+      //     dataIndex: 'originalPrice',
+      //     key: 'originalPrice',
+      // },
       {
-          title: '原单价',
-          dataIndex: 'originalPrice',
-          key: 'originalPrice',
-      },
-      {
-          title: '现单价',
+          title: '价格',
           dataIndex: 'currentPrice',
           key: 'currentPrice',
       },

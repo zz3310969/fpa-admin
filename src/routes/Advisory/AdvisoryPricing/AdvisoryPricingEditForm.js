@@ -158,55 +158,55 @@ export default class BasicForms extends PureComponent {
                     </Select>
                   )}
               </FormItem>
+              {/*<FormItem*/}
+                  {/*{...formItemLayout}*/}
+                  {/*label="定价类型"*/}
+              {/*>*/}
+                  {/*{getFieldDecorator('fixType', {*/}
+                    {/*initialValue:formdate.fixType,*/}
+                    {/*rules: [{*/}
+                      {/*required: true, message: '请输入定价类型',*/}
+                    {/*}],*/}
+                  {/*})(*/}
+                  {/*<Select disabled={this.state.onlyread}>*/}
+                    {/*{fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}*/}
+                  {/*</Select>*/}
+                  {/*)}*/}
+              {/*</FormItem>*/}
               <FormItem
                   {...formItemLayout}
-                  label="定价类型"
-              >
-                  {getFieldDecorator('fixType', {
-                    initialValue:formdate.fixType,
-                    rules: [{
-                      required: true, message: '请输入定价类型',
-                    }],
-                  })(
-                  <Select disabled={this.state.onlyread}>
-                    {fix_types.map(d => <Select.Option key={d.val}>{d.text}</Select.Option>)}
-                  </Select>
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="单位"
+                  label="时长（分钟）"
               >
                   {getFieldDecorator('unit', {
                     initialValue:formdate.unit,
                     rules: [{
-                      required: true, message: '请输入单位',
+                      required: true, message: '请输入时长',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />
                   )}
               </FormItem>
+              {/*<FormItem*/}
+                  {/*{...formItemLayout}*/}
+                  {/*label="原单价"*/}
+              {/*>*/}
+                  {/*{getFieldDecorator('originalPrice', {*/}
+                    {/*initialValue:formdate.originalPrice,*/}
+                    {/*rules: [{*/}
+                      {/*required: true, message: '请输入原单价',*/}
+                    {/*}],*/}
+                  {/*})(*/}
+                    {/*<Input placeholder="" disabled={this.state.onlyread} />*/}
+                  {/*)}*/}
+              {/*</FormItem>*/}
               <FormItem
                   {...formItemLayout}
-                  label="原单价"
-              >
-                  {getFieldDecorator('originalPrice', {
-                    initialValue:formdate.originalPrice,
-                    rules: [{
-                      required: true, message: '请输入原单价',
-                    }],
-                  })(
-                    <Input placeholder="" disabled={this.state.onlyread} />
-                  )}
-              </FormItem>
-              <FormItem
-                  {...formItemLayout}
-                  label="现单价"
+                  label="价格"
               >
                   {getFieldDecorator('currentPrice', {
                     initialValue:formdate.currentPrice,
                     rules: [{
-                      required: true, message: '请输入现单价',
+                      required: true, message: '请输入价格',
                     }],
                   })(
                     <Input placeholder="" disabled={this.state.onlyread} />

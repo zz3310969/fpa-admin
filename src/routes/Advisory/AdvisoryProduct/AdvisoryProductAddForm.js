@@ -53,7 +53,7 @@ export default class BasicForms extends PureComponent {
   }
 
   render() {
-    const {advisoryproduct: {regularFormSubmitting: submitting, apps, modes, status,consultants,pricings}} = this.props;
+    const {advisoryproduct: {regularFormSubmitting: submitting, apps, modes, status,consultants}} = this.props;
     const {getFieldDecorator, getFieldValue} = this.props.form;
 
     const formItemLayout = {
@@ -189,29 +189,55 @@ export default class BasicForms extends PureComponent {
                       required: true, message: '请输入备注',
                     }],
                   })(
-                    <Input placeholder=""/>
+                    <textarea cols="35" placeholder=""/>
                   )}
                 </Form.Item>
               </Col>
-              <Col xl={{span: 8, offset: 2}} lg={{span: 10}} md={{span: 24}} sm={24}>
-                <Form.Item label="咨询定价">
-                  {getFieldDecorator('advisId', {
+              {/*<Col xl={{span: 8, offset: 2}} lg={{span: 10}} md={{span: 24}} sm={24}>*/}
+                {/*<Form.Item label="咨询定价">*/}
+                  {/*{getFieldDecorator('advisId', {*/}
+                    {/*rules: [{*/}
+                      {/*required: true, message: '请输入咨询定价',*/}
+                    {/*}],*/}
+                  {/*})(*/}
+                    {/*<Select showSearch*/}
+                    {/*filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}*/}
+                    {/*>*/}
+                  {/*{pricings.map(d => <Select.Option key={d.id}>{d.fixType}</Select.Option>)}*/}
+                    {/*</Select>*/}
+                  {/*)}*/}
+                {/*</Form.Item>*/}
+              {/*</Col>*/}
+            </Row>
+
+          </Card>
+          <Card title="定价管理" className={styles.card} bordered={false}>
+            <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+                <Form.Item label="时长">
+                  {getFieldDecorator('advisoryPricing.unit', {
                     rules: [{
-                      required: true, message: '请输入咨询定价',
+                      required: true, message: '请输入时长',
                     }],
                   })(
-                    <Select showSearch
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                    >
-                  {pricings.map(d => <Select.Option key={d.id}>{d.fixType}</Select.Option>)}
-                    </Select>
+                    <InputNumber precision={0}  size={100} />
+                  )}
+                </Form.Item>
+              </Col>
+              <Col xl={{span: 6, offset: 2}} lg={{span: 8}} md={{span: 12}} sm={24}>
+                <Form.Item label="价格">
+                  {getFieldDecorator('advisoryPricing.currentPrice', {
+                    rules: [{
+                      required: true, message: '价格',
+                    }],
+                  })(
+                    <InputNumber precision={2} size={100}/>
                   )}
                 </Form.Item>
               </Col>
             </Row>
 
-          </Card>
-          <Card title="定价管理" className={styles.card} bordered={false}>
+
           </Card>
           <FooterToolbar>
             <FormItem style={{marginTop: 5}}>
