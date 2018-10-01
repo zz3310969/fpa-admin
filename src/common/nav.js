@@ -657,17 +657,17 @@ const data = [{
       name: '分析页',
       path: 'analysis',
       component: Analysis,
-    }, {
-      name: '监控页',
-      path: 'monitor',
-      component: Monitor,
-    }, {
-      name: '工作台',
-      path: 'workplace',
-      component: Workplace,
+    // }, {
+    //   name: '监控页',
+    //   path: 'monitor',
+    //   component: Monitor,
+    // }, {
+    //   name: '工作台',
+    //   path: 'workplace',
+    //   component: Workplace,
     }],
   },],
-}, {
+}/*, {
   component: UserLayout,
   layout: 'UserLayout',
   children: [{
@@ -687,17 +687,8 @@ const data = [{
       path: 'register-result',
       component: RegisterResult,
     }],
-  }],
-}, {
-  component: BlankLayout,
-  layout: 'BlankLayout',
-  children: {
-    name: '使用文档',
-    path: 'http://pro.ant.design/docs/getting-started',
-    target: '_blank',
-    icon: 'book',
-  },
-}];
+  ],
+}*/];
 
 export function getNavData() {
   return data;

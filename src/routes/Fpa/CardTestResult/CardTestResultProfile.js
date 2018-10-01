@@ -50,7 +50,7 @@ export default class BasicProfile extends Component {
 
     const search = this.props.location.search;
     const params = new URLSearchParams(search);
-    const optype = params.get('sp'); // bar
+    const optype = params.get('sp'); // bar 1 表示需不带左边菜单
 
     return (
       <PageHeaderLayout title="测试结果详情页">

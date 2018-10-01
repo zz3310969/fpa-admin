@@ -292,6 +292,7 @@ class BasicLayout extends React.PureComponent {
               onClick={this.toggle}
             />
             <div className={styles.right}>
+             {/*
               <HeaderSearch
                 className={`${styles.action} ${styles.search}`}
                 placeholder="站内搜索"
@@ -333,6 +334,7 @@ class BasicLayout extends React.PureComponent {
                   emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
                 />
               </NoticeIcon>
+             */}
               {currentUser.name ? (
                 <Dropdown overlay={menu}>
                   <span className={`${styles.action} ${styles.account}`}>
