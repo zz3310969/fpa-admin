@@ -666,8 +666,8 @@ const data = [{
     //   path: 'workplace',
     //   component: Workplace,
     }],
-  },],
-}/*, {
+  }],
+}, {
   component: UserLayout,
   layout: 'UserLayout',
   children: [{
@@ -687,8 +687,8 @@ const data = [{
       path: 'register-result',
       component: RegisterResult,
     }],
-  ],
-}*/];
+  }],
+}];
 
 export function getNavData() {
   return data;
