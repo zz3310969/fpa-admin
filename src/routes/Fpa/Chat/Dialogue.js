@@ -92,6 +92,26 @@ export default class Dialogue extends Component {
     });
 
   }
+  close(){
+    confirm({
+      title: '确定结束吗？',
+      content: '确定结束吗？',
+      cancelText:'取消',
+      okText:'结束',
+      onOk() {
+
+      },
+      onCancel() {
+
+      },
+    });
+
+  }
+  
+  lookReport(testResultId){
+    const w=window.open('about:blank');
+    w.location.href='/test/result/profile/'+testResultId;
+  }
   render() {
     const { websocket: { _currentChat,user} } = this.props;
 
@@ -154,13 +174,15 @@ export default class Dialogue extends Component {
 
     return (
       <div className="message-w">
-
-          <Button onClick={this.showConfirm}>
-            TEST提示接单
-          </Button>
           {
             _currentChat.otherUser.key?chatDialogue:emptyDialogue
           }
+          <Button onClick={() =>this.lookReport(_currentChat.otherUser.testResult.id)}>
+            查看测试报告
+          </Button>
+          <Button onClick={() =>this.close()}>
+            结束
+          </Button>
       </div>
     );
   }

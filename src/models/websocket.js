@@ -25,6 +25,7 @@ export default {
           messages:[],
           //聊天对象头像
           otherUser:{
+            testResult:{}
             // key:'1',
             //head_image_url:'https://dummyimage.com/200x200/00662a/FFF&text=Kate'
           }

@@ -1,7 +1,7 @@
 {
   "entry": "src/index.js",
   "define": {
-    "testWsUrl": "ws://118.31.112.51:9292/roof-im/connect.ws",
+    "testWsUrl": "wss://minipro.fpaworld.com/wss/roof-im/connect.ws",
     "productionWsUrl": "wss://minipro.fpaworld.com/wss/roof-im/connect.ws"
   },
   "extraBabelPlugins": [
