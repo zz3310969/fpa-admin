@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Card, Badge, Table, Divider, List, Button,Icon } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import BasicLayout from '../../../layouts/BasicLayout';
+
 import DescriptionList from '../../../components/DescriptionList';
 import styles from './CardTestResultProfile.less';
 import {
@@ -36,9 +38,9 @@ export default class BasicProfile extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-        type: 'cardtestresult/fetchBasic',
-        payload:{id:this.props.match.params.id}
-      });
+      type: 'cardtestresult/fetchBasic',
+      payload:{id:this.props.match.params.id}
+    });
   }
 
   render() {
@@ -46,6 +48,9 @@ export default class BasicProfile extends Component {
     const { cardtestresult: { regularFormSubmitting:submitting, formdate ,basicLoading} } = this.props;
     const { customer, cardTestResultDetailVoList,chats,result } = formdate;
 
+    const search = this.props.location.search;
+    const params = new URLSearchParams(search);
+    const optype = params.get('sp'); // bar
 
     return (
       <PageHeaderLayout title="测试结果详情页">

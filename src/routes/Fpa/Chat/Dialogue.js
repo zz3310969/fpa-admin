@@ -111,6 +111,7 @@ export default class Dialogue extends Component {
   lookReport(testResultId){
     const w=window.open('about:blank');
     w.location.href='/test/result/profile/'+testResultId;
+    <Link to={'/cardslot/edit/'+record.id+'?read=true'}>查看</Link>
   }
   render() {
     const { websocket: { _currentChat,user} } = this.props;
@@ -120,7 +121,7 @@ export default class Dialogue extends Component {
         <header className="group-name" style={{textAlign:'center',paddingTop:10}}>
           <h3>{_currentChat.otherUser.nickName}</h3>
         </header>
-        <div className={styles.message} >
+        <div className={styles.message}>
           <div>
               <ul style={{height: 383,overflowY: "scroll"}} id="dialogueDom">
                   <li className={styles.first} ><span onClick={(e)=>this.getHistory(_currentChat.otherUser)} className={styles.history}>查看更多历史消息</span></li>
@@ -173,16 +174,24 @@ export default class Dialogue extends Component {
     )
 
     return (
-      <div className="message-w">
+      <div className="message-w" style={{position:'relative'}}>
           {
             _currentChat.otherUser.key?chatDialogue:emptyDialogue
           }
-          <Button onClick={() =>this.lookReport(_currentChat.otherUser.testResult.id)}>
-            查看测试报告
-          </Button>
-          <Button onClick={() =>this.close()}>
-            结束
-          </Button>
+          {
+            _currentChat.otherUser.key?
+            (
+              <div style={{position:'absolute',right:1,bottom:-35,display:'inline-block'}}>
+                <Button>
+                   <Link  target="_blank" to={'/test/result/profile/'+_currentChat.otherUser.testResult.id+'?sp=1'}>查看测试报告</Link>
+                </Button>
+                <Button onClick={() =>this.close()}>
+                  结束
+                </Button>
+              </div>
+            ):''
+          }
+          
       </div>
     );
   }
