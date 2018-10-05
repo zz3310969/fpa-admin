@@ -176,6 +176,8 @@ import AdvisoryThemeList from '../routes/Advisory/AdvisoryTheme/AdvisoryThemeLis
 import AdvisoryThemeAddForm from '../routes/Advisory/AdvisoryTheme/AdvisoryThemeAddForm';
 import AdvisoryThemeEditForm from '../routes/Advisory/AdvisoryTheme/AdvisoryThemeEditForm';
 
+import Home from '../routes/Home';
+
 
 import dynamic from 'dva/dynamic';
 
@@ -669,7 +671,7 @@ const data = [{
         component: UserAddForm,
       }]
     }],
-  }, {
+  }, /*{
     name: 'Dashboard',
     icon: 'dashboard',
     path: 'dashboard',
@@ -686,6 +688,11 @@ const data = [{
     //   path: 'workplace',
     //   component: Workplace,
     }],
+  },*/{
+    name:'首页',
+    icon: 'home',
+    path: 'home',
+    component:Home
   }],
 }, {
   component: UserLayout,
