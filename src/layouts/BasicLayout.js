@@ -49,6 +49,11 @@ class BasicLayout extends React.PureComponent {
     super(props);
     // 把一级 Layout 的 children 作为菜单项
     this.menus = getNavData().reduce((arr, current) => arr.concat(current.children), []);
+
+    //this.menus = this.menus.filter(menu => !menu.authority || menu.authority.some(authority => authority == 'Role_1451' ) );
+
+
+    debugger
     this.state = {
       openKeys: this.getDefaultCollapsedSubMenus(props),
     };

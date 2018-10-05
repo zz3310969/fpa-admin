@@ -180,6 +180,7 @@ import AdvisoryThemeEditForm from '../routes/Advisory/AdvisoryTheme/AdvisoryThem
 import dynamic from 'dva/dynamic';
 
 import ChatIndex from '../routes/Fpa/Chat/Index';
+import { getAuthority } from '../utils/authority';
 
 // wrapper of dynamic
 const dynamicWrapper = (app, models, component) => dynamic({
@@ -206,6 +207,7 @@ const data = [{
       name: '接入系统管理',
       path: 'application',
       component: ApplicationList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加接入系统',
         path: 'add',
@@ -219,6 +221,7 @@ const data = [{
       name: '接入系统用户管理',
       path: 'applicationuser',
       component: ApplicationUserList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加接入系统用户',
         path: 'add',
@@ -232,6 +235,7 @@ const data = [{
       name: '咨询师等级管理',
       path: 'level',
       component: LevelList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加咨询师等级',
         path: 'add',
@@ -245,6 +249,7 @@ const data = [{
       name: '咨询服务主题管理',
       path: 'advisorytheme',
       component: AdvisoryThemeList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加咨询服务主题',
         path: 'add',
@@ -258,6 +263,7 @@ const data = [{
       name: '咨询服务模式管理',
       path: 'advisorymodes',
       component: AdvisoryModesList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '添加咨询服务模式',
         path: 'add',
@@ -283,6 +289,7 @@ const data = [{
     }, {
       name: '服务产品管理',
       path: 'advisoryProduct',
+      authority: ['ROLE_1450'],
       component: AdvisoryProductList,
       children: [{
         breadname: '新增',
@@ -294,20 +301,20 @@ const data = [{
         component: AdvisoryProductEditForm,
       }]
     },
-    //   {
-    //   name: '知识管理',
-    //   path: 'quickreply',
-    //   component: QuickReplyList,
-    //   children: [{
-    //     breadname: '添加知识',
-    //     path: 'add',
-    //     component: QuickReplyAddForm,
-    //   }, {
-    //     breadname: '编辑知识',
-    //     path: 'edit/:id',
-    //     component: QuickReplyEditForm,
-    //   }]
-    // },
+     {
+     name: '知识管理',
+     path: 'quickreply',
+     component: QuickReplyList,
+     children: [{
+       breadname: '添加知识',
+       path: 'add',
+       component: QuickReplyAddForm,
+     }, {
+       breadname: '编辑知识',
+       path: 'edit/:id',
+       component: QuickReplyEditForm,
+     }]
+   },
     //   {
     //   name: '咨询定价',
     //   path: 'advisorypricing',
@@ -325,6 +332,7 @@ const data = [{
       {
       name: '佣金定价',
       path: 'commissionpricing',
+      authority: ['ROLE_1450'],
       component: CommissionPricingList,
       children: [{
         breadname: '新增',
@@ -338,6 +346,7 @@ const data = [{
     }, {
       name: '评价模版管理',
       path: 'commenttemplate',
+      authority: ['ROLE_1450'],
       component: CommentTemplateList,
       children: [{
         breadname: '新增',
@@ -351,6 +360,7 @@ const data = [{
     }, {
       name: '评价项管理',
       path: 'commentitems',
+      authority: ['ROLE_1450'],
       component: CommentItemsList,
       children: [{
         breadname: '新增',
@@ -364,6 +374,7 @@ const data = [{
     }, {
       name: '评价记录',
       path: 'commentrecord',
+      authority: ['ROLE_1450'],
       component: CommentRecordList,
       children: [{
         breadname: '新增',
@@ -377,6 +388,7 @@ const data = [{
     }, {
       name: '咨询订单管理',
       path: 'advisoryOrder',
+      authority: ['ROLE_1450'],
       component: AdvisoryOrderList,
       children: [{
         breadname: '新增',
@@ -395,10 +407,12 @@ const data = [{
     children: [{
       name: '测试场景',
       path: 'scene',
+      authority: ['ROLE_1450'],
       component: SceneList,
     }, {
       name: '卡牌管理',
       path: 'cardgroup',
+      authority: ['ROLE_1450'],
       component: CardGroupList,
       children: [{
         breadname: '新增',
@@ -419,6 +433,7 @@ const data = [{
     name: '性格管理',
     path: 'character',
     icon: 'pie-chart',
+    authority: ['ROLE_1450'],
     children: [{
       name: '性格色彩列表',
       path: 'color',
@@ -463,6 +478,7 @@ const data = [{
     name: '客户管理',
     path: 'customer',
     icon: 'team',
+    authority: ['ROLE_1450'],
     children: [{
       name: '客户资料',
       path: 'info',
@@ -481,6 +497,7 @@ const data = [{
     name: '营销管理',
     path: 'scheme',
     icon: 'notification',
+    authority: ['ROLE_1450'],
     children: [{
       name: '分享记录',
       path: 'share',
@@ -503,6 +520,7 @@ const data = [{
     name: '咨询师服务管理',
     path: 'counsel',
     icon: 'customer-service',
+    authority: ['ROLE_1450'],
     children: [{
       name: '咨询师等级管理',
       path: 'rank',
@@ -543,6 +561,7 @@ const data = [{
     name: '财务',
     path: 'finance',
     icon: 'pay-circle',
+    authority: ['ROLE_1450'],
     children: [{
       name: '咨询师账户管理',
       path: 'account',
@@ -619,6 +638,7 @@ const data = [{
     name: '系统管理',
     path: 'sysm',
     icon: 'windows-o',
+    authority: ['ROLE_1450'],
     children: [{
       name: '缓存列表',
       path: 'cache-list',
@@ -670,6 +690,7 @@ const data = [{
 }, {
   component: UserLayout,
   layout: 'UserLayout',
+  hideInMenu: true,
   children: [{
     name: '帐户',
     icon: 'user',
@@ -690,8 +711,20 @@ const data = [{
   }],
 }];
 
+function formatter(data, parentPath = '/', parentAuthority) {
+  return data.map(item => {
+    const result = {
+      ...item,
+      authority: item.authority || parentAuthority,
+    };
+    if (item.children) {
+      result.children = formatter(item.children, `${parentPath}${item.path}/`, item.authority);
+    }
+    return result; 
+  }).filter(menu => menu.layout !='UserLayout' ).filter(menu => !menu.authority || menu.authority.some(authority => { let wu = getAuthority().some(a => a == authority ) ;return wu} ) );
+}
 export function getNavData() {
-  return data;
+  return formatter(data);
 }
 
 export default data;

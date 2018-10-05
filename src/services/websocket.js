@@ -1,4 +1,5 @@
 import { stringify } from 'qs';
+import request from '../utils/request';
 
 let websocket = undefined;
 let url = undefined;
@@ -109,7 +110,14 @@ export async function querySession(data) {
     sendSocketMessage({"clientType":"h5","requestType":"querySession","token":token_, "seq" : "1"});
 }
 
-
+export async function closeSession(params) {
+  return request('/api/advisory/customer/closeseesion/', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
 
 
 export function listen1(cb) {

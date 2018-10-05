@@ -71,6 +71,19 @@ export default {
 
             if(callback) callback();
         },
+        * close({payload,callback}, {put, call,select}) {
+            //wss://echo.websocket.org
+
+            let otherUser = yield select(state => state.websocket._currentChat.otherUser );
+            debugger
+            let token = yield select(state => state.websocket.token );
+
+            const config = {'token':token,'sessionId':otherUser.im.sessionId,'weixinOpenId':otherUser.username}
+
+            yield call(service.closeSession, config);
+
+            if(callback) callback();
+        },
         * ok({payload, callback}, {put, call, select}) {
             yield call(okAdvisoryOrder, payload);
 
@@ -113,10 +126,13 @@ export default {
                         console.log('querySession');
                         let sessionUser = yield select(state => state.websocket.sessionUser );
                         let openids = [];
+                        let sessionIds = new Map();
                         for (var i = 0; result && i < result.length; i++) {
+                          
                           let receiver = sessionUser.get(result[i].receiver);
                           if (!receiver) {
                             openids.push(result[i].receiver);
+                            sessionIds.set(result[i].receiver,result[i]);
                             /*const response = yield call(loadCustomerByopenid, {openid:result[i].receiver});
                             if(response.state == 'success'){
                               let u = Object.assign({},response.data);
@@ -136,6 +152,7 @@ export default {
                                 u.username = u.weixinOpenId;
                                 u.head_image_url = u.weixinHeadImage;
                                 u.key = u.username;
+                                u.im = sessionIds.get(u.username);
                                 sessionUser.set(u.username,u);
                               }
                             }

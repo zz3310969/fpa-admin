@@ -92,22 +92,27 @@ export default class Dialogue extends Component {
     });
 
   }
-  close(){
+  close = () => {
+    const { dispatch, } = this.props;
     confirm({
       title: '确定结束吗？',
       content: '确定结束吗？',
       cancelText:'取消',
       okText:'结束',
       onOk() {
+        debugger
+        dispatch({
+          type: 'websocket/close',
+          payload: {},
+        });
 
       },
       onCancel() {
 
       },
     });
-
   }
-  
+
   lookReport(testResultId){
     const w=window.open('about:blank');
     w.location.href='/test/result/profile/'+testResultId;

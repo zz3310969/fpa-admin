@@ -3,6 +3,7 @@ import { fakeAccountLogin, fakeMobileLogin } from '../services/api';
 import { getLocalStorage } from '../utils/helper';
 import {queryCurrent} from '../services/user';
 import { listen401 } from '../utils/request';
+import { setAuthority,clearAuthority } from '../utils/authority';
 
 export default {
   namespace: 'login',
@@ -17,6 +18,7 @@ export default {
         type: 'changeSubmitting',
         payload: true,
       });
+      clearAuthority();
       sessionStorage.removeItem('token');
       const response = yield call(fakeAccountLogin, payload);
       if(response.value){
@@ -25,9 +27,10 @@ export default {
         sessionStorage.setItem('token',response.value);
         const data = yield call(queryCurrent, payload);
         if(data && data.user){
-          debugger
           data.user.avatar = data.avatar;
           sessionStorage.setItem('user',JSON.stringify(data.user));
+          debugger
+          setAuthority(data.authorities);
         }
       }else{
         response.status = 'error';
@@ -59,6 +62,7 @@ export default {
     },
     *logout(_, { put }) {
       sessionStorage.removeItem('token');
+      clearAuthority();
       yield put({
         type: 'changeLoginStatus',
         payload: {
