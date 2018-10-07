@@ -93,17 +93,32 @@ export default class Dialogue extends Component {
 
   }
   close = () => {
-    const { dispatch, } = this.props;
+    const { dispatch,websocket: { _currentChat,token} } = this.props;
+    let cpayload = {
+        "clientType": "h5",
+        "createTime": new Date().getTime(),
+        'seq': new Date().getTime(),
+        "payload": 'closeSession-max',
+        "receiver": _currentChat.otherUser.username,
+        "requestType": "message",
+        "token": token,
+        "type": "TXT"
+    };
     confirm({
       title: '确定结束吗？',
       content: '确定结束吗？',
       cancelText:'取消',
       okText:'结束',
       onOk() {
-        debugger
         dispatch({
-          type: 'websocket/close',
-          payload: {},
+          type: 'websocket/send',
+          payload: cpayload,
+          callback: () => {
+          dispatch({
+            type: 'websocket/close',
+            payload: {},
+          });
+        },
         });
 
       },

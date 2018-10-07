@@ -191,7 +191,7 @@ export default {
                           });
                         }
                         let _currentChat = yield select(state => state.websocket._currentChat );
-                        if(data.message == 'sendSuccess' || data.message == 'receiverOffline'){//接收自己发送的消息
+                        if((data.message == 'sendSuccess' || data.message == 'receiverOffline') && data.payload != "closeSession-max"){//接收自己发送的消息
                           let seq = parseInt(data.seq);
                           let allChat = yield select(state => state.websocket.allChat );
                           let sendMap = yield select(state => state.websocket.sendMap );
@@ -259,6 +259,7 @@ export default {
                           const _currentChat = yield select(state => state.websocket._currentChat );
                           const allChat = yield select(state => state.websocket.allChat );
                           for (var i = 0; i < result.length; i++) {
+
                             if(result[i].source == 'system'){
                               const payload = JSON.parse(result[i].payload);
                               const modal = Modal.confirm({
@@ -305,6 +306,9 @@ export default {
                           const allChat = yield select(state => state.websocket.allChat);
                           
                           for (var i = 0; i < result.length; i++) {
+                            if (result[i].payload == "closeSession-max") {
+                              continue;
+                            }
                             let sender = allChat.get(result[i].sender);
                             if (!sender) {
                               allChat.set(result[i].sender,newUser());
