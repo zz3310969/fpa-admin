@@ -53,7 +53,6 @@ class BasicLayout extends React.PureComponent {
     //this.menus = this.menus.filter(menu => !menu.authority || menu.authority.some(authority => authority == 'Role_1451' ) );
 
 
-    debugger
     this.state = {
       openKeys: this.getDefaultCollapsedSubMenus(props),
     };
@@ -177,7 +176,7 @@ class BasicLayout extends React.PureComponent {
     getRouteData('BasicLayout').forEach((item) => {
       if (item.path === pathname) {
         let t = item.name || item.breadname;
-        title = `${t} - FPA性格色彩卡牌测试系统`;
+        title = t?`${t} - FPA性格色彩卡牌测试系统`:'FPA性格色彩卡牌测试系统';
       }
     });
     return title;
@@ -369,7 +368,7 @@ class BasicLayout extends React.PureComponent {
                 )
               }
 
-              <Redirect exact from="/" to="/dashboard/analysis" />
+              <Redirect exact from="/" to="/home" />
               <Route component={NotFound} />
             </Switch>
             <GlobalFooter
@@ -403,7 +402,7 @@ class BasicLayout extends React.PureComponent {
                   )
                 )
               }
-              <Redirect exact from="/" to="/dashboard/analysis" />
+              <Redirect exact from="/" to="/home" />
               <Route component={NotFound} />
             </Switch>
             <GlobalFooter
