@@ -307,6 +307,7 @@ const data = [{
      name: '知识管理',
      path: 'quickreply',
      component: QuickReplyList,
+     authority: ['ROLE_1450'],
      children: [{
        breadname: '添加知识',
        path: 'add',
