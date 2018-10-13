@@ -149,19 +149,26 @@ class StandardTable extends PureComponent {
       },
        {
         title: '操作',
-        render: (text, record, index) => (
-          <div>
-              <Link to={'/advisory/consultant/edit/'+record.id+'?read=true'}>查看</Link>
-              <Divider type="vertical" />
-              <Link to={'/advisory/consultant/edit/'+record.id}>编辑</Link>
-              <Divider type="vertical" />
-              <a onClick={this.deleteHandle(record, index)}>删除</a>
-              <Divider type="vertical" />
-              <Link to={'/advisory/commissionpricing/add/'+record.id}>佣金定价</Link>
-              {/*<Divider type="vertical" />*/}
-              {/*<Link to={'/advisory/advisorypricing/add/'+record.id}>咨询定价</Link>*/}
-          </div>
-        ),
+        render: (text, record, index) => {
+
+          const pricingFlg = false;
+          const advisoryFlg =  false;
+          return (
+            <div>
+                <Link to={'/advisory/consultant/edit/'+record.id+'?read=true'}>查看</Link>
+                <Divider type="vertical" />
+                <Link to={'/advisory/consultant/edit/'+record.id}>编辑</Link>
+                <Divider type="vertical" />
+                <a onClick={this.deleteHandle(record, index)}>删除</a>
+                {
+                  pricingFlg?<span><Divider type="vertical" /><Link to={'/advisory/commissionpricing/add/'+record.id}>佣金定价</Link></span>:''
+                }
+                {
+                  advisoryFlg?<span><Divider type="vertical" /><Link to={'/advisory/advisorypricing/add/'+record.id}>咨询定价</Link></span>:''
+                }
+            </div>
+          )
+        }
       },];
 
     const paginationProps = {
