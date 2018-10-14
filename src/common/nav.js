@@ -407,6 +407,7 @@ const data = [{
     name: '卡牌测试管理',
     path: 'test',
     icon: 'credit-card',
+    authority: ['ROLE_1450'],
     children: [{
       name: '测试场景',
       path: 'scene',
@@ -426,6 +427,7 @@ const data = [{
       name: '测试结果',
       path: 'result',
       component: CardTestResultList,
+      authority: ['ROLE_1450'],
       children: [{
         breadname: '详情',
         path: 'profile/:id',

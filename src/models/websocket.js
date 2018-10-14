@@ -191,7 +191,9 @@ export default {
                           });
                         }
                         let _currentChat = yield select(state => state.websocket._currentChat );
-                        if((data.message == 'sendSuccess' || data.message == 'receiverOffline') && data.payload != "closeSession-max"){//接收自己发送的消息
+
+                        if((data.message == 'sendSuccess' || data.message == 'receiverOffline') && result.payload != "closeSession-max"){//接收自己发送的消息
+                          
                           let seq = parseInt(data.seq);
                           let allChat = yield select(state => state.websocket.allChat );
                           let sendMap = yield select(state => state.websocket.sendMap );

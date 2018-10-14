@@ -4,6 +4,8 @@ import { routerRedux, Link } from 'dva/router';
 import { connect } from 'dva';
 import { Table, Alert, Badge, Divider,Modal ,Avatar,Tooltip} from 'antd';
 import styles from '../defaultTable.less';
+import { getAuthority } from '../../../utils/authority';
+
 const confirm = Modal.confirm;
 
 const statusMap = ['error','success'];
@@ -151,8 +153,8 @@ class StandardTable extends PureComponent {
         title: '操作',
         render: (text, record, index) => {
 
-          const pricingFlg = false;
-          const advisoryFlg =  false;
+          const pricingFlg = getAuthority().some(a => a == 'ROLE_1450');
+          const advisoryFlg =  getAuthority().some(a => a == 'ROLE_1450');
           return (
             <div>
                 <Link to={'/advisory/consultant/edit/'+record.id+'?read=true'}>查看</Link>
