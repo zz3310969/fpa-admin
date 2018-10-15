@@ -75,7 +75,7 @@ export default {
             //wss://echo.websocket.org
 
             let otherUser = yield select(state => state.websocket._currentChat.otherUser );
-            debugger
+            
             let token = yield select(state => state.websocket.token );
 
             const config = {'token':token,'sessionId':otherUser.im.sessionId,'weixinOpenId':otherUser.username}
@@ -127,9 +127,14 @@ export default {
                         let sessionUser = yield select(state => state.websocket.sessionUser );
                         let openids = [];
                         let sessionIds = new Map();
+                        let _currentChat_ = yield select(state => state.websocket._currentChat );
                         for (var i = 0; result && i < result.length; i++) {
-                          
+                          let remain = ((result[i].endTime - new Date().getTime()) / 60000).toFixed(0);
+                          if(_currentChat_.otherUser.username == result[i].receiver){
+                              _currentChat_.otherUser.remain = remain;
+                            }
                           let receiver = sessionUser.get(result[i].receiver);
+
                           if (!receiver) {
                             openids.push(result[i].receiver);
                             sessionIds.set(result[i].receiver,result[i]);
@@ -141,7 +146,12 @@ export default {
                               u.key = i+'';
                               sessionUser.set(result[i].receiver,u);
                             }*/
+                          }else{
+                            receiver.remain = remain;
+                            sessionUser.set(result[i].receiver,receiver);
                           }
+                          
+
                         }
                         if (openids.length > 0) {
                           const response_ = yield call(loadCustomerByopenids, {openids:openids.join()});
@@ -153,6 +163,9 @@ export default {
                                 u.head_image_url = u.weixinHeadImage;
                                 u.key = u.username;
                                 u.im = sessionIds.get(u.username);
+                                let remain = ((u.im.endTime - new Date().getTime()) / 60000).toFixed(0);
+                                u.remain = remain;
+
                                 sessionUser.set(u.username,u);
                               }
                             }
@@ -180,7 +193,7 @@ export default {
                             okText: '接受',
                             cancelText: '拒绝',
                             onOk() {
-                              debugger
+                              
                               dispatch({type: 'websocket/ok', payload:{orderNum:result.payload.orderNum},});
 
                               console.log('OK');
@@ -193,7 +206,7 @@ export default {
                         let _currentChat = yield select(state => state.websocket._currentChat );
 
                         if((data.message == 'sendSuccess' || data.message == 'receiverOffline') && result.payload != "closeSession-max"){//接收自己发送的消息
-                          
+
                           let seq = parseInt(data.seq);
                           let allChat = yield select(state => state.websocket.allChat );
                           let sendMap = yield select(state => state.websocket.sendMap );
@@ -410,6 +423,7 @@ export default {
 
           let currentChat = {};
           currentChat.otherUser = Object.assign({}, payload);
+          
           currentChat.messages = Object.assign([], receiver.messages);
           yield put({
               type: 'changeUserSuccess',
