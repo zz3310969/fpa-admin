@@ -21,6 +21,7 @@ export default class Dialogue extends Component {
   state = {
     count: 0,
     type: 'account',
+    leftTime:'100'
   }
 
   componentWillReceiveProps(nextProps) {
@@ -139,7 +140,10 @@ export default class Dialogue extends Component {
     let  chatDialogue = (
       <div>
         <header className="group-name" style={{textAlign:'center',paddingTop:10}}>
-          <h3>{_currentChat.otherUser.nickName}</h3>
+          <h3>
+            {_currentChat.otherUser.nickName}
+            <span className={styles.levelTime}>本次聊天剩余时间：{this.state.leftTime}分钟</span>
+          </h3>
         </header>
         <div className={styles.message}>
           <div>
