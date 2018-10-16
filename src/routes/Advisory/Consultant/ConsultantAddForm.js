@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,Checkbox,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
@@ -13,6 +13,7 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+const CheckboxGroup = Checkbox.Group;
 
 @connect(state => ({
   consultant: state.consultant,
@@ -82,7 +83,7 @@ export default class BasicForms extends PureComponent {
     };
 
   render() {
-    const { consultant: { regularFormSubmitting:submitting ,apps,status,advisoryThemes,levels,genders} } = this.props;
+    const { consultant: { regularFormSubmitting:submitting ,apps,status,advisoryThemes,levels,genders,introductions} } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -238,18 +239,18 @@ export default class BasicForms extends PureComponent {
                     </Select>
                     )}
                 </FormItem>
-                <FormItem
-                        {...formItemLayout}
-                        label="简介"
-                >
-                    {getFieldDecorator('introduction', {
+              <FormItem
+                  {...formItemLayout}
+                  label="简介"
+              >
+                  {getFieldDecorator('introductions', {
                     rules: [{
                       required: true, message: '请输入简介',
                     }],
-                    })(
-                    <TextArea rows={4} placeholder="" />
-                    )}
-                </FormItem>
+                  })(
+                    <CheckboxGroup options={introductions} disabled={this.state.onlyread}/>
+                  )}
+              </FormItem>
                 <FormItem
                         {...formItemLayout}
                         label="状态"
