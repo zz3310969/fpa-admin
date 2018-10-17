@@ -69,7 +69,7 @@ export default class BasicForms extends PureComponent {
     });
   }
   render() {
-    const { consultant: { regularFormSubmitting:submitting, formdate,status,apps,advisoryThemes,levels,genders,introductions } } = this.props;
+    const { consultant: { regularFormSubmitting:submitting, formdate,status,apps,advisoryThemes,levels,genders,themeList } } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
 
@@ -196,15 +196,13 @@ export default class BasicForms extends PureComponent {
                   {...formItemLayout}
                   label="服务主题"
               >
-                  {getFieldDecorator('themeId', {
-                    initialValue: formdate.themeId !== undefined ? formdate.themeId + '' : '',
+                  {getFieldDecorator('themeList', {
+                    initialValue: formdate.themeList,
                     rules: [{
                       required: true, message: '请选择服务主题',
                     }],
                   })(
-                    <Select disabled={this.state.onlyread}>
-                      {advisoryThemes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                    </Select>
+                    <CheckboxGroup options={themeList} disabled={this.state.onlyread}  />
                   )}
               </FormItem>
               <FormItem
@@ -240,13 +238,13 @@ export default class BasicForms extends PureComponent {
                   {...formItemLayout}
                   label="简介"
               >
-                  {getFieldDecorator('introductions', {
-                    initialValue:formdate.introductions,
+                  {getFieldDecorator('introduction', {
+                    initialValue:formdate.introduction,
                     rules: [{
                       required: true, message: '请输入简介',
                     }],
                   })(
-                    <CheckboxGroup options={introductions} disabled={this.state.onlyread}/>
+                    <TextArea rows={4} disabled={this.state.onlyread}/>
                   )}
               </FormItem>
               <FormItem
