@@ -246,7 +246,13 @@ export default class BasicForms extends PureComponent {
           </Card>
           <Card title="定价管理" className={styles.card} bordered={false}>
             <Row gutter={16}>
+              <Form.Item>
+                {getFieldDecorator('advisoryPricing.id', {
+                  initialValue: formdate.advisoryPricing !== undefined ? formdate.advisoryPricing.id : 0
+                })}
+              </Form.Item>
               <Col lg={6} md={12} sm={24}>
+
                 <Form.Item label="时长">
                   {getFieldDecorator('advisoryPricing.unit', {
                     initialValue: formdate.advisoryPricing !== undefined ? formdate.advisoryPricing.unit : 0,
