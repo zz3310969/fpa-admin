@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
+  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip, Checkbox,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from '../Formstyle.less';
@@ -13,6 +13,7 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+const CheckboxGroup = Checkbox.Group;
 
 @connect(state => ({
   consultant: state.consultant,
@@ -82,7 +83,7 @@ export default class BasicForms extends PureComponent {
     };
 
   render() {
-    const { consultant: { regularFormSubmitting:submitting ,apps,status,advisoryThemes,levels,genders} } = this.props;
+    const { consultant: { regularFormSubmitting:submitting ,apps,status,advisoryThemes,levels,genders,themeList} } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     const formItemLayout = {
@@ -199,18 +200,16 @@ export default class BasicForms extends PureComponent {
                     )}
                 </FormItem>
                 <FormItem
-                        {...formItemLayout}
-                        label="服务主题"
+                  {...formItemLayout}
+                  label="服务主题"
                 >
-                    {getFieldDecorator('themeId', {
+                  {getFieldDecorator('themeList', {
                     rules: [{
                       required: true, message: '请选择服务主题',
                     }],
-                    })(
-                    <Select>
-                      {this.state.advisoryThemes.map(d => <Select.Option key={d.id}>{d.name}</Select.Option>)}
-                    </Select>
-                    )}
+                  })(
+                    <CheckboxGroup options={themeList} disabled={this.state.onlyread}  />
+                  )}
                 </FormItem>
                 <FormItem
                         {...formItemLayout}

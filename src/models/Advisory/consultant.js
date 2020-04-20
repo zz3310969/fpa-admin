@@ -18,6 +18,7 @@ export default {
     advisoryThemes:[],
     levels:[],
     genders:[],
+    themeList:[],
   },
 
   effects: {
