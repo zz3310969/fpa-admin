@@ -562,7 +562,7 @@ const data = [{
         component: CustomerWordsEditForm,
       },],
     },],
-  }, {
+  }, /*{
     name: '财务',
     path: 'finance',
     icon: 'pay-circle',
@@ -639,7 +639,7 @@ const data = [{
         component: RefundEditForm,
       }],
     },],
-  }, {
+  },*//* {
     name: '系统管理',
     path: 'sysm',
     icon: 'windows-o',
@@ -674,7 +674,7 @@ const data = [{
         component: UserAddForm,
       }]
     }],
-  }, /*{
+  },*/ /*{
     name: 'Dashboard',
     icon: 'dashboard',
     path: 'dashboard',
